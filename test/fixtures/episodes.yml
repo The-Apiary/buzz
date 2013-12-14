@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  title: MyString
+  link_url: MyString
+  description: MyText
+  audio_url: MyString
+  podcast_id: 
+
+two:
+  title: MyString
+  link_url: MyString
+  description: MyText
+  audio_url: MyString
+  podcast_id: 

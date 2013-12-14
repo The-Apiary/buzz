@@ -1,0 +1,27 @@
+%h1 Listing episodes
+
+%table
+  %tr
+    %th Title
+    %th Link url
+    %th Description
+    %th Audio url
+    %th Podcast
+    %th
+    %th
+    %th
+
+  - @episodes.each do |episode|
+    %tr
+      %td= episode.title
+      %td= episode.link_url
+      %td= episode.description
+      %td= episode.audio_url
+      %td= episode.podcast
+      %td= link_to 'Show', episode
+      %td= link_to 'Edit', edit_episode_path(episode)
+      %td= link_to 'Destroy', episode, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Episode', new_episode_path

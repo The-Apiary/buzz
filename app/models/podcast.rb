@@ -1,7 +1,11 @@
 require 'open-uri'
 class Podcast < ActiveRecord::Base
+  #-- Associations
+  has_many :episodes, dependent: :destroy
+
   #-- Callbacks
-  before_validation :update_from_feed!
+  before_validation :get_metadata_from_feed!
+  after_create :get_episodes_from_feed!
 
   #-- Validations
   validates :feed_url, uniqueness: true, presence: true
@@ -10,43 +14,57 @@ class Podcast < ActiveRecord::Base
   #-- Public instance methods
 
   # Creates new episodes, changes the title, image, and other podcast attributes
-  def update_from_feed!
+  def get_metadata_from_feed!
     feed = parse_feed
     # Update metadata
     self.title = feed[:title]
     self.image_url = feed[:image_url]
     self.description = feed[:description]
 
+
     puts "title: #{self.title}"
     puts "feed_url: #{self.feed_url}"
     puts "image_url: #{self.image_url}"
     puts "description: #{self.description}"
 
-    puts "episodes: #{feed[:episodes].count}"
+  end
+
+  def get_episodes_from_feed!
+    feed = parse_feed
+    feed[:episodes].each do |episode|
+      episode = Episode.parse_feed(episode)
+      self.episodes.create(episode)
+    end
+    puts "episodes: #{self.episodes.count}"
   end
 
   private
 
   #-- Private instance methods
-  
+
   # parses the feed xml into a hash containing podcast metadata, and episode info
-  def parse_feed
-    feed = Hash.new
-    feed_xml = open feed_url
-    feed_giri = Nokogiri::XML(feed_xml)
-    # Title
-    feed[:title] = feed_giri.xpath('//channel/title').text
+  def parse_feed args={}
+    args = { skip_cache: false }.merge args # default arguments
 
-    # Image_url
-    feed[:image_url] = feed_giri.xpath('//channel/image/url').text
+    if @cached_feed.nil? || args[:skip_cache]
+      puts "Downloading feed"
+      @cached_feed = Hash.new
+      feed_xml = open feed_url
+      feed_giri = Nokogiri::XML(feed_xml)
+      # Title
+      @cached_feed[:title] = feed_giri.xpath('//channel/title').text
 
-    # Description
-    feed[:description] = feed_giri.xpath('//channel/description').text
+      # Image_url
+      @cached_feed[:image_url] = feed_giri.xpath('//channel/image/url').text
 
-    # Episodes
-    feed[:episodes] = feed_giri.xpath('//channel/item')
+      # Description
+      @cached_feed[:description] = feed_giri.xpath('//channel/description').text
+
+      # Episodes
+      @cached_feed[:episodes] = feed_giri.xpath('//channel/item')
+    end
 
 
-    return feed
+    return @cached_feed
   end
 end
