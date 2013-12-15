@@ -33,6 +33,9 @@ GEM
       ember-source
       execjs
       handlebars-source
+    barber-emblem (0.1.1)
+      barber (>= 0.4.1)
+      emblem-source
     bootstrap3-rails (3.0.1)
       rails (~> 4.0.0)
     builder (3.1.4)
@@ -63,6 +66,10 @@ GEM
       railties (>= 3.1)
     ember-source (1.2.0.1)
       handlebars-source (~> 1.1.2)
+    emblem-rails (0.2.1)
+      barber-emblem (~> 0.1.1)
+      ember-rails (>= 0.14.0)
+    emblem-source (0.3.5)
     erubis (2.7.0)
     execjs (2.0.2)
     haml (4.0.3)
@@ -153,6 +160,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   debugger
   ember-rails
+  emblem-rails
   haml-rails
   jbuilder (~> 1.2)
   jquery-rails
