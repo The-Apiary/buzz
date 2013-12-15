@@ -1,0 +1,7 @@
+.list-group
+  each
+    .list-group-item.media
+      .pull-left
+        img src=podcast.image_url height="24" width="24" 
+      h5.media-heading
+        = title

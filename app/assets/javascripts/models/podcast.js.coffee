@@ -2,3 +2,6 @@
 
 Buzz.Podcast = DS.Model.extend
   title: DS.attr 'string'
+  image_url: DS.attr 'string'
+  feed_url: DS.attr 'string'
+  episodes: DS.hasMany 'Buzz.Episode', async: true
