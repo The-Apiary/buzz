@@ -39,6 +39,8 @@ gem 'nokogiri'
 
 gem 'bootstrap3-rails'
 
+gem 'ember-rails'
+
 gem 'quiet_assets', :group => :development
 
 # Use ActiveModel has_secure_password
