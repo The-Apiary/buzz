@@ -1,4 +1,5 @@
-class PodcastsController < ApplicationController
+class Api::V1::PodcastsController < ApplicationController
+  respond_to :json
   before_action :set_podcast, only: [:show, :edit, :update, :destroy]
 
   # GET /podcasts

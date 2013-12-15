@@ -1,7 +1,10 @@
 Buzz::Application.routes.draw do
-  resources :episodes
-
-  resources :podcasts
+  namespace :api do
+    namespace :v1 do
+      resources :episodes
+      resources :podcasts
+    end
+  end
 
   root 'play#index'
 
