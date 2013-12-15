@@ -3,8 +3,11 @@ class Episode < ActiveRecord::Base
   belongs_to :podcast
 
   #-- Validations
-  #validates :podcast, :title, :audio_url, :guid, :publication_date, presence: true
-  #validates :guid, uniqueness: true
+  validates :podcast, :title, :audio_url, :guid, :publication_date, presence: true
+  validates :guid, uniqueness: true
+
+  #-- Scopes
+  default_scope order(publication_date: :desc)
 
   def self.parse_feed(node)
     episode = Hash.new
@@ -21,7 +24,6 @@ class Episode < ActiveRecord::Base
       episode[:audio_url] = enclosure[:url]
     end
 
-    p episode
     return episode
   end
 end

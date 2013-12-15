@@ -36,7 +36,13 @@ feed_urls = [
 puts "Createing feeds"
 feed_urls.each do |url|
   podcast = Podcast.new feed_url: url
+
   p podcast.errors.to_a unless podcast.save
+
+  puts "-- title: #{podcast.title}"
+  puts "   feed_url: #{podcast.feed_url}"
+  puts "   image_url: #{podcast.image_url}"
+  puts "   description: #{podcast.description}"
 end
 
 puts "Now #{Podcast.count} feeds"

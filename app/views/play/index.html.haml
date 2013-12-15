@@ -1,0 +1,21 @@
+.container
+  .row
+    .col-md-6.col-xs-8
+      Episodes
+      .list-group
+        - @episodes.each do |episode|
+          .list-group-item.media
+            .pull-left
+              = image_tag episode.podcast.image_url, size: '32', class: 'media-object'
+            %h5.media-heading
+              #{episode.title}
+              %small.pull-right
+                = distance_of_time_in_words_to_now episode.publication_date
+                = episode.publication_date < Time.now ? "ago" : "from now"
+            = episode.podcast.title
+            = link_to :link, episode.link_url
+            .btn-group.pull-right
+              %button.btn.btn-default Enqueue
+              %button.btn.btn-default Mark Played
+    .col-md-6.col-xs-4
+      Queue

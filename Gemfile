@@ -37,6 +37,10 @@ end
 
 gem 'nokogiri'
 
+gem 'bootstrap3-rails'
+
+gem 'quiet_assets', :group => :development
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
@@ -47,4 +51,4 @@ gem 'nokogiri'
 # gem 'capistrano', group: :development
 
 # Use debugger
-# gem 'debugger', group: [:development, :test]
+gem 'debugger', group: [:development, :test]

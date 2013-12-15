@@ -11,6 +11,9 @@ class Podcast < ActiveRecord::Base
   validates :feed_url, uniqueness: true, presence: true
   validates :title, presence: true
 
+  #-- Scopes
+  default_scope order :title
+
   #-- Public instance methods
 
   # Creates new episodes, changes the title, image, and other podcast attributes
@@ -20,13 +23,6 @@ class Podcast < ActiveRecord::Base
     self.title = feed[:title]
     self.image_url = feed[:image_url]
     self.description = feed[:description]
-
-
-    puts "title: #{self.title}"
-    puts "feed_url: #{self.feed_url}"
-    puts "image_url: #{self.image_url}"
-    puts "description: #{self.description}"
-
   end
 
   def get_episodes_from_feed!
@@ -51,16 +47,29 @@ class Podcast < ActiveRecord::Base
       @cached_feed = Hash.new
       feed_xml = open feed_url
       feed_giri = Nokogiri::XML(feed_xml)
-      # Title
+      #-- Title
       @cached_feed[:title] = feed_giri.xpath('//channel/title').text
 
-      # Image_url
+      #-- Image_url
+
+      # <image><url>...</url></image>
       @cached_feed[:image_url] = feed_giri.xpath('//channel/image/url').text
 
-      # Description
+      # <itunes:image>...</itunes:image>
+      if @cached_feed[:image_url].blank?
+        @cached_feed[:image_url] = feed_giri.xpath('//channel/itunes:image').text
+      end
+
+      #<itunes:image href"..." />
+      if @cached_feed[:image_url].blank?
+        image_giri = feed_giri.xpath('//channel/itunes:image').first
+        @cached_feed[:image_url] = image_giri[:href] unless image_giri.nil?
+      end
+
+      #-- Description
       @cached_feed[:description] = feed_giri.xpath('//channel/description').text
 
-      # Episodes
+      #-- Episodes
       @cached_feed[:episodes] = feed_giri.xpath('//channel/item')
     end
 
