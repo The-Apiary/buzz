@@ -9,6 +9,7 @@ Work in progress podcasting app built using Rails and Ember
   * Facebook,Google,Twitter,Pesona login
 * Track played episode
 * Add subscriptions
+* Infinite Scrollin'
 * Update feeds
 * Filter podcasts
 * Types of podcasts (Daily News podcasts won't be displayed after
