@@ -1,0 +1,12 @@
+.media
+  .pull-left
+    img src=podcast.image_url height="24" width="24" 
+  .pull-right
+    if enqueued
+      button.btn.btn-xs click="dequeue"
+        | Dequeue
+    else
+      button.btn.btn-xs click="enqueue"
+        | Enqueue
+  h5.media-heading
+    = title

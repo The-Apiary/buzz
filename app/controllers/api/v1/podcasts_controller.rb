@@ -5,7 +5,7 @@ class Api::V1::PodcastsController < ApplicationController
   # GET /podcasts
   # GET /podcasts.json
   def index
-    respond_with Podcast.all
+    respond_with Podcast.all.limit(params[:limit]).offset(params[:offset])
   end
 
   # GET /podcasts/1

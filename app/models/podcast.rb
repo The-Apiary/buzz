@@ -12,7 +12,7 @@ class Podcast < ActiveRecord::Base
   validates :title, presence: true
 
   #-- Scopes
-  default_scope order :title
+  default_scope { order :title }
 
   #-- Public instance methods
 

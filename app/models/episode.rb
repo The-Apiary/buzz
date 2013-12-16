@@ -7,7 +7,7 @@ class Episode < ActiveRecord::Base
   validates :guid, uniqueness: true
 
   #-- Scopes
-  default_scope order(publication_date: :desc)
+  default_scope { order(publication_date: :desc) }
 
   def self.parse_feed(node)
     episode = Hash.new
