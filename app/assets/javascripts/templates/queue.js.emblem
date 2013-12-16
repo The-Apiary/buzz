@@ -1,5 +1,5 @@
 with firstObject
-  audio src=audio_url autoplay="true" controls="controls"
+  = view Buzz.PlayerView
 
 ul
   each
