@@ -1,0 +1,8 @@
+.container
+  .row
+    .col-md-8.col-sm-8
+      h2 episodes
+      = render episodes model.episodes
+    .col-md-4.col-sm-4
+      h2 queue
+      = render queue model.queue
