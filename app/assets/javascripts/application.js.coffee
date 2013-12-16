@@ -7,7 +7,7 @@
 #= require_self
 #= require buzz
 
-#= require bootstrap
+#= require twitter/bootstrap
 
 # for more details see: http:#emberjs.com/guides/application/
 window.Buzz = Ember.Application.create()

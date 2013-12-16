@@ -40,7 +40,7 @@ end
 
 gem 'nokogiri'
 
-gem 'bootstrap3-rails'
+gem 'bootstrap-sass-rails'
 
 gem 'ember-rails'
 
