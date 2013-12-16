@@ -1,6 +1,7 @@
 class Episode < ActiveRecord::Base
   #-- Associations
   belongs_to :podcast
+  has_one :queued_episode, dependent: :destroy
 
   #-- Validations
   validates :podcast, :title, :audio_url, :guid, :publication_date, presence: true
@@ -8,6 +9,7 @@ class Episode < ActiveRecord::Base
 
   #-- Scopes
   default_scope { order(publication_date: :desc) }
+  scope :queued, -> { joins(:queued_episode).order('queued_episodes.id ASC') }
 
   def self.parse_feed(node)
     episode = Hash.new
