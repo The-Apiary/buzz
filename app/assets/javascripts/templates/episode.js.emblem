@@ -3,10 +3,8 @@
     img src=podcast.image_url height="24" width="24" 
   .pull-right
     if enqueued
-      button.btn.btn-xs click="dequeue"
-        | Dequeue
+      span.glyphicon.glyphicon-minus click="dequeue"
     else
-      button.btn.btn-xs click="enqueue"
-        | Enqueue
+      span.glyphicon.glyphicon-plus click="enqueue"
   h5.media-heading
     = title
