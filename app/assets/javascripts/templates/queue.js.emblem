@@ -1,4 +1,6 @@
-h4 Queue
+with firstObject
+  audio src=audio_url autoplay="true" controls="controls"
+
 ul
   each
     = render "episode" this
