@@ -5,4 +5,7 @@ class QueuedEpisode < ActiveRecord::Base
   #-- Scopes
   # Queue order maintained by allocated IDs (Maybe add timestamp to record and order by that)
   default_scope { order(id: :asc) }
+
+  #-- Validations
+  validates :episode_id, uniqueness: true, presence: true
 end
