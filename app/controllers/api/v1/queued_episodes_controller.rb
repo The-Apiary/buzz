@@ -9,11 +9,13 @@ class Api::V1::QueuedEpisodesController < ApplicationController
   def create
     puts params
     episode = Episode.find params[:queued_episode][:id]
-    render json: QueuedEpisode.create(episode: episode)
+    QueuedEpisode.create(episode: episode)
+    render json: true
   end
 
   def destroy
     puts params
-    render json: QueuedEpisode.find_by_episode_id(params[:id]).destroy
+    QueuedEpisode.find_by_episode_id(params[:id]).destroy
+    render json: true
   end
 end
