@@ -3,9 +3,12 @@ Buzz.QueueController = Ember.ArrayController.extend
   queueBinding: 'controllers.index.model.queue'
 
   enqueue: (episode) ->
-    this.get('queue').addObject(episode)
+    if ! this.enqueued(episode)
+      queued_episode = Buzz.QueuedEpisode.createRecord(episode)
+      this.get('queue').pushObject(queued_episode)
   remove: (episode) ->
-    this.get('queue').removeObject(episode)
+    queued_episode = Buzz.QueuedEpisode.find(episode.id)
+    this.get('queue').removeObject(queued_episode)
   enqueued: (episode) ->
     this.get('queue').mapProperty('id').contains(episode.id)
 
