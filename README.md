@@ -25,3 +25,4 @@ Work in progress podcasting app built using Rails and Ember
 ## Fixes
 
 - [ ] Move podcast rss parsing code out of instance methods into class methods
+- [ ] JS Episode and QueuedEpisode should share info (changing one's duration should change the others)
