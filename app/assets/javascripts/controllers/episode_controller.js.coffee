@@ -1,10 +1,14 @@
 Buzz.EpisodeController = Ember.ObjectController.extend
-  needs: 'queue'
+  needs: ['queue', 'index']
+  queueBinding: 'controllers.index.model.queue'
+
   enqueued:  (->
-    this.get('controllers.queue').contains(this.get('model'))
-  ).property('controllers.queue.@each.model')
+    console.log 'enqueued'
+    this.get('queue').contains(this.get('model'))
+  ).property('@each.queue', 'queue')
+
   actions:
     enqueue: () ->
-      this.get('controllers.queue').addObject(this.get('model'))
-    dequeue: () ->
-      this.get('controllers.queue').removeObject(this.get('model'))
+      this.get('queue').addObject(this.get('model'))
+    remove: () ->
+      this.get('queue').removeObject(this.get('model'))

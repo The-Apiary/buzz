@@ -3,7 +3,7 @@
     img src=podcast.image_url height="24" width="24" 
   .pull-right
     if enqueued
-      span.glyphicon.glyphicon-minus click="dequeue"
+      span.glyphicon.glyphicon-minus click="remove"
     else
       span.glyphicon.glyphicon-plus click="enqueue"
   h5.media-heading
