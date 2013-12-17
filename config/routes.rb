@@ -4,6 +4,7 @@ Buzz::Application.routes.draw do
     namespace :v1 do
       resources :episodes
       resources :podcasts
+      resources :queued_episodes
     end
   end
 
