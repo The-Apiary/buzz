@@ -7,4 +7,4 @@
     else
       span.glyphicon.glyphicon-plus click="enqueue"
   h5.media-heading
-     | {{title}} {{duration}}
+     | {{title}} {{pretty_duration}}

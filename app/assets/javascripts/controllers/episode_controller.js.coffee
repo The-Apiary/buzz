@@ -2,15 +2,32 @@ Buzz.EpisodeController = Ember.ObjectController.extend
   needs: 'queue'
   queueBinding: 'controllers.queue'
 
-  duration: (->
-    duration = this.get('model.duration')
-    [Math.floor(duration / 60), Math.floor(duration % 60)].join(':')
-  ).property('model.duration')
+  pretty_duration: (->
+    duration = this.get 'model.duration'
+    return '--:--' unless duration
 
-  currentPosition: (->
-    currentPosition = this.get('model.currentPosition')
-    [Math.floor(currentPosition / 60), Math.floor(currentPosition % 60)].join(':')
-  ).property('model.currentPosition')
+    # Put this somewhere else
+    hours = Math.floor duration / (60 * 60)
+    divisor_for_minutes = duration % (60 * 60)
+    minutes = Math.floor divisor_for_minutes / 60
+    divisor_for_seconds = divisor_for_minutes % 60
+    seconds = Math.ceil divisor_for_seconds
+
+    # Convert to strings
+    pad = (n) ->
+      n = n + ''
+
+      # dumb, TODO make this better for sses and gees
+      while n.length < 2
+        n = '0' + n
+      return n
+
+    # xx:xx:xx if hours present, xx:xx otherwise
+    time = [minutes, seconds]
+    time.push hours if hours != 0
+
+    time.map(pad).join(':')
+  ).property('model.duration')
 
   enqueued:  (->
     this.get('queue').enqueued(this.get('model'))
