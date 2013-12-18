@@ -2,30 +2,34 @@ Buzz.QueueController = Ember.ArrayController.extend
   needs: 'index'
   queueBinding: 'controllers.index.model.queue'
 
-  currentEpisode: ->
-    this.get('queue.firstObject')
+  currentEpisode: (->
+    this.get('queue.firstObject.episode')
+  ).property('queue.firstObject')
 
   enqueue: (episode) ->
     if ! this.enqueued(episode)
-      queued_episode = Buzz.QueuedEpisode.createRecordFromEpisode episode
+      queued_episode = Buzz.QueuedEpisode.createRecord episode: episode
       queued_episode.save()
 
   remove: (episode) ->
-    queued_episode = Buzz.QueuedEpisode.find(episode.id)
+    # FIXME: How to select a QueuedEpisode with a given episode?
+    # Iterate through all queued episodes (Hate)
+    queued_episode = this.get('queue').find (qe) ->
+      qe.get('episode') == episode
     queued_episode.deleteRecord()
-    queued_episode.get('store').commit()
+    queued_episode.save()
 
   enqueued: (episode) ->
-    this.get('queue').mapProperty('id').contains(episode.id)
+    if episode
+      this.get('queue').mapProperty('episode').contains(episode)
 
   actions:
     markPlayed: () ->
-      queued_episode = this.currentEpisode()
-      queued_episode.deleteRecord()
-      queued_episode.get('store').commit()
+      # Remove the episode from the queue
+      this.remove(this.get 'currentEpisode')
 
     setCurrentPosition: (position) ->
-      this.currentEpisode().set('currentPosition', position)
+      this.get('currentEpisode').set('currentPosition', position)
 
     setDuration: (duration) ->
-      this.currentEpisode().set('duration', duration)
+      this.get('currentEpisode').set('duration', duration)

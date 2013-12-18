@@ -3,9 +3,19 @@ Buzz.PlayerView = Ember.View.extend
   didInsertElement: () ->
     self = this
     player = this.$('audio')[0]
+
+    # Set the current position in the current track
+    player.addEventListener 'timeupdate', (event) ->
+      self.get('controller').send('setCurrentPosition', this.currentTime)
+
+    # Set the current tracks durration
+    player.addEventListener 'durationchange', (event) ->
+      self.get('controller').send('setDuration', this.duration)
+
+    # play next track
     player.addEventListener 'ended', (event) ->
-      console.log "episode ended"
-      self.get('controller').send('dequeue')
+      self.get('controller').send('markPlayed')
+
   willDestroyElement: () ->
     player = this.$('audio')[0]
     player.removeEventListener 'ended'
