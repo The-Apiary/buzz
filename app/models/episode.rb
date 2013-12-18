@@ -8,6 +8,8 @@ class Episode < ActiveRecord::Base
   validates :podcast, :title, :audio_url, :guid, :publication_date, presence: true
   validates :guid, uniqueness: true
 
+  accepts_nested_attributes_for :episode_data
+
   #-- Scopes
   default_scope { order(publication_date: :desc) }
 
