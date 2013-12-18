@@ -34,3 +34,4 @@ Work in progress podcasting app built using Rails and Ember
 - [ ] Move podcast rss parsing code out of instance methods into class methods
 - [ ] Clean episode_data code in episode controller
 - [ ] Replace emblem with hamlbars
+- [ ] Why does The Moth podcast not work? (viewing the audio_url in a browser doesn't work either)
