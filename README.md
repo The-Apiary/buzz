@@ -26,4 +26,3 @@ Work in progress podcasting app built using Rails and Ember
 
 - [ ] Move podcast rss parsing code out of instance methods into class methods
 - [x] JS Episode and QueuedEpisode should share info (changing one's duration should change the others)
-- [x] What does Ember's RESTful adapter expect in response to a delete request?

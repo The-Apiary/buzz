@@ -13,7 +13,6 @@ class Api::V1::QueuedEpisodesController < ApplicationController
 
   def destroy
     QueuedEpisode.find(params[:id]).destroy
-    # FIXME: What does Ember Data want in repsonse?
-    render json: true
+    render json: nil
   end
 end
