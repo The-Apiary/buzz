@@ -1,59 +1,31 @@
 source 'https://rubygems.org'
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.0'
+#:: Stack
+gem 'rails', '4.0.0' # Rails
+gem 'sqlite3'        # Database
+gem 'ember-rails'    # JS mvc
+gem 'jquery-rails'   # Use jquery as the JavaScript library
+gem 'nokogiri'       # xml/html parsing
 
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
-
-# Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.0'
-
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
-
-# Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.0.0'
-
-# Use Hamle for .html.haml views
-gem 'haml-rails'
-
-# Use Emblem for handlebars templates
-gem 'emblem-rails'
-
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
-
-# Use jquery as the JavaScript library
-gem 'jquery-rails'
-
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 1.2'
+gem 'bootstrap-sass-rails' # css stylesheets
+
+#:: Asset processors
+gem 'sass-rails', '~> 4.0.0'   # Use SCSS for stylesheets
+gem 'coffee-rails', '~> 4.0.0' # Use CoffeeScript for .js.coffee assets and views
+gem 'haml-rails'               # Use Hamle for .html.haml views
+gem 'emblem-rails'             # Use Emblem for handlebars templates TODO: replace with hamlbars
+gem 'uglifier', '>= 1.3.0'     # Use Uglifier as compressor for JavaScript assets
+
+gem 'jbuilder', '~> 1.2' # Build JSON APIs with ease TODO: I think I don't need this, serializers do the same thing
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
 end
 
-gem 'nokogiri'
 
-gem 'bootstrap-sass-rails'
-
-gem 'ember-rails'
-
-gem 'quiet_assets', :group => :development
-
-# Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Use Capistrano for deployment
-# gem 'capistrano', group: :development
-
-# Use debugger
+#:: Development tools
 gem 'debugger', group: [:development, :test]
+gem 'quiet_assets', :group => :development
