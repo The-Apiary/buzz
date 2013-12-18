@@ -6,6 +6,7 @@ gem 'sqlite3'        # Database
 gem 'ember-rails'    # JS mvc
 gem 'jquery-rails'   # Use jquery as the JavaScript library
 gem 'nokogiri'       # xml/html parsing
+gem 'whenever', require: false # Schedule and run tasks with cron
 
 gem 'turbolinks'
 
