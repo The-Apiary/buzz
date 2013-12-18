@@ -11,7 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131216213627) do
+ActiveRecord::Schema.define(version: 20131218030152) do
+
+  create_table "episode_data", force: true do |t|
+    t.integer "episode_id"
+    t.integer "current_position", default: 0
+    t.boolean "is_played"
+  end
 
   create_table "episodes", force: true do |t|
     t.string   "title"

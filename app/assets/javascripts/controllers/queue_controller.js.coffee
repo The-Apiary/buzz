@@ -25,11 +25,14 @@ Buzz.QueueController = Ember.ArrayController.extend
 
   actions:
     markPlayed: () ->
+      currentEpisode = this.get 'currentEpisode'
+      currentEpisode.set 'is_played', true
+
       # Remove the episode from the queue
-      this.remove(this.get 'currentEpisode')
+      this.remove currentEpisode
 
     setCurrentPosition: (position) ->
-      this.get('currentEpisode').set('currentPosition', position)
+      this.get('currentEpisode').set('current_position', position)
 
     setDuration: (duration) ->
       this.get('currentEpisode').set('duration', duration)
