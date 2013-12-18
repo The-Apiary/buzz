@@ -7,7 +7,7 @@ Work in progress podcasting app built using Rails and Ember
 // Current Objectives
 - [x] Persist Queue
 - [x] Track played episodes
-- [ ] Update feeds automatically
+- [-] Update feeds automatically (implemented, need to check that whenever is working)
 - [ ] Filter podcasts
 - [ ] Track and resume episode position
 - [ ] Infinite Scrollin'
