@@ -17,12 +17,18 @@ class Api::V1::EpisodesController < ApplicationController
   # PATCH/PUT /episodes/1
   # PATCH/PUT /episodes/1.json
   def update
+
     # I hate this TODO: fix this
-    if @episode.episode_data.nil?
-      @episode.create_episode_data episode_data_params
-    else
-      @episode.episode_data.update episode_data_params
-    end
+    success = @episode.episode_data.nil? ? @episode.create_episode_data(episode_data_params) : @episode.episode_data.update(episode_data_params)
+    logger.tagged('update episode data') {
+      logger.tagged(@episode.title) {
+        if success
+          logger.info "set position: #{@episode.episode_data.current_position}"
+        else
+          logger.error "failed to set current_position"
+        end
+      }
+    }
 
     if @episode.update(episode_params)
       render json: nil
@@ -39,7 +45,7 @@ class Api::V1::EpisodesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def episode_params
-      params.require(:episode).permit(:title, :link_url, :description, :audio_url, :podcast_id, :episode_data)
+      params.require(:episode).permit(:title, :link_url, :description, :audio_url, :podcast_id, :episode_data, :duration)
     end
 
     def episode_data_params

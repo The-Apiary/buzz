@@ -6,4 +6,4 @@ each controller
     .pull-left
       img src=image_url height="24" width="24"
     h5.media-heading
-       | {{title}} ({{episode_count}} episodes)
+       | {{title}}

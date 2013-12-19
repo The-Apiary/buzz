@@ -5,7 +5,3 @@ Buzz.Podcast = DS.Model.extend
   image_url: DS.attr 'string'
   feed_url: DS.attr 'string'
   episodes: DS.hasMany 'Buzz.Episode', async: true
-
-  episode_count: (->
-    this.get 'episodes.length'
-  ).property('episodes.length')

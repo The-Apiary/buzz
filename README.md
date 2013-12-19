@@ -7,7 +7,7 @@ Work in progress podcasting app built using Rails and Ember
 // Current Objectives
 - [x] Persist Queue
 - [x] Track played episodes
-- [-] Update feeds automatically (implemented, need to check that whenever is working)
+- [x] Update feeds automatically (implemented, need to check that whenever is working)
 - [x] Filter podcasts
 - [ ] Track and resume episode position
 - [ ] Infinite Scrollin'
@@ -30,6 +30,7 @@ Work in progress podcasting app built using Rails and Ember
 
 ## Fixes
 
+- [ ] investigate: Uncaught Error: Attempted to handle event `loadedData` on <Buzz.Episode:ember612:2773> while in state root.loaded.updated.uncommitted.
 - [x] JS Episode and QueuedEpisode should share info (changing one's duration should change the others)
 - [ ] Move podcast rss parsing code out of instance methods into class methods
 - [ ] Clean episode_data code in episode controller

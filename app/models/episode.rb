@@ -17,8 +17,26 @@ class Episode < ActiveRecord::Base
     self.episode_data.try(&:is_played)
   end
 
+  def is_played= bool
+    if self.episode_data
+      self.episode_data.is_played = bool
+      self.episode_data.save
+    else
+      self.create_episode_data(is_played: bool)
+    end
+  end
+
   def current_position
     self.episode_data.try(&:current_position)
+  end
+
+  def current_position= time
+    if self.episode_data
+      self.episode_data.current_position = time
+      self.episode_data.save
+    else
+      self.create_episode_data(current_position: time)
+    end
   end
 
   def self.parse_feed(node)
