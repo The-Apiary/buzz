@@ -5,7 +5,7 @@ class Api::V1::EpisodesController < ApplicationController
   # GET /episodes
   # GET /episodes.json
   def index
-    respond_with Episode.all.limit(params[:limit]).offset(params[:offset])
+    respond_with Episode.all.includes(:episode_data).limit(params[:limit]).offset(params[:offset])
   end
 
   # GET /episodes/1
