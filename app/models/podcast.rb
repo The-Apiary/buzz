@@ -33,6 +33,12 @@ class Podcast < ActiveRecord::Base
       episode = self.episodes.build(episode_data)
       new_episodes << episode if episode.save
     end
+
+    logger.tagged(Time.now.strftime('%d/%m/%Y %H:%M')) {
+      logger.tagged('Update Feeds') {
+        logger.tagged(self.title) { logger.info "#{new_episodes.count} new episodes" }
+      }
+    }
     return new_episodes
   end
 
@@ -45,7 +51,6 @@ class Podcast < ActiveRecord::Base
     args = { skip_cache: false }.merge args # default arguments
 
     if @cached_feed.nil? || args[:skip_cache]
-      puts "Downloading feed"
       @cached_feed = Hash.new
       feed_xml = open feed_url
       feed_giri = Nokogiri::XML(feed_xml)
