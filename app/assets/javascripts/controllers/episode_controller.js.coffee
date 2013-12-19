@@ -2,8 +2,7 @@ Buzz.EpisodeController = Ember.ObjectController.extend
   needs: 'queue'
   queueBinding: 'controllers.queue'
 
-  pretty_duration: (->
-    duration = this.get 'model.duration'
+  pretify_time: (duration) ->
     return '--:--' unless duration
 
     # Put this somewhere else
@@ -27,6 +26,14 @@ Buzz.EpisodeController = Ember.ObjectController.extend
     time.push hours if hours != 0
 
     time.map(pad).join(':')
+
+  pretty_position: (->
+    duration = this.get 'model.current_position'
+    this.pretify_time(duration)
+  ).property('model.current_position')
+  pretty_duration: (->
+    duration = this.get 'model.duration'
+    this.pretify_time(duration)
   ).property('model.duration')
 
   enqueued:  (->
