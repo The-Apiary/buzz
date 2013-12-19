@@ -9,7 +9,7 @@ Work in progress podcasting app built using Rails and Ember
 - [x] Track played episodes
 - [x] Update feeds automatically (implemented, need to check that whenever is working)
 - [x] Filter podcasts
-- [ ] Track and resume episode position
+- [x] Track and resume episode position
 - [ ] Infinite Scrollin'
 - [ ] User accounts
   - [ ] Anonymous hashed accounts (30 day TTL?)
@@ -38,3 +38,4 @@ Work in progress podcasting app built using Rails and Ember
 - [ ] Why does The Moth podcast not work? (viewing the audio_url in a browser doesn't work either)
 - [ ] Add current time to rails logger
 - [ ] Reduce initial load time
+- [ ] Seperate episode_data and episode in Ember
