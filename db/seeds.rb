@@ -27,6 +27,7 @@ feed_urls = [
   'http://www.npr.org/rss/podcast.php?id=510184',
   'http://www.npr.org/rss/podcast.php?id=510184',
   'http://www.npr.org/rss/podcast.php?id=510282',
+  'http://www.npr.org/rss/podcast.php?id=510294',
   'http://www.npr.org/rss/podcast.php?id=510298',
   'http://www.npr.org/rss/podcast.php?id=510299',
   'http://www.startalkradio.net/feed/shows/',
