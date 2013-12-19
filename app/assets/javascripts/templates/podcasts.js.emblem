@@ -1,3 +1,9 @@
-ul
-  each controller
-    li= title
+.media click="show_all"
+  h5.media-heading
+     | All Podcasts
+each controller
+  .media click="show this"
+    .pull-left
+      img src=image_url height="24" width="24"
+    h5.media-heading
+       | {{title}} ({{episode_count}} episodes)

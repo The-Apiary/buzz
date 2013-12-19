@@ -15,6 +15,10 @@ class Podcast < ActiveRecord::Base
   default_scope { order :title }
 
   #-- Public instance methods
+  
+  def episode_count
+    episodes.count
+  end
 
   # Creates new episodes, changes the title, image, and other podcast attributes
   def get_metadata_from_feed!

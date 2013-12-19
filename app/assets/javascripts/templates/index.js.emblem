@@ -1,6 +1,9 @@
 .container
   .row
-    .col-md-8.col-sm-8
+    .col-md-4.col-sm-4
+      h2 podcasts
+      = render podcasts podcasts
+    .col-md-4.col-sm-4
       h2 episodes
       = render episodes displayed_episodes
     .col-md-4.col-sm-4
