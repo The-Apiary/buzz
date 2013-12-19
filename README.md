@@ -8,7 +8,7 @@ Work in progress podcasting app built using Rails and Ember
 - [x] Persist Queue
 - [x] Track played episodes
 - [-] Update feeds automatically (implemented, need to check that whenever is working)
-- [ ] Filter podcasts
+- [x] Filter podcasts
 - [ ] Track and resume episode position
 - [ ] Infinite Scrollin'
 - [ ] User accounts
@@ -36,3 +36,4 @@ Work in progress podcasting app built using Rails and Ember
 - [ ] Replace emblem with hamlbars
 - [ ] Why does The Moth podcast not work? (viewing the audio_url in a browser doesn't work either)
 - [ ] Add current time to rails logger
+- [ ] Reduce initial load time
