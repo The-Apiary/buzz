@@ -36,6 +36,20 @@ Buzz.EpisodeController = Ember.ObjectController.extend
     this.pretify_time(duration)
   ).property('model.duration')
 
+  percent_listened: (->
+    duration = this.get 'model.duration'
+    current_position = this.get 'model.current_position'
+
+    if duration == 0 || current_position == 0
+      return 0
+    else
+      return current_position / duration * 100
+  ).property('model.duration', 'model.current_position')
+
+  percent_listened_width: (->
+    return "width: #{this.get('percent_listened')}%;"
+  ).property('percent_listened')
+
   enqueued:  (->
     this.get('queue').enqueued(this.get('model'))
   ).property('queue.queue.length')

@@ -4,6 +4,6 @@
 each controller
   .media click="show this"
     .pull-left
-      img src=image_url height="24" width="24"
+      img src=image_url height="32" width="32"
     h5.media-heading
        | {{title}}

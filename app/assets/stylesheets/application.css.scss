@@ -12,3 +12,26 @@
  *= require_tree .
  *= require twitter/bootstrap
  */
+
+.episode-progress-bar {
+  background-color: #e1e1e1;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 32px;
+  transition: all .2s ease-in-out;
+  z-index: -1;
+}
+
+.episode {
+  height: 32;
+  overflow: hidden;
+  margin: 12px 0;
+  position: relative;
+  width: 100%;
+  z-index: 999;
+  img {
+    height: 32px;
+    width: 32px;
+  }
+}

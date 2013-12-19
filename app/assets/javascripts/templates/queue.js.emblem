@@ -1,6 +1,5 @@
 with firstObject.episode
   = view Buzz.PlayerView
 
-ul
-  each model
-    = render "episode" this.episode
+each model
+  = render "episode" this.episode

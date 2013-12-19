@@ -1,10 +1,11 @@
-.media
+.episode
   .pull-left
-    img src=podcast.image_url height="24" width="24" 
+    img src=podcast.image_url
   .pull-right
     if enqueued
       span.glyphicon.glyphicon-minus click="remove"
     else
       span.glyphicon.glyphicon-plus click="enqueue"
+  span.episode-progress-bar style=percent_listened_width
   h5.media-heading
-     | {{title}} {{pretty_duration}}
+    | {{title}} {{pretty_duration}}
