@@ -10,6 +10,7 @@ namespace :podcasts do
   desc "Checks all podcast feeds and creates new episodes"
   task :check_feeds => :environment do
     all_new_episodes = Array.new
+    puts "Getting new episodes from podcast feeds"
     Podcast.find_each do |podcast|
       begin
         new_episodes = podcast.get_episodes_from_feed!
@@ -29,5 +30,6 @@ namespace :podcasts do
         Rails.logger.info "#{all_new_episodes.count} new episodes"
       }
     }
+    puts "#{all_new_episodes.count} new episodes"
   end
 end
