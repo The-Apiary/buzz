@@ -30,8 +30,13 @@ class Podcast < ActiveRecord::Base
     feed = parse_feed
     feed[:episodes].each do |episode|
       episode_data = Episode.parse_feed(episode)
+      p episode_data
       episode = self.episodes.build(episode_data)
-      new_episodes << episode if episode.save
+      if episode.save
+        new_episodes << episode
+      else
+        p episode.errors
+      end
     end
 
     logger.tagged(Time.now.strftime('%d/%m/%Y %H:%M')) {

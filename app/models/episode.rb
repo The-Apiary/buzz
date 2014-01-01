@@ -5,8 +5,9 @@ class Episode < ActiveRecord::Base
   has_one :episode_data
 
   #-- Validations
-  validates :podcast, :title, :audio_url, :guid, :publication_date, presence: true
-  validates :guid, uniqueness: true
+  validates :podcast, :title, :audio_url, :publication_date, presence: true
+  validates :audio_url, uniqueness: true
+  validates :guid, uniqueness: true, unless: 'guid.blank?'
 
   accepts_nested_attributes_for :episode_data
 

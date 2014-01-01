@@ -33,6 +33,7 @@ feed_urls = [
   'http://www.startalkradio.net/feed/shows/',
   'http://www.tatw.co.uk/podcast.xml',
   'http://www.thesoundsinmyhead.com/rss.xml',
+  'http://www.mangledmeditations.me/Podcast.xml'
 ]
 
 puts "Createing feeds"
@@ -49,3 +50,4 @@ feed_urls.each do |url|
 end
 
 puts "Now #{Podcast.count} feeds"
+puts "#{Episode.count} episodes"
