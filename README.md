@@ -10,10 +10,10 @@ Work in progress podcasting app built using Rails and Ember
 - [x] Update feeds automatically (implemented, need to check that whenever is working)
 - [x] Filter podcasts
 - [x] Track and resume episode position
-- [ ] Infinite Scrollin'
 - [ ] User accounts
   - [ ] Anonymous hashed accounts (30 day TTL?)
   - [ ] Facebook,Google,Twitter,Pesona, whatever login
+- [ ] Infinite Scrollin'
 - [ ] Subscribe to podcasts
 
 // Next Objectives
@@ -31,11 +31,13 @@ Work in progress podcasting app built using Rails and Ember
 ## Fixes
 
 - [ ] investigate: Uncaught Error: Attempted to handle event `loadedData` on <Buzz.Episode:ember612:2773> while in state root.loaded.updated.uncommitted.
-- [x] JS Episode and QueuedEpisode should share info (changing one's duration should change the others)
+      - Did I fix this already? I think it was caused by changing an Ember object's attributes after saving it, but before the server responded to the save.
+      - Could be fixed by preventing all saves until the server responds.
 - [ ] Move podcast rss parsing code out of instance methods into class methods
 - [ ] Clean episode_data code in episode controller
 - [ ] Replace emblem with hamlbars
 - [ ] Why does The Moth podcast not work? (viewing the audio_url in a browser doesn't work either)
 - [ ] Add current time to rails logger
 - [ ] Reduce initial load time
-- [ ] Seperate episode_data and episode in Ember
+- [ ] Separate episode_data and episode in Ember
+- [x] JS Episode and QueuedEpisode should share info (changing one's duration should change the others)
