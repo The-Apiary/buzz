@@ -1,6 +1,6 @@
-## README
-
 Work in progress podcasting app built using Rails and Ember
+
+# Notes
 
 ## To Do
 
@@ -41,3 +41,11 @@ Work in progress podcasting app built using Rails and Ember
 - [ ] Reduce initial load time
 - [ ] Separate episode_data and episode in Ember
 - [x] JS Episode and QueuedEpisode should share info (changing one's duration should change the others)
+
+# Docs
+
+## User Accounts
+
+- [ ] Create user model.
+- [ ] Create relationship between user, queue, and episode_data
+- [ ] Create subscriptions and relate them to the user.
