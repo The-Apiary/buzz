@@ -11,13 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131219175008) do
+ActiveRecord::Schema.define(version: 20140102174912) do
 
   create_table "episode_data", force: true do |t|
     t.integer "episode_id"
     t.integer "current_position", default: 0
     t.boolean "is_played"
+    t.integer "user_id"
   end
+
+  add_index "episode_data", ["user_id"], name: "index_episode_data_on_user_id"
 
   create_table "episodes", force: true do |t|
     t.string   "title"
@@ -45,6 +48,15 @@ ActiveRecord::Schema.define(version: 20131219175008) do
 
   create_table "queued_episodes", force: true do |t|
     t.integer "episode_id"
+    t.integer "user_id"
+  end
+
+  add_index "queued_episodes", ["user_id"], name: "index_queued_episodes_on_user_id"
+
+  create_table "users", force: true do |t|
+    t.string   "id_hash"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

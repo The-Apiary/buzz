@@ -42,10 +42,8 @@ Work in progress podcasting app built using Rails and Ember
 - [ ] Separate episode_data and episode in Ember
 - [x] JS Episode and QueuedEpisode should share info (changing one's duration should change the others)
 
-# Docs
+# Routes
 
-## User Accounts
-
-- [ ] Create user model.
-- [ ] Create relationship between user, queue, and episode_data
-- [ ] Create subscriptions and relate them to the user.
+| Url      | Controller   | Description                                             |
+| /        | ember#start  | Creates new anonymous user and redirects to the player  |
+| /(:hash) | ember#player | Loads subscriptions for the player with the passed hash |
