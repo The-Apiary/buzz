@@ -18,7 +18,7 @@ class Api::V1::EpisodesController < ApplicationController
   # PATCH/PUT /episodes/1.json
   def update
 
-    # I hate this TODO: fix this
+    # I hate this isn't there a shorter tagging syntax? TODO: fix this
     success = @episode.episode_data.nil? ? @episode.create_episode_data(episode_data_params) : @episode.episode_data.update(episode_data_params)
     logger.tagged('update episode data') {
       logger.tagged(@episode.title) {

@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   #-- Associations
-  # has_many :subscriptions
+  has_many :subscriptions
   # has_many :episodes # Through subscriptions? Joined with episode_data?
   # has_many :episode_datas
   # has_many :queued_episodes # Should I change this to a list before continuing on with this?
@@ -14,7 +14,12 @@ class User < ActiveRecord::Base
 
   def init
     return unless self.new_record?
-    self.id_hash = User.new_hash
+    self.id_hash ||= User.new_hash # Let the default id_hash be overriden
+  end
+
+  # shorter way to create new subscriptions
+  def subscribe podcast
+    self.subscriptions.create(podcast: podcast)
   end
 
   private
