@@ -28,14 +28,13 @@ class Podcast < ActiveRecord::Base
   def get_episodes_from_feed!
     new_episodes = Array.new
     feed = parse_feed
-    feed[:episodes].each do |episode|
-      episode_data = Episode.parse_feed(episode)
-      p episode_data
-      episode = self.episodes.build(episode_data)
+    feed[:episodes].each do |episode_feed|
+      episode_feed_data = Episode.parse_feed(episode_feed)
+      episode = self.episodes.build(episode_feed_data)
       if episode.save
         new_episodes << episode
       else
-        p episode.errors
+        p episode.errors.to_a
       end
     end
 

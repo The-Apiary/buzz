@@ -1,4 +1,4 @@
-feed_urls = [
+podcast_urls = [
   'http://americanpublicmedia.publicradio.org/podcasts/xml/dinner-party/podcast.xml',
   'http://bornyesterdaypodcast.com//rss',
   'http://feeds.99percentinvisible.org/99percentinvisible',
@@ -21,10 +21,8 @@ feed_urls = [
   'http://www.howstuffworks.com/podcasts/stuff-you-should-know.rss',
   'http://www.kcrw.com/music/programs/mb/RSS',
   'http://www.kcrw.com/news/programs/in/RSS',
-  'http://www.kcrw.com/news/programs/lr/RSS',
   'http://www.marketplace.org/node/all/podcast.xml',
   'http://www.npr.org/rss/podcast.php?id=35',
-  'http://www.npr.org/rss/podcast.php?id=510184',
   'http://www.npr.org/rss/podcast.php?id=510184',
   'http://www.npr.org/rss/podcast.php?id=510282',
   'http://www.npr.org/rss/podcast.php?id=510294',
@@ -36,17 +34,16 @@ feed_urls = [
   'http://www.mangledmeditations.me/Podcast.xml'
 ]
 
-puts "Createing feeds"
-feed_urls.each do |url|
+puts "Createing podcasts"
+podcast_urls.each do |url|
   podcast = Podcast.new feed_url: url
 
   p podcast.errors.to_a unless podcast.save
 
-  puts "-- title: #{podcast.title}"
-  puts "   feed_url: #{podcast.feed_url}"
+  puts "--     title: #{podcast.title}"
+  puts "    feed_url: #{podcast.feed_url}"
   puts "   image_url: #{podcast.image_url}"
-  puts "   description: #{podcast.description}"
-  puts "   episodes: #{podcast.episodes.count}"
+  puts "    episodes: #{podcast.episodes.count}"
 end
 
 puts "Now #{Podcast.count} feeds"
