@@ -5,7 +5,7 @@ class Api::V1::EpisodesController < ApplicationController
   # GET /episodes
   # GET /episodes.json
   def index
-    respond_with Episode.all.includes(:episode_data).limit(params[:limit]).offset(params[:offset])
+    respond_with current_user.episodes.includes(:episode_data).order(publication_date: :desc).limit(params[:limit]).offset(params[:offset])
   end
 
   # GET /episodes/1
@@ -18,8 +18,8 @@ class Api::V1::EpisodesController < ApplicationController
   # PATCH/PUT /episodes/1.json
   def update
 
-    # I hate this isn't there a shorter tagging syntax? TODO: fix this
     success = @episode.episode_data.nil? ? @episode.create_episode_data(episode_data_params) : @episode.episode_data.update(episode_data_params)
+    # I hate this isn't there a shorter tagging syntax? TODO: fix this
     logger.tagged('update episode data') {
       logger.tagged(@episode.title) {
         if success

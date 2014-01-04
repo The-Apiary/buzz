@@ -1,6 +1,7 @@
 class QueuedEpisode < ActiveRecord::Base
   #-- Associations
   belongs_to :episode
+  belongs_to :user
 
   #-- Scopes
   # Queue order maintained by allocated IDs (Maybe add timestamp to record and order by that)

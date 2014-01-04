@@ -3,12 +3,12 @@ class Api::V1::QueuedEpisodesController < ApplicationController
 
   # return queued episodes
   def index
-    respond_with QueuedEpisode.all
+    respond_with current_user.queued_episodes.all
   end
 
   def create
     episode = Episode.find params[:queued_episode][:episode_id]
-    render json: QueuedEpisode.create(episode: episode)
+    render json: current_user.queued_episodes.create(episode: episode)
   end
 
   def destroy

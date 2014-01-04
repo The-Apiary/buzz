@@ -52,4 +52,4 @@ puts "#{Episode.count} episodes"
 user = User.create(id_hash: 'test') # Create test user with 'test' as it's identifyer
 
 # subscribe user to all seed podcasts
-Podcast.find_each { |podcast| user.subscribe podcast }
+Podcast.find_each { |podcast| user.subscriptions.create podcast }
