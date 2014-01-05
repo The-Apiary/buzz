@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   has_many :podcasts, through: :subscriptions
   has_many :episodes, through: :podcasts
   has_many :queued_episodes
+  has_many :episode_datas
 
   #-- Callbacks
   after_initialize :init
