@@ -5,5 +5,6 @@ Buzz.Episode = DS.Model.extend
   audio_url:        DS.attr 'string'
   publication_date: DS.attr 'date'
   duration:         DS.attr 'number'
+  is_played:        DS.attr 'boolean'
+  current_position: DS.attr 'number'
   podcast:          DS.belongsTo 'Buzz.Podcast', async: true
-  episode_data:     DS.hasMany   'Buzz.EpisodeData', async: true

@@ -13,8 +13,6 @@ class Episode < ActiveRecord::Base
   validates :guid, uniqueness: true, unless: 'guid.blank?'
   validates :podcast_type, inclusion: {in: [:audio], message: "%{value} is not audio"}
 
-  accepts_nested_attributes_for :episode_data
-
   #-- Scopes
   default_scope { order(publication_date: :desc) }
 
