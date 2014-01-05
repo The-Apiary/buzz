@@ -3,7 +3,7 @@ class Api::V1::QueuedEpisodesController < ApplicationController
 
   # return queued episodes
   def index
-    respond_with current_user.queued_episodes.all
+    respond_with current_user.queued_episodes.limit(params[:limit]).offset(params[:offset])
   end
 
   def create

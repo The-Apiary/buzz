@@ -1,9 +1,9 @@
 class Api::V1::EpisodeDatasController < ApplicationController
   respond_to :json
-  before_action :set_episode, only: [:show, :edit, :update, :destroy]
+  before_action :set_episode_data, only: [:show, :edit, :update, :destroy]
 
   def index
-    respond_with current_user.episode_datas
+    respond_with current_user.episode_datas.limit(params[:limit]).offset(params[:offset])
   end
 
   def show
