@@ -3,11 +3,13 @@ class Api::V1::EpisodesController < ApplicationController
   before_action :set_episode, only: [:show, :edit, :update, :destroy]
 
   def index
-    respond_with current_user.episodes.includes(:episode_datas).order(publication_date: :desc).limit(params[:limit]).offset(params[:offset])
+    @episodes = current_user.episodes
+      .includes(:episode_datas)
+      .order(publication_date: :desc)
+    @episode_datas = current_user.episode_datas
   end
 
   def show
-    respond_with @episode
   end
 
   def update

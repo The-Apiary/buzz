@@ -5,6 +5,12 @@ Buzz.Episode = DS.Model.extend
   audio_url:        DS.attr 'string'
   publication_date: DS.attr 'date'
   duration:         DS.attr 'number'
-  is_played:        DS.attr 'boolean'
-  current_position: DS.attr 'number'
   podcast:          DS.belongsTo 'Buzz.Podcast', async: true
+  episode_data:     DS.belongsTo 'Buzz.EpisodeData', async: true
+
+  is_played: ( ->
+    this.get('episode_data.is_played') || false
+  ).property('episode_data.is_played')
+  current_position: ( ->
+    this.get('episode_data.current_position') || 0
+  ).property('episode_data.current_position')

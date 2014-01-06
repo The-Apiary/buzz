@@ -3,11 +3,10 @@ class Api::V1::EpisodeDatasController < ApplicationController
   before_action :set_episode_data, only: [:show, :edit, :update, :destroy]
 
   def index
-    respond_with current_user.episode_datas.limit(params[:limit]).offset(params[:offset])
+    @episode_datas = current_user.episode_datas.limit(params[:limit]).offset(params[:offset])
   end
 
   def show
-    respond_with @episode_data
   end
 
   def create
@@ -29,6 +28,6 @@ class Api::V1::EpisodeDatasController < ApplicationController
   end
 
   def episode_data_params
-    params.require(:episode_data).permit(:is_played, :current_position)
+    params.require(:episode_data).permit(:episode_id, :is_played, :current_position)
   end
 end

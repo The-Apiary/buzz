@@ -8,10 +8,11 @@ class Episode < ActiveRecord::Base
   has_many :episode_datas
 
   #-- Validations
-  validates :podcast, :title, :audio_url, :publication_date, :podcast_type, presence: true, allow_blank?: false
+  validates :podcast, :title, :audio_url, :publication_date, presence: true, allow_blank?: false
   validates :audio_url, uniqueness: true
   validates :guid, uniqueness: true, unless: 'guid.blank?'
-  validates :podcast_type, inclusion: {in: [:audio], message: "%{value} is not audio"}
+  validates :podcast_type, inclusion: {in: [:audio], message: "%{value} is not audio"}, on: :create
+  validates :podcast_type, presence: true, allow_blank?: false, on: :create
 
   #-- Scopes
   default_scope { order(publication_date: :desc) }
