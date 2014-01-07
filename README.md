@@ -1,5 +1,7 @@
 Work in progress podcasting app built using Rails and Ember
 
+[ ] Embed episode_data instead of sideloading
+
 # Notes
 
 ## To Do
