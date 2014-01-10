@@ -23,9 +23,6 @@ Buzz.QueueController = Ember.ArrayController.extend
     if episode
       this.get('queue').mapProperty('episode').contains(episode)
 
-  saveCurrentEpisode: ->
-    this.get('currentEpisode').save()
-
   actions:
     markPlayed: () ->
       currentEpisode = this.get 'currentEpisode'
@@ -39,10 +36,8 @@ Buzz.QueueController = Ember.ArrayController.extend
 
     setCurrentPosition: (position) ->
       this.get('currentEpisode').set('current_position', position)
-      Ember.run.throttle this, 'saveCurrentEpisode', 10000
 
     setDuration: (duration) ->
       currentEpisode = this.get('currentEpisode')
       if currentEpisode.get('duration') != duration
         currentEpisode.set('duration', duration)
-        Ember.run.throttle this, 'saveCurrentEpisode', 10000
