@@ -10,7 +10,8 @@ class Api::V1::EpisodeDatasController < ApplicationController
   end
 
   def create
-    render json: current_user.episode_data.create(episode_data_params)
+    @episode_data = current_user.episode_datas.create(episode_data_params) 
+    render :show
   end
 
   def update

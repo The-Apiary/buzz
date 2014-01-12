@@ -29,7 +29,6 @@ podcast_urls = [
   'http://www.npr.org/rss/podcast.php?id=510298',
   'http://www.npr.org/rss/podcast.php?id=510299',
   'http://www.startalkradio.net/feed/shows/',
-  'http://www.tatw.co.uk/podcast.xml',
   'http://www.thesoundsinmyhead.com/rss.xml',
   'http://www.mangledmeditations.me/Podcast.xml'
 ]
