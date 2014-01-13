@@ -1,8 +1,8 @@
-.media click="show_all"
+.media click="unselect_podcast"
   h5.media-heading
      | All Podcasts
 each controller
-  .media click="show this"
+  .media click="selected_podcast this"
     .pull-left
       img src=image_url height="32" width="32"
     h5.media-heading

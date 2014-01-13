@@ -32,10 +32,15 @@ Buzz.IndexController = Ember.ObjectController.extend
     # Length filter
     filter = filter.slice(0,100)
     return filter
-  ).property('model.episodes.@each.is_played', 'selected_podcast')
+  ).property('model.episodes.@each.is_played', 'selected_podcast', 'show_played')
 
   actions:
-    show_all: ->
+    toggle_show_played: ->
+      console.log('show played')
+      console.log this.toggleProperty('show_played')
+      return null;
+
+    unselect_podcast: ->
       this.set 'selected_podcast', undefined
-    show: (podcast)->
+    select_podcast: (podcast) ->
       this.set 'selected_podcast', podcast
