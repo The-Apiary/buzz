@@ -10,6 +10,12 @@ Buzz.Episode = DS.Model.extend
   podcast:          DS.belongsTo 'Buzz.Podcast', async: true
   episode_data:     DS.belongsTo 'Buzz.EpisodeData', async: true
 
+  # Set episode to unplayed state.
+  reset: ->
+    this.set 'episode_data.current_position', 0
+    this.set 'episode_data.is_played', false
+    Ember.run.throttle this, 'save_episode_data', 10000
+
   create_or_update: (key, value) ->
     episode_data = this.get('episode_data')
 

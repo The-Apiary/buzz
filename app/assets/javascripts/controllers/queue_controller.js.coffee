@@ -8,6 +8,10 @@ Buzz.QueueController = Ember.ArrayController.extend
 
   enqueue: (episode) ->
     if ! this.enqueued(episode)
+
+      # If the enqueued episode has been played through it should be reset to the unplayed state.
+      episode.reset() if episode.get 'is_played'
+
       queued_episode = Buzz.QueuedEpisode.createRecord episode: episode
       queued_episode.save()
 
