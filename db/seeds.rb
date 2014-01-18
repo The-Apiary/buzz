@@ -30,7 +30,10 @@ podcast_urls = [
   'http://www.npr.org/rss/podcast.php?id=510299',
   'http://www.startalkradio.net/feed/shows/',
   'http://www.thesoundsinmyhead.com/rss.xml',
-  'http://www.mangledmeditations.me/Podcast.xml'
+  'http://www.mangledmeditations.me/Podcast.xml',
+  'http://feeds.feedburner.com/judgejohnhodgman',
+  'http://www.maximumfun.org/feeds/iw.xml',
+  'http://songexploder.libsyn.com/rss'
 ]
 
 puts "Createing podcasts"
