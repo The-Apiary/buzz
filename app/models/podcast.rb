@@ -33,8 +33,6 @@ class Podcast < ActiveRecord::Base
       episode = self.episodes.build(episode_feed_data)
       if episode.save
         new_episodes << episode
-      else
-        p episode.errors.to_a
       end
     end
 
