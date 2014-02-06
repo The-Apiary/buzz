@@ -4,8 +4,8 @@ class Api::V1::EpisodesController < ApplicationController
 
   def index
     @episodes = current_user.episodes
-      .joins(:episode_datas)
-      .order('episodes.publication_date desc')
+      .includes(:episode_datas)
+      .order(publication_date: :desc)
 
     @episode_datas = current_user.episode_datas
   end
