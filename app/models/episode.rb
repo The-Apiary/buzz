@@ -38,4 +38,8 @@ class Episode < ActiveRecord::Base
 
     return episode
   end
+
+  def episode_data(user)
+    self.episode_datas.detect { |ed| ed.user_id == user.id }
+  end
 end

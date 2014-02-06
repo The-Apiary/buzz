@@ -57,3 +57,11 @@ puts "Created user with id_hash: #{user.id_hash}"
 # subscribe user to all seed podcasts
 Podcast.find_each { |podcast| user.subscriptions.create podcast: podcast }
 puts "user is now subscribed to #{user.subscriptions.count} podcasts"
+
+puts "Creating episode data for user #{user.id_hash}"
+
+user.episodes.order(publication_date: :desc).first(1000).each do |episode|
+  episode.episode_datas.create user: user, current_position: 300
+end
+
+
