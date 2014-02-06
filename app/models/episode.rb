@@ -26,6 +26,7 @@ class Episode < ActiveRecord::Base
     episode[:guid] = node.xpath('guid').text
 
     episode[:publication_date] = node.xpath('pubDate').text
+    episode[:duration] = node.xpath('itunes:duration').text
 
     enclosure = node.xpath('enclosure').first
     # This application only supports audio podcasts
@@ -40,6 +41,6 @@ class Episode < ActiveRecord::Base
   end
 
   def episode_data(user)
-    self.episode_datas.detect { |ed| ed.user_id == user.id }
+    episode_datas.detect { |ed| ed.user == user }
   end
 end

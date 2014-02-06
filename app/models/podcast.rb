@@ -44,7 +44,7 @@ class Podcast < ActiveRecord::Base
     return new_episodes
   end
 
-  private
+  #private
 
   #-- Private instance methods
 
