@@ -26,7 +26,21 @@ class Episode < ActiveRecord::Base
     episode[:guid] = node.xpath('guid').text
 
     episode[:publication_date] = node.xpath('pubDate').text
-    episode[:duration] = node.xpath('itunes:duration').text
+
+    # duration is a string, usually [hh]:mm:ss
+    duration = begin
+      node.xpath('itunes:duration').text
+    rescue
+      nil
+    end
+
+    unless duration.blank?
+      begin
+        episode[:duration] = Duration.new(duration).in_seconds
+      rescue DurationParseError => ex
+        logger.error ex.message
+      end
+    end
 
     enclosure = node.xpath('enclosure').first
     # This application only supports audio podcasts
