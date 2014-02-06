@@ -45,3 +45,4 @@ Buzz.QueueController = Ember.ArrayController.extend
       currentEpisode = this.get('currentEpisode')
       if currentEpisode.get('duration') != duration
         currentEpisode.set('duration', duration)
+        currentEpisode.save()
