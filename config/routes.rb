@@ -5,7 +5,9 @@ Buzz::Application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :episodes
-      resources :episode_datas
+      resources :episode_datas do
+        post :watched, on: :member
+      end
       resources :podcasts
       resources :queued_episodes
     end

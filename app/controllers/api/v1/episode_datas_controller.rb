@@ -1,6 +1,6 @@
 class Api::V1::EpisodeDatasController < ApplicationController
   respond_to :json
-  before_action :set_episode_data, only: [:show, :edit, :update, :destroy]
+  before_action :set_episode_data, only: [:show, :edit, :update, :destroy, :watched]
 
   def index
     @episode_datas = current_user.episode_datas.limit(params[:limit]).offset(params[:offset])
@@ -12,6 +12,12 @@ class Api::V1::EpisodeDatasController < ApplicationController
   def create
     @episode_data = current_user.episode_datas.create(episode_data_params) 
     render :show
+  end
+
+  def watched
+    @episode_data.current_position = params[:current_position]
+    logger.info "#{@episode_data.id} #{@episode_data.current_position} #{@episode_data.save}"
+    render json: nil
   end
 
   def update

@@ -50,7 +50,13 @@ Buzz.Episode = DS.Model.extend
   current_position: ( (key, current_position) ->
     # Setter
     if (current_position != undefined)
-      return this.create_or_update(key, current_position)
+      episode_data = this.get('episode_data')
+      if episode_data
+        episode_data.set('current_position', current_position)
+        Ember.run.throttle episode_data, 'save_current_position', 10000
+        return current_position
+      else
+        return this.create_or_update(key, current_position)
     # Getter
     else
       return this.get('episode_data.current_position') || 0
