@@ -21,7 +21,7 @@ podcast_urls = [
   'http://www.howstuffworks.com/podcasts/stuff-you-should-know.rss',
   'http://www.kcrw.com/music/programs/mb/RSS',
   'http://www.kcrw.com/news/programs/in/RSS',
-  'http://www.marketplace.org/node/all/podcast.xml',
+  #'http://www.marketplace.org/node/all/podcast.xml',
   'http://www.npr.org/rss/podcast.php?id=35',
   'http://www.npr.org/rss/podcast.php?id=510184',
   'http://www.npr.org/rss/podcast.php?id=510282',
@@ -57,11 +57,5 @@ puts "Created user with id_hash: #{user.id_hash}"
 # subscribe user to all seed podcasts
 Podcast.find_each { |podcast| user.subscriptions.create podcast: podcast }
 puts "user is now subscribed to #{user.subscriptions.count} podcasts"
-
-puts "Creating episode data for user #{user.id_hash}"
-
-user.episodes.order(publication_date: :desc).first(1000).each do |episode|
-  episode.episode_datas.create user: user, current_position: 300
-end
 
 
