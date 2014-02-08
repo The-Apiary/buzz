@@ -4,10 +4,11 @@ class Api::V1::EpisodesController < ApplicationController
 
   def index
     @episodes = current_user.episodes
+      .limit(100)
       .includes(:episode_datas)
       .order(publication_date: :desc)
 
-    @episode_datas = current_user.episode_datas
+    @episode_datas = EpisodeData.where episode_id: @episodes, user: current_user
   end
 
   def show
