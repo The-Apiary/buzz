@@ -32,11 +32,7 @@ Work in progress podcasting app built using Rails and Ember
 
 ## Fixes
 
-- [ ] investigate: Uncaught Error: Attempted to handle event `loadedData` on <Buzz.Episode:ember612:2773> while in state root.loaded.updated.uncommitted.
-      - Did I fix this already? I think it was caused by changing an Ember object's attributes after saving it, but before the server responded to the save.
-      - Could be fixed by preventing all saves until the server responds.
 - [ ] Move podcast rss parsing code out of instance methods into class methods
-- [ ] Clean episode_data code in episode controller
 - [ ] Replace emblem with hamlbars
 - [ ] Why does The Moth podcast not work? (viewing the audio_url in a browser doesn't work either, and didn't work in previous podcatcher)
 - [ ] Add current time to rails logger
