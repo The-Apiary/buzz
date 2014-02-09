@@ -44,3 +44,7 @@ Buzz.IndexController = Ember.ObjectController.extend
       this.set 'selected_podcast', undefined
     select_podcast: (podcast) ->
       this.set 'selected_podcast', podcast
+
+    unsubscribe: (podcast) ->
+      console.log podcast.get('title')
+      podcast.unsubscribe()

@@ -35,3 +35,7 @@
     width: 32px;
   }
 }
+
+.podcast:not(:hover) span.unsubscribe {
+  display: none;
+}

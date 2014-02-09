@@ -2,8 +2,10 @@
   h5.media-heading
      | All Podcasts
 each controller
-  .media click="select_podcast this"
+  .media.podcast click="select_podcast this"
     .pull-left
       img src=image_url height="32" width="32"
+    .pull-right
+      span.glyphicon.glyphicon-minus.unsubscribe click="unsubscribe this"
     h5.media-heading
        | {{title}}

@@ -18,6 +18,17 @@ class User < ActiveRecord::Base
     self.id_hash ||= User.new_hash # Let the default id_hash be overriden
   end
 
+
+  def subscribe(podcast)
+    self.subscriptions.create(podcast: podcast).valid? ? true : false
+  end
+
+  # Deletes the subscription to the podcast,
+  # returns false if not subscribed or couldn't be deleted.
+  def unsubscribe(podcast)
+    self.subscriptions.find_by_podcast_id(podcast).try(:delete) || false
+  end
+
   private
 
   #-- Private class mehtods

@@ -1,6 +1,6 @@
 class Api::V1::PodcastsController < ApplicationController
   respond_to :json
-  before_action :set_podcast, only: [:show, :edit, :update, :destroy]
+  before_action :set_podcast, only: [:show, :edit, :update, :destroy, :subscribe, :unsubscribe]
 
   # GET /podcasts
   # GET /podcasts.json
@@ -12,6 +12,14 @@ class Api::V1::PodcastsController < ApplicationController
   # GET /podcasts/1.json
   def show
     respond_with @podcast
+  end
+
+  def subscribe
+    render json: current_user.subscribe(@podcast)
+  end
+
+  def unsubscribe
+    render json: current_user.unsubscribe(@podcast)
   end
 
   private
