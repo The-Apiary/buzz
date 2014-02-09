@@ -2,7 +2,7 @@
   h5.media-heading
      | All Podcasts
 each controller
-  .media click="selected_podcast this"
+  .media click="select_podcast this"
     .pull-left
       img src=image_url height="32" width="32"
     h5.media-heading
