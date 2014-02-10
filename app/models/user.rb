@@ -18,6 +18,10 @@ class User < ActiveRecord::Base
     self.id_hash ||= User.new_hash # Let the default id_hash be overriden
   end
 
+  def to_param
+    self.id_hash
+  end
+
   private
 
   #-- Private class mehtods
@@ -33,4 +37,5 @@ class User < ActiveRecord::Base
 
     return id_hash
   end
+
 end
