@@ -42,18 +42,16 @@ Buzz.IndexController = Ember.ObjectController.extend
 
     unselect_podcast: ->
       this.set 'selected_podcast', undefined
+
     select_podcast: (podcast) ->
       this.set 'selected_podcast', podcast
 
-    unsubscribe: (podcast) ->
-      # Delete subscription
-      podcast.unsubscribe()
-
-      # Remove this podcast from the list of podcasts
-      this.get('model.podcasts').removeObject(podcast)
+    unsubscribe: (subscription) ->
+      # Remove this subscription from the list of subscriptions
+      this.get('model.subscriptions').removeObject(subscription)
 
       # Remove this podcasts episodes from the list of episodes
+      podcast = subscription.get 'podcast'
       this.set('model.episodes', this.get('model.episodes').filter (episode) ->
         episode.get('podcast') != podcast
       )
-

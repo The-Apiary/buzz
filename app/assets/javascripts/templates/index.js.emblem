@@ -2,7 +2,7 @@
   .row
     .col-md-4.col-sm-4
       h2 podcasts
-      = render podcasts podcasts
+      = render subscriptions subscriptions
     .col-md-4.col-sm-4
       h2 episodes
       = render episodes displayed_episodes
