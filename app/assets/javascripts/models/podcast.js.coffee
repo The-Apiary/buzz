@@ -7,6 +7,6 @@ Buzz.Podcast = DS.Model.extend
   episodes: DS.hasMany 'Buzz.Episode', async: true
 
   unsubscribe: ->
+    # unsubscribe from the podcast
     base_url = Buzz.Adapter.buildURL('podcast', this.id)
-    console.log base_url
     $.post [base_url,'unsubscribe'].join('/')

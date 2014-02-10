@@ -6,6 +6,6 @@ each controller
     .pull-left
       img src=image_url height="32" width="32"
     .pull-right
-      span.glyphicon.glyphicon-minus.unsubscribe click="unsubscribe this"
+      span.glyphicon.glyphicon-minus.unsubscribe click="unsubscribe this bubbles=false"
     h5.media-heading
        | {{title}}
