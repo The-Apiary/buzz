@@ -10,7 +10,7 @@ gem 'whenever', require: false # Schedule and run tasks with cron
 
 gem 'turbolinks'
 
-gem 'bootstrap-sass-rails' # css stylesheets
+gem 'bootstrap-sass' # css stylesheets
 
 #:: Asset processors
 gem 'sass-rails', '~> 4.0.0'   # Use SCSS for stylesheets
