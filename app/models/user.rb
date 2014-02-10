@@ -18,7 +18,6 @@ class User < ActiveRecord::Base
     self.id_hash ||= User.new_hash # Let the default id_hash be overriden
   end
 
-
   def subscribe(podcast)
     self.subscriptions.create(podcast: podcast).valid? ? true : false
   end
@@ -27,6 +26,10 @@ class User < ActiveRecord::Base
   # returns false if not subscribed or couldn't be deleted.
   def unsubscribe(podcast)
     self.subscriptions.find_by_podcast_id(podcast).try(:delete) || false
+  end
+
+  def to_param
+    self.id_hash
   end
 
   private
@@ -44,4 +47,5 @@ class User < ActiveRecord::Base
 
     return id_hash
   end
+
 end
