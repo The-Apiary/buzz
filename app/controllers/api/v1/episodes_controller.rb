@@ -4,7 +4,7 @@ class Api::V1::EpisodesController < ApplicationController
 
   def index
     @episodes = current_user.episodes
-      .limit(100)
+      .where(['publication_date > ?', 1.month.ago])
       .includes(:episode_datas)
       .order(publication_date: :desc)
 
