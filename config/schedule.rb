@@ -2,5 +2,5 @@
 # use -s 'environment=development' to run the tasks in development
 
 every 2.hours do
- rake "podcasts:check_feeds"
+ rake "feeds:update"
 end

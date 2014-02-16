@@ -1,5 +1,5 @@
 
-namespace :podcasts do
+namespace :feeds do
   task :check => :environment do
     Rails.logger.tagged(Time.now.strftime('%d/%m/%Y %H:%M')) {
       Rails.logger.tagged('Update Feeds') {
@@ -8,7 +8,7 @@ namespace :podcasts do
     }
   end
   desc "Checks all podcast feeds and creates new episodes"
-  task :check_feeds => :environment do
+  task :update => :environment do
     all_new_episodes = Array.new
     puts "Getting new episodes from podcast feeds"
     Podcast.find_each do |podcast|

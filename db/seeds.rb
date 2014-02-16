@@ -33,7 +33,9 @@ podcast_urls = [
   'http://www.mangledmeditations.me/Podcast.xml',
   'http://feeds.feedburner.com/judgejohnhodgman',
   'http://www.maximumfun.org/feeds/iw.xml',
-  'http://songexploder.libsyn.com/rss'
+  'http://songexploder.libsyn.com/rss',
+  'http://selectedshortspri.pri.libsynpro.com/rss',
+  'http://www.qdnow.com/grammar.xml'
 ]
 
 puts "Createing podcasts"
