@@ -5,7 +5,7 @@ class Api::V1::SubscriptionsController < ApplicationController
   # GET /podcasts.json
   def index
     @subscriptions = current_user.subscriptions
-    @podcasts      = current_user.podcasts
+    @podcasts      = @subscriptions.map(&:podcast)
   end
 
 
