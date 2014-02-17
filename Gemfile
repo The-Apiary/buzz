@@ -26,6 +26,7 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+gem 'unicorn'
 
 #:: Development tools
 gem 'debugger', group: [:development, :test]
