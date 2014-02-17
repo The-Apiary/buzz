@@ -21,7 +21,7 @@ podcast_urls = [
   'http://www.howstuffworks.com/podcasts/stuff-you-should-know.rss',
   'http://www.kcrw.com/music/programs/mb/RSS',
   'http://www.kcrw.com/news/programs/in/RSS',
-  #'http://www.marketplace.org/node/all/podcast.xml',
+  'http://www.marketplace.org/node/all/podcast.xml',
   'http://www.npr.org/rss/podcast.php?id=35',
   'http://www.npr.org/rss/podcast.php?id=510184',
   'http://www.npr.org/rss/podcast.php?id=510282',
@@ -35,7 +35,9 @@ podcast_urls = [
   'http://www.maximumfun.org/feeds/iw.xml',
   'http://songexploder.libsyn.com/rss',
   'http://selectedshortspri.pri.libsynpro.com/rss',
-  'http://www.qdnow.com/grammar.xml'
+  'http://www.qdnow.com/grammar.xml',
+  'http://www.americastestkitchenfeed.com/feed/',
+  'http://www.npr.org/rss/podcast.php?id=510071'
 ]
 
 puts "Createing podcasts"

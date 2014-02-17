@@ -13,6 +13,7 @@ class Podcast < ActiveRecord::Base
 
   #-- Scopes
   default_scope { order :title }
+  scope :alphabetic, -> { order :title }
 
   #-- Public instance methods
 
@@ -60,19 +61,25 @@ class Podcast < ActiveRecord::Base
       @cached_feed[:title] = feed_giri.xpath('//channel/title').text
 
       #-- Image_url
+      # I've seen three image url formats: an image tag, itunes:image tag,
+      # and itunes:image tag with the url as its href attribute.
 
       # <image><url>...</url></image>
       @cached_feed[:image_url] = feed_giri.xpath('//channel/image/url').text
 
-      # <itunes:image>...</itunes:image>
-      if @cached_feed[:image_url].blank?
-        @cached_feed[:image_url] = feed_giri.xpath('//channel/itunes:image').text
-      end
+      begin
+        # <itunes:image>___</itunes:image>
+        if @cached_feed[:image_url].blank?
+            @cached_feed[:image_url] = feed_giri.xpath('//channel/itunes:image').text
+        end
 
-      #<itunes:image href"..." />
-      if @cached_feed[:image_url].blank?
-        image_giri = feed_giri.xpath('//channel/itunes:image').first
-        @cached_feed[:image_url] = image_giri[:href] unless image_giri.nil?
+        #<itunes:image href"___" />
+        if @cached_feed[:image_url].blank?
+          image_giri = feed_giri.xpath('//channel/itunes:image').first
+          @cached_feed[:image_url] = image_giri[:href] unless image_giri.nil?
+        end
+      rescue
+        logger.tagged('Update Feeds', self.title) { logger.warn "Failed to get image." }
       end
 
       #-- Description
