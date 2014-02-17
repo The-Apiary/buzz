@@ -36,7 +36,7 @@ podcast_urls = [
   'http://songexploder.libsyn.com/rss',
   'http://selectedshortspri.pri.libsynpro.com/rss',
   'http://www.qdnow.com/grammar.xml',
-  'http://www.americastestkitchenfeed.com/feed/',
+  'http://feeds.feedburner.com/AmericasTestKitchenRadio',
   'http://www.npr.org/rss/podcast.php?id=510071'
 ]
 
