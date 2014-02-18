@@ -1,11 +1,5 @@
-.media click="unselect_podcast"
-  h5.media-heading
-     | All Podcasts
-each controller
-  .media.podcast click="select_podcast this.podcast"
-    .pull-left
-      img src=image_url height="32" width="32"
-    .pull-right
-      span.glyphicon.glyphicon-minus.unsubscribe click="unsubscribe this bubbles=false"
-    h5.media-heading
-       | {{title}}
+each model
+  .podcast
+    img src=image_url alt=title title=title height="100" width="100"
+    link-to "podcast" this
+      h6 = title

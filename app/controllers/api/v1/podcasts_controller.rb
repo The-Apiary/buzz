@@ -11,7 +11,7 @@ class Api::V1::PodcastsController < ApplicationController
   # GET /podcasts/1
   # GET /podcasts/1.json
   def show
-    respond_with @podcast
+    @podcast
   end
 
   def subscribe
