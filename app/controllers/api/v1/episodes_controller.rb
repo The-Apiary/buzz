@@ -10,8 +10,6 @@ class Api::V1::EpisodesController < ApplicationController
     else
       current_user.episodes
     end.includes(:episode_datas).order(publication_date: :desc)
-
-    @episode_datas = EpisodeData.where episode_id: @episodes, user: current_user
   end
 
   def show

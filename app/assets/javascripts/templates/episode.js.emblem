@@ -9,4 +9,4 @@
 
   span.episode-progress-bar style=percent_listened_width
   h5.media-heading
-    | {{title}} {{pretty_duration}} {{publication_date}}
+    | {{title}} {{pretty_duration}}
