@@ -5,8 +5,10 @@ class Api::V1::EpisodesController < ApplicationController
   def index
     @episodes = if params[:podcast_id]
       Podcast.find(params[:podcast_id]).episodes
-    else
+    elsif params[:recent]
       current_user.episodes.where(['publication_date > ?', 1.month.ago])
+    else
+      current_user.episodes
     end.includes(:episode_datas).order(publication_date: :desc)
 
     @episode_datas = EpisodeData.where episode_id: @episodes, user: current_user
