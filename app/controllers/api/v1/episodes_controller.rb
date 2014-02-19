@@ -3,10 +3,11 @@ class Api::V1::EpisodesController < ApplicationController
   before_action :set_episode, only: [:show, :edit, :update, :destroy]
 
   def index
-    @episodes = current_user.episodes
-      .where(['publication_date > ?', 1.month.ago])
-      .includes(:episode_datas)
-      .order(publication_date: :desc)
+    @episodes = if params[:podcast_id]
+      Podcast.find(params[:podcast_id]).episodes
+    else
+      current_user.episodes.where(['publication_date > ?', 1.month.ago])
+    end.includes(:episode_datas).order(publication_date: :desc)
 
     @episode_datas = EpisodeData.where episode_id: @episodes, user: current_user
   end

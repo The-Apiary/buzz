@@ -1,8 +1,4 @@
-img src=image_url alt=title title=title height="100" width="100"
-h4 = title
+h3 {{title}} - {{episodes.length}}
 
-| Episodes
-= this.episodes.length
-ul
-  each episodes
-    li = title
+each episodes
+  partial 'episode'

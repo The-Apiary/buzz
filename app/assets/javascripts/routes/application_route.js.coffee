@@ -1,3 +1,1 @@
-Buzz.ApplicationRoute = Ember.Route.extend
-  model: ->
-    Buzz.Subscription.find()
+#Buzz.ApplicationRoute = Ember.Route.extend
