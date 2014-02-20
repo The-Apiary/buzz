@@ -6,5 +6,7 @@
         %ul
           %li {{#link-to 'recent' }}Recent{{/link-to}}
           %li {{#link-to 'subscriptions' }}Subscriptions{{/link-to}}
-      .col-md-4.col-sm-8
+      .col-md-4.col-sm-4
         {{ outlet }}
+      .col-md-4.col-sm-4
+        {{ partial "queue" }}

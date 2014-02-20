@@ -1,1 +1,2 @@
-#Buzz.ApplicationRoute = Ember.Route.extend
+Buzz.ApplicationRoute = Ember.Route.extend
+  model: -> Buzz.QueuedEpisode.find()

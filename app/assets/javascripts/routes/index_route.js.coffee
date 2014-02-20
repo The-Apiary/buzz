@@ -1,1 +1,2 @@
-#Buzz.IndexRoute = Ember.Route.extend
+Buzz.IndexRoute = Ember.Route.extend
+  model: -> Buzz.QueuedEpisode.find()
