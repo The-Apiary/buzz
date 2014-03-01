@@ -1,3 +1,7 @@
 h3 Queue
+
+with firstObject.episode
+  = title
+  /view Buzz.PlayerView
 each model
   render "episode" this.episode
