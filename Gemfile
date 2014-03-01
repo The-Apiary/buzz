@@ -1,10 +1,12 @@
 source 'https://rubygems.org'
 
+ruby '2.1.1'
+
 #:: Stack
 gem 'rails', '4.0.0' # Rails
 gem 'sqlite3'        # Database
 gem 'ember-rails'
-gem 'jquery-rails'   # Use jquery as the JavaScript library
+gem 'jquery-cdn' # Use jquery as the JavaScript library
 gem 'nokogiri'       # xml/html parsing
 gem 'whenever', require: false # Schedule and run tasks with cron
 
