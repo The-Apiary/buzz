@@ -3,9 +3,9 @@
     img src=podcast.image_url
   .pull-right
     if enqueued
-      span.glyphicon.glyphicon-minus click="remove"
+      span.glyphicon.glyphicon-minus{action "dequeue" this}
     else
-      span.glyphicon.glyphicon-plus click="enqueue this"
+      span.glyphicon.glyphicon-plus{action "enqueue" this}
 
   span.episode-progress-bar style=percent_listened_width
   h5.media-heading

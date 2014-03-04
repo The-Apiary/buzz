@@ -1,2 +1,2 @@
 each model
-  partial 'episode'
+  render 'episode' this
