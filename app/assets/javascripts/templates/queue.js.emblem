@@ -1,6 +1,6 @@
 h3 Queue
 
-with firstObject.episode
+with current_episode
   = title
   /view Buzz.PlayerView
 each queued_episodes
