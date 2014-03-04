@@ -7,10 +7,8 @@ Buzz.PlayerView = Ember.View.extend
 
     # Resume playback from previous position
     player.addEventListener 'canplay', (event) ->
-      currentTime = self.get('controller.currentEpisode.current_position')
-      console.log player.currentTime, currentTime
+      currentTime = self.get('controller.current_episode.current_position')
       player.currentTime = currentTime
-      console.log player.currentTime, currentTime
 
 
     # Set the current position in the current track

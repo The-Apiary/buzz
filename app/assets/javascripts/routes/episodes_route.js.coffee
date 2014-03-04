@@ -1,3 +1,3 @@
 Buzz.EpisodesRoute = Ember.Route.extend
-  model: () ->
-    Buzz.Episode.find(limit: 10)
+  model: (podcast) ->
+    Buzz.Episode.find(podcat_id: podcast.id)

@@ -1,48 +1,44 @@
 Buzz.QueueController = Ember.ArrayController.extend
-  needs: 'index'
-  queueBinding: 'controllers.index.model.queue'
 
-  currentEpisode: (->
-    this.get('queue.firstObject.episode')
-  ).property('queue.firstObject')
+  queued_episodes: (->
+    Buzz.QueuedEpisode.find()
+  ).property('Buzz.QueuedEpisode')
 
-  enqueue: (episode) ->
-    if ! this.enqueued(episode)
+  current_episode: (->
+    console.log this.get('queued_episodes.length')
+    this.get('queued_episodes.firstObject.episode')
+  ).property('queued_episodes', 'queued_episodes.length')
 
-      # If the enqueued episode has been played through it should be reset to the unplayed state.
-      episode.reset() if episode.get 'is_played'
+  enqueued: (episode) ->
+    this.get('queued_episodes').mapProperty('episode').contains(episode)
 
-      queued_episode = Buzz.QueuedEpisode.createRecord episode: episode
-      queued_episode.save()
-
-  remove: (episode) ->
-    # FIXME: How to select a QueuedEpisode with a given episode?
-    # Iterate through all queued episodes (Hate)
-    queued_episode = this.get('queue').find (qe) ->
+  dequeue: (episode) ->
+    queued_episode = this.get('queued_episodes').find (qe) ->
       qe.get('episode') == episode
+
     queued_episode.deleteRecord()
     queued_episode.save()
 
-  enqueued: (episode) ->
-    if episode
-      this.get('queue').mapProperty('episode').contains(episode)
+  enqueue: (episode) ->
+    queued_episode = Buzz.QueuedEpisode.createRecord episode: episode
+    queued_episode.save()
 
   actions:
-    markPlayed: () ->
-      currentEpisode = this.get 'currentEpisode'
+      markPlayed: () ->
+        current_episode = this.get 'current_episode'
 
-      # Mark the episode as played
-      currentEpisode.set 'is_played', true
-      currentEpisode.save()
+        # Mark the episode as played
+        current_episode.set 'is_played', true
+        current_episode.save()
 
-      # Remove the episode from the queue
-      this.remove currentEpisode
+        # Remove the episode from the queue
+        this.remove current_episode
 
-    setCurrentPosition: (position) ->
-      this.get('currentEpisode').set('current_position', position)
+      setCurrentPosition: (position) ->
+        this.get('current_episode').set('current_position', position)
 
-    setDuration: (duration) ->
-      currentEpisode = this.get('currentEpisode')
-      if currentEpisode.get('duration') != duration
-        currentEpisode.set('duration', duration)
-        currentEpisode.save()
+      setDuration: (duration) ->
+        current_episode = this.get('current_episode')
+        if current_episode.get('duration') != duration
+          current_episode.set('duration', duration)
+          current_episode.save()

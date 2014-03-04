@@ -1,5 +1,4 @@
 #= require jquery
-#= require jquery_ujs
 #= require handlebars
 #= require ember
 #= require ember-data
@@ -13,3 +12,7 @@
 window.Buzz = Ember.Application.create()
 
 #= require_tree .
+$ ->
+  token = $('meta[name="csrf-token"]').attr('content')
+  $.ajaxPrefilter (options, originalOptions, xhr) ->
+    xhr.setRequestHeader('X-CSRF-Token', token)

@@ -1,11 +1,1 @@
-.container
-  .row
-    .col-md-4.col-sm-4
-      h2 podcasts
-      = render subscriptions subscriptions
-    .col-md-4.col-sm-4
-      h2 episodes
-      = render episodes displayed_episodes
-    .col-md-4.col-sm-4
-      h2 queue
-      = render queue model.queue
+| Text

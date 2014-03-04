@@ -1,5 +1,6 @@
-with firstObject.episode
-  = view Buzz.PlayerView
+h3 Queue
 
-each model
-  = render "episode" this.episode
+with current_episode
+  view Buzz.PlayerView
+each queued_episodes
+  render "episode" this.episode

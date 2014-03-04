@@ -1,2 +1,12 @@
 %script{ type: 'text/x-handlebars' }
-  {{ outlet }}
+  .container
+    .row
+      .col-md-4.col-sm-4
+        %h2 Navigation
+        %ul
+          %li {{#link-to 'recent' }}Recent{{/link-to}}
+          %li {{#link-to 'subscriptions' }}Subscriptions{{/link-to}}
+      .col-md-4.col-sm-4
+        {{ outlet }}
+      .col-md-4.col-sm-4
+        {{ render "queue" }}
