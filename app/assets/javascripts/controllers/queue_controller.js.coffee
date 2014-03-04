@@ -22,3 +22,23 @@ Buzz.QueueController = Ember.ArrayController.extend
   enqueue: (episode) ->
     queued_episode = Buzz.QueuedEpisode.createRecord episode: episode
     queued_episode.save()
+
+  actions:
+      markPlayed: () ->
+        current_episode = this.get 'current_episode'
+
+        # Mark the episode as played
+        current_episode.set 'is_played', true
+        current_episode.save()
+
+        # Remove the episode from the queue
+        this.remove current_episode
+
+      setCurrentPosition: (position) ->
+        this.get('current_episode').set('current_position', position)
+
+      setDuration: (duration) ->
+        current_episode = this.get('current_episode')
+        if current_episode.get('duration') != duration
+          current_episode.set('duration', duration)
+          current_episode.save()
