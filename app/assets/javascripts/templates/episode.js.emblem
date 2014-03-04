@@ -5,7 +5,7 @@
     if enqueued
       span.glyphicon.glyphicon-minus click="remove"
     else
-      span.glyphicon.glyphicon-plus click="enqueue"
+      span.glyphicon.glyphicon-plus click="enqueue this"
 
   span.episode-progress-bar style=percent_listened_width
   h5.media-heading
