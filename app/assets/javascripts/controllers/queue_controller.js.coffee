@@ -31,8 +31,10 @@ Buzz.QueueController = Ember.ArrayController.extend
         current_episode.set 'is_played', true
         current_episode.save()
 
-        # Remove the episode from the queue
-        this.remove current_episode
+        # Delete the queued episode, removing it from the queue
+        queued_episode = this.get('queued_episodes.firstObject')
+        queued_episode.deleteRecord()
+        queued_episode.save()
 
       setCurrentPosition: (position) ->
         this.get('current_episode').set('current_position', position)
