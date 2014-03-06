@@ -33,3 +33,7 @@ gem 'unicorn'
 #:: Development tools
 gem 'debugger', group: [:development, :test]
 gem 'quiet_assets', :group => :development
+
+
+# Javacript Runtime
+gem 'therubyracer'
