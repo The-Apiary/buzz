@@ -4,6 +4,7 @@
       .col-md-4.col-sm-4
         %h2 Navigation
         %ul
+          %li {{ view 'Buzz.SearchView' }}
           %li {{#link-to 'recent' }}Recent{{/link-to}}
           %li {{#link-to 'subscriptions' }}Subscriptions{{/link-to}}
       .col-md-4.col-sm-4

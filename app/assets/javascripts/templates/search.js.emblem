@@ -1,0 +1,2 @@
+span
+  input.form-control.search.typeahead type='text' placeholder='search' autocomplete='off' spellcheck='false' dir='auto'
