@@ -6,9 +6,12 @@ ruby '2.1.1'
 gem 'rails', '4.0.0' # Rails
 gem 'sqlite3'        # Database
 gem 'ember-rails'
-gem 'jquery-cdn' # Use jquery as the JavaScript library
-gem 'nokogiri'       # xml/html parsing
+gem 'jquery-cdn'               # Use jquery as the JavaScript library
+gem 'typeahead-rails'  # Twitter typeahead.js, search bar autocomplete
+gem 'nokogiri'                 # xml/html parsing
 gem 'whenever', require: false # Schedule and run tasks with cron
+
+gem 'underscore-rails' # Javascript toolbelt.
 
 gem 'turbolinks'
 

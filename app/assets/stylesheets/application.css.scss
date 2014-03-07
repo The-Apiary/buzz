@@ -39,3 +39,35 @@
 .podcast:not(:hover) span.unsubscribe {
   display: none;
 }
+
+.tt-dropdown-menu {
+  margin-top: 3px;
+  color: #94999c;
+  background-color: white;
+  border: 1px solid #b8c3c9;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  z-index: 102;
+  opacity: 0.97;
+  border-radius: 9px;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+
+  img {
+    max-height: 50px;
+    max-width: 50px;
+  }
+  .tt-header {
+    padding: 0 10px;
+    border-bottom: 1px solid #b8c3c9;
+  }
+  .tt-suggestion {
+    line-height: 19px;
+    padding: 10px;
+    &:not(:last-child) {
+      border-bottom: 1px solid #b8c3c9;
+    }
+  }
+}

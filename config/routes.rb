@@ -4,6 +4,7 @@ Buzz::Application.routes.draw do
   get '/(:id_hash)' => 'ember#player', as: 'player'
   namespace :api do
     namespace :v1 do
+      get 'search' => 'search#search'
       resources :episodes
       resources :podcasts
       resources :queued_episodes

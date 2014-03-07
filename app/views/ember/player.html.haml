@@ -1,5 +1,11 @@
 %script{ type: 'text/x-handlebars' }
   .container
+    %nav.navbar.navbar-default(role='navigation')
+      .container-fluid
+        .navbar-header
+          %span.navbar-brand Buzz
+        %form.navbar-form.navbar-left(role='search')
+          {{ view 'Buzz.SearchView' }}
     .row
       .col-md-4.col-sm-4
         %h2 Navigation
