@@ -11,6 +11,8 @@ gem 'typeahead-rails'  # Twitter typeahead.js, search bar autocomplete
 gem 'nokogiri'                 # xml/html parsing
 gem 'whenever', require: false # Schedule and run tasks with cron
 
+gem 'underscore-rails' # Javascript toolbelt.
+
 gem 'turbolinks'
 
 gem 'bootstrap-sass' # css stylesheets
