@@ -1,5 +1,7 @@
 each model
   .podcast
-    img src=image_url alt=title title=title height="100" width="100"
-    link-to "podcast" podcast
-      h6 = title
+    .pull-left
+      img src=image_url
+
+    h5.media-heading
+      | {{title}}
