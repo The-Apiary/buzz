@@ -4,17 +4,18 @@ class Api::V1::SubscriptionsController < ApplicationController
   # GET /podcasts
   # GET /podcasts.json
   def index
-    @subscriptions = current_user.subscriptions
+    #@subscriptions = current_user.subscriptions
+    @subscriptions = if params[:podcast_id]
+                       current_user.subscriptions.where(podcast_id: params[:podcast_id])
+                     else
+                       current_user.subscriptions
+                     end
     @podcasts      = @subscriptions.map(&:podcast)
   end
 
+  def create
+    @subscription = current_user.subscriptions.create(podcast_params)
 
-  def subscribe
-    render json: current_user.subscribe(@podcast)
-  end
-
-  def unsubscribe
-    render json: current_user.unsubscribe(@podcast)
   end
 
   private
@@ -26,6 +27,6 @@ class Api::V1::SubscriptionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def podcast_params
-      params.require(:subscription).permit(:podcast)
+      params.require(:subscription).permit(:podcast_id)
     end
 end

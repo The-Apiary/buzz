@@ -1,6 +1,13 @@
 .podcast
   .pull-left
     img src=image_url
+  .pull-right
+    if is_subscribed
+      button{action "unsubscribe" this}
+        | Unsubscribe
+    else
+      button{action "subscribe" this}
+        | Subscribe
 
   h3.media-heading
     | {{title}}
