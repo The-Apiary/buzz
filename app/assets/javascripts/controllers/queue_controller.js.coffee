@@ -9,7 +9,7 @@ Buzz.QueueController = Ember.ArrayController.extend
     this.get('queued_episodes.firstObject.episode')
   ).property('queued_episodes', 'queued_episodes.length')
 
-  enqueued: (episode) ->
+  is_enqueued: (episode) ->
     this.get('queued_episodes').mapProperty('episode').contains(episode)
 
   dequeue: (episode) ->
