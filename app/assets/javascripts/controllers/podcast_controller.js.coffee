@@ -10,8 +10,11 @@ Buzz.PodcastController = Ember.ObjectController.extend
   ).property('model', 'subscription')
   actions:
     subscribe: ->
-      #Subscribe code here
       subscription = Buzz.Subscription.createRecord podcast: this.get('model')
       subscription.save()
     unsubscribe: ->
       #Unsubscribe code here
+      subscription = this.get('subscription')
+      subscription.deleteRecord()
+      subscription.save()
+
