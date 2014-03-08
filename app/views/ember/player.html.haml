@@ -7,12 +7,12 @@
         %form.navbar-form.navbar-left(role='search')
           {{ view 'Buzz.SearchView' }}
     .row
-      .col-md-4.col-sm-4
+      .col-md-2.col-sm-2
         %h2 Navigation
         %ul
           %li {{#link-to 'recent' }}Recent{{/link-to}}
           %li {{#link-to 'subscriptions' }}Subscriptions{{/link-to}}
-      .col-md-4.col-sm-4
+      .col-md-6.col-sm-6
         {{ outlet }}
       .col-md-4.col-sm-4
         {{ render "queue" }}

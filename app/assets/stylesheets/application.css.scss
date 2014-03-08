@@ -30,14 +30,13 @@
   position: relative;
   width: 100%;
   z-index: 999;
+  .media-heading {
+    margin-left: 40px;
+  }
   img {
     height: 32px;
     width: 32px;
   }
-}
-
-.podcast:not(:hover) span.unsubscribe {
-  display: none;
 }
 
 .tt-dropdown-menu {

@@ -1,7 +1,10 @@
 each model
-  .podcast
-    .pull-left
-      img src=image_url
+  link-to 'podcast' this.podcast
+    .podcast
+      .pull-left
+        img src=image_url
 
-    h5.media-heading
-      | {{title}}
+      h5.media-heading
+        | {{title}}
+else
+  p You aren't subscribed to any podcasts.
