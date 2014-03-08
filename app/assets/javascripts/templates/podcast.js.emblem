@@ -1,10 +1,9 @@
-link-to 'podcast' this.podcast
-  .podcast
-    .pull-left
-      img src=image_url
+.podcast
+  .pull-left
+    img src=image_url
 
-    h3.media-heading
-      | {{title}}
+  h3.media-heading
+    | {{title}}
 p {{description}}
 
 each episodes
