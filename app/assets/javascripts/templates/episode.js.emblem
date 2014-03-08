@@ -2,7 +2,7 @@
   .pull-left
     img src=podcast.image_url
   .pull-right
-    if enqueued
+    if is_enqueued
       span.glyphicon.glyphicon-minus{action "dequeue" this}
     else
       span.glyphicon.glyphicon-plus{action "enqueue" this}

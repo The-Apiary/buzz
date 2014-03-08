@@ -1,7 +1,7 @@
 Buzz.EpisodeController = Ember.ObjectController.extend
   needs: 'queue'
-  enqueued: (->
-    this.get('controllers.queue').enqueued(this.get('model'))
+  is_enqueued: (->
+    this.get('controllers.queue').is_enqueued(this.get('model'))
   ).property('controllers.queue.queued_episodes.length')
   actions:
     dequeue: (episode) ->
