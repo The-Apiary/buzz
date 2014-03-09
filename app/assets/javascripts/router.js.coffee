@@ -4,3 +4,4 @@ Buzz.Router.map () ->
   this.route 'recent', path: '/recent'
   this.route 'subscriptions', path: '/subscriptions'
   this.route 'podcast', path: '/podcasts/:id'
+  this.route 'search', path: '/search/:query'

@@ -1,8 +1,7 @@
-Buzz.SearchView = Ember.View.extend
-  templateName: 'search'
+Buzz.SearchBarView = Ember.View.extend
+  templateName: 'search_bar'
 
   didInsertElement: () ->
-    console.log('didInsertElement')
     # Instantiate the bloodhound suggestion engine
     numbers = new Bloodhound
         datumTokenizer: (d) ->Bloodhound.tokenizers.whitespace(d.title)
@@ -15,12 +14,27 @@ Buzz.SearchView = Ember.View.extend
     # describe template strings here
     templates =
       header:
-        '<div class="tt-header"><p>Search for {{query}}</p></div>'
+        '''
+        <div class="tt-header">
+          <a href="#/search/{{query}}">
+            <p>Search for {{query}}</p>
+          </a>
+        </div>
+        '''
       # NOTE: Change the <a href="..."> to {{#link-to}}
       suggestion:
-        '<p><a href="#/podcasts/{{id}}"><img src="{{image_url}}"></img><strong>{{title}}</strong></a></p>'
+        '''
+        <p>
+          <a href="#/podcasts/{{id}}">
+            <img src="{{image_url}}"></img>
+            <strong>{{title}}</strong>
+          </a>
+        </p>
+        '''
       empty:
-        '<p>No Results</p>'
+        ''''
+        <p>No Results</p>
+        '''
 
     # Compile templates
     _(templates).each (string, key, obj) ->
@@ -34,6 +48,5 @@ Buzz.SearchView = Ember.View.extend
     });
 
   willDestroyElement: () ->
-    console.log('willDestroyElement')
     # Typeahead input element
     this.$('.typeahead').typeahead('destroy')
