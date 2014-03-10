@@ -1,2 +1,1 @@
-audio src=audio_url controls="controls"
-/autoplay="true"
+audio src=audio_url controls="controls" autoplay="true"
