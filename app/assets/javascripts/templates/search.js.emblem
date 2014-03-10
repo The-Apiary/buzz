@@ -1,3 +1,10 @@
+p
+  if this.length
+    | Not what you're looking for?
+  else
+    | No Search Results found.
+
+  a Add a podcast.
 each
   link-to 'podcast' id
     .podcast
@@ -6,5 +13,4 @@ each
 
       h5.media-heading
         | {{title}}
-else
-  p No Search Results found
+
