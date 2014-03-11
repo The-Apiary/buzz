@@ -4,18 +4,23 @@ ruby '2.1.1'
 
 #:: Stack
 gem 'rails', '4.0.0' # Rails
-gem 'sqlite3'        # Database
-gem 'ember-rails'
-gem 'jquery-cdn'               # Use jquery as the JavaScript library
-gem 'typeahead-rails'  # Twitter typeahead.js, search bar autocomplete
-gem 'nokogiri'                 # xml/html parsing
-gem 'whenever', require: false # Schedule and run tasks with cron
-
-gem 'underscore-rails' # Javascript toolbelt.
-
+gem 'nokogiri' # xml/html parsing
+gem 'whenever' # Schedule and run tasks with cron
 gem 'turbolinks'
 
-gem 'bootstrap-sass' # css stylesheets
+gem 'rails_12factor', group: :production # Heroku needs this
+
+#:: Databases
+gem 'sqlite3', group: :development # Light weight development database
+gem 'pg',      group: :production  # Postgres database for heroku
+
+
+#:: Javascripts
+gem 'ember-rails'
+gem 'jquery-cdn'       # Use jquery as the JavaScript library
+gem 'typeahead-rails'  # Twitter typeahead.js, search bar autocomplete
+gem 'underscore-rails' # Javascript toolbelt.
+gem 'bootstrap-sass'   # css stylesheets
 
 #:: Asset processors
 gem 'sass-rails', '~> 4.0.0'   # Use SCSS for stylesheets
