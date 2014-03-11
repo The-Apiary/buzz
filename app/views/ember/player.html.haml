@@ -5,13 +5,14 @@
         .navbar-header
           %span.navbar-brand Buzz
         %form.navbar-form.navbar-left(role='search')
-          {{ view 'Buzz.SearchView' }}
+          {{ view 'Buzz.SearchBarView' }}
     .row
       .col-md-2.col-sm-2
-        %h2 Navigation
-        %ul
-          %li {{#link-to 'recent' }}Recent{{/link-to}}
-          %li {{#link-to 'subscriptions' }}Subscriptions{{/link-to}}
+        %ul.nav.nav-pills.nav-stacked
+          -# Nested link-to's place the 'active' class on the outside li.
+          -# TODO: Make this a handlebars helper
+          {{#link-to-li 'recent' }}Recent{{/link-to-li}}
+          {{#link-to-li 'subscriptions' }}Subscriptions{{/link-to-li}}
       .col-md-6.col-sm-6
         {{ outlet }}
       .col-md-4.col-sm-4

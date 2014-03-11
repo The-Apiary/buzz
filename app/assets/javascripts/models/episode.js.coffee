@@ -25,7 +25,6 @@ Buzz.Episode = DS.Model.extend
       Ember.run.throttle this, 'save_episode_data', 10000
     else
     # Create episode_data if it doesn't exist
-      console.log 'created episode_data'
       hash = episode: this
       hash[key] = value
       episode_data = Buzz.EpisodeData.createRecord hash

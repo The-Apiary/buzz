@@ -1,5 +1,17 @@
-span
-  label.sr-only Search
-  / The typeahead elements are added by the javascript code in the search view.
-  / There are some templates written in that view that should be moved to thier own template files if possible.
-  input.form-control.search.typeahead type='text' placeholder='search' autocomplete='off' spellcheck='false' dir='auto'
+p
+  if this.length
+    | Not what you're looking for? 
+  else
+    | No Search Results found. 
+
+  = link-to 'add_feed' query
+    | Add a podcast.
+each results
+  link-to 'podcast' id
+    .podcast
+      .pull-left
+        img src=image_url
+
+      h5.media-heading
+        | {{title}}
+
