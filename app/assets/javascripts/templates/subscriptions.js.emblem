@@ -1,5 +1,5 @@
 each model
-  link-to 'podcast' this.podcast
+  link-to 'podcast.show' this.podcast
     .podcast
       .pull-left
         img src=image_url
