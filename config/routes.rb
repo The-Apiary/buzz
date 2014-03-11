@@ -1,6 +1,7 @@
 Buzz::Application.routes.draw do
 
   root 'ember#start'
+  get  '/logout' => 'ember#logout', as: 'logout'
   get '/(:id_hash)' => 'ember#player', as: 'player'
   namespace :api do
     namespace :v1 do
