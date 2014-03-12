@@ -14,12 +14,8 @@ class Api::V1::PodcastsController < ApplicationController
     @podcast
   end
 
-  def subscribe
-    render json: current_user.subscribe(@podcast)
-  end
-
-  def unsubscribe
-    render json: current_user.unsubscribe(@podcast)
+  def create
+    @podcast = Podcast.find_or_create_by podcast_params
   end
 
   private
@@ -30,6 +26,6 @@ class Api::V1::PodcastsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def podcast_params
-      params.require(:podcast).permit(:title, :image_url, :feed_url)
+      params.require(:podcast).permit(:feed_url)
     end
 end
