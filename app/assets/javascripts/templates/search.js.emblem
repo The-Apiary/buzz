@@ -1,13 +1,14 @@
 p
-  if this.length
-    | Not what you're looking for? 
+  if results.length
+    | Not what you're looking for?
   else
-    | No Search Results found. 
+    | No Search Results found.
+  / Whitespace between above sentences and link
+  |  
+  = link-to 'podcast.new' | Add a podcast.
 
-  = link-to 'add_feed' query
-    | Add a podcast.
 each results
-  link-to 'podcast' id
+  link-to 'podcast.show' id
     .podcast
       .pull-left
         img src=image_url

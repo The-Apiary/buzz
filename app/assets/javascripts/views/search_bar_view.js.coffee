@@ -21,7 +21,10 @@ Buzz.SearchBarView = Ember.View.extend
           </a>
         </div>
         '''
-      # NOTE: Change the <a href="..."> to {{#link-to}}
+      # FIXME: This is bad.
+      # Change the <a href="..."> to {{#link-to}}
+      # All of these blocks should be declaired as templates,
+      # and compiled with ember's handlebars.
       suggestion:
         '''
         <p>

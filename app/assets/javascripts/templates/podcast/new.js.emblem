@@ -1,0 +1,3 @@
+%h1
+label.sr-only Feed Url
+= input value=feed_url class="form-control" placeholder="Feed Url" action="create"

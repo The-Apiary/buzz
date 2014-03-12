@@ -1,4 +1,10 @@
-Buzz.PodcastController = Ember.ObjectController.extend
+#:: All Controllers under the `podcast` resource.
+
+#Buzz.PodcastController = Ember.ObjectController.extend()
+#Buzz.PodcastIndexController = Ember.ObjectController.extend()
+
+#:: Podcast Show Controller
+Buzz.PodcastShowController = Ember.ObjectController.extend
   # Ember data won't load the hasMany relationship to episodes, so here it is
   # explicitly loaded.
   episodes: (() ->
@@ -18,3 +24,9 @@ Buzz.PodcastController = Ember.ObjectController.extend
       subscription.deleteRecord()
       subscription.save()
 
+Buzz.PodcastNewController = Ember.ObjectController.extend
+  feed_url: null
+  actions:
+    create: ->
+      podcast = Buzz.Podcast.createRecord feed_url: this.get('feed_url')
+      podcast.save().then( (a) => this.transitionToRoute 'podcast.show', a)

@@ -24,7 +24,6 @@ Ember.Handlebars.registerHelper 'link-to-li', (routeName, options) ->
 
   Ember.Handlebars.helpers['link-to'].apply(this, [routeName, o_options])
 
-#= require_tree .
 $ ->
   # Ember wasn't sending the csrf token, so rails was erroring with InvalidAccessToken
   token = $('meta[name="csrf-token"]').attr('content')
