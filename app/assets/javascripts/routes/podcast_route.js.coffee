@@ -3,9 +3,10 @@
 #Buzz.PodcastRoute = Ember.Route.extend()
 #Buzz.PodcastIndexRoute = Ember.Route.extend()
 
-#:: Podcast Show Route
+#:: Show podcast route
 Buzz.PodcastShowRoute = Ember.Route.extend
   model: (params) ->
     Buzz.Podcast.find(params.id)
 
-#Buzz.PodcastNewRoute = Ember.Route.extend()
+#:: New podcast route
+#Buzz.PodcastNewRoute = Ember.Route.extend

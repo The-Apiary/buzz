@@ -24,4 +24,8 @@ Buzz.PodcastShowController = Ember.ObjectController.extend
       subscription.deleteRecord()
       subscription.save()
 
-#Buzz.PodcastNewController = Ember.ObjectController.extend()
+Buzz.PodcastNewController = Ember.ObjectController.extend
+  feed_url: null
+  actions:
+    create: ->
+      console.log this.get('feed_url')

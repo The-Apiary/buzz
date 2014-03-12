@@ -5,7 +5,7 @@ p
     | No Search Results found.
   / Whitespace between above sentences and link
   |  
-  = link-to 'podcast.new' query | Add a podcast.
+  = link-to 'podcast.new' | Add a podcast.
 
 each results
   link-to 'podcast.show' id
