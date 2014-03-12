@@ -12,4 +12,9 @@ class EmberController < ApplicationController
     end
     redirect_to player_path @user
   end
+
+  def logout
+    super
+    redirect_to root_path
+  end
 end

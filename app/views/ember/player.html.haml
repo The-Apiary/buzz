@@ -6,6 +6,8 @@
           %span.navbar-brand Buzz
         %form.navbar-form.navbar-left(role='search')
           {{ view 'Buzz.SearchBarView' }}
+        .pull-right
+          = button_to "New Account", logout_path , class: "btn btn-default navbar-btn", method: :get
     .row
       .col-md-2.col-sm-2
         %ul.nav.nav-pills.nav-stacked
