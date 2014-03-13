@@ -16,6 +16,11 @@ class Api::V1::PodcastsController < ApplicationController
 
   def create
     @podcast = Podcast.find_or_create_by podcast_params
+    if @podcast.valid?
+      render 'show'
+    else
+      render json: @podcast.errors, status: :unprocessable_entity
+    end
   end
 
   private

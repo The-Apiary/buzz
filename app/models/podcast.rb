@@ -57,6 +57,7 @@ class Podcast < ActiveRecord::Base
       @cached_feed = Hash.new
       feed_xml = open feed_url
       feed_giri = Nokogiri::XML(feed_xml)
+
       #-- Title
       @cached_feed[:title] = feed_giri.xpath('//channel/title').text
 
