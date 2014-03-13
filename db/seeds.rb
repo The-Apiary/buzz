@@ -40,9 +40,9 @@ podcast_urls = [
   'http://www.npr.org/rss/podcast.php?id=510071'
 ]
 
-puts "Createing podcasts"
+puts "Creating podcasts"
 podcast_urls.each do |url|
-  podcast = Podcast.new feed_url: url
+  podcast = Podcast.create_from_feed_url url
 
   p podcast.errors.to_a unless podcast.save
 

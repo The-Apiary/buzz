@@ -1,11 +1,9 @@
 require 'open-uri'
 class Podcast < ActiveRecord::Base
   #-- Associations
-  has_many :episodes, dependent: :destroy
+  has_many :episodes, inverse_of: :podcast, dependent: :destroy
 
-  #-- Callbacks
-  before_validation :get_metadata_from_feed!
-  after_create :get_episodes_from_feed!
+  accepts_nested_attributes_for :episodes
 
   #-- Validations
   validates :feed_url, uniqueness: true, presence: true
@@ -15,82 +13,65 @@ class Podcast < ActiveRecord::Base
   default_scope { order :title }
   scope :alphabetic, -> { order :title }
 
-  #-- Public instance methods
+  #-- Public class mehtods
 
-  # Creates new episodes, changes the title, image, and other podcast attributes
-  def get_metadata_from_feed!
-    feed = parse_feed
-    # Update metadata
-    self.title = feed[:title]
-    self.image_url = feed[:image_url]
-    self.description = feed[:description]
+  # Create a new podcast from the passed url
+  # Returns the new podcast
+  def self.create_from_feed_url feed_url
+    podcast_data = Podcast.parse_feed feed_url
+    episodes_data = podcast_data[:episodes_attributes]
+
+    podcast_data[:episodes_attributes] = []
+    podcast = Podcast.create podcast_data
+
+    episodes_data.each { |ed| podcast.episodes.create ed }
+
+    return podcast
   end
 
-  def get_episodes_from_feed!
-    new_episodes = Array.new
-    feed = parse_feed
-    feed[:episodes].each do |episode_feed|
-      episode_feed_data = Episode.parse_feed(episode_feed)
-      episode = self.episodes.build(episode_feed_data)
-      if episode.save
-        new_episodes << episode
-      end
-    end
+  # Parse podcast and episode info from the feed.
+  # Returns a hash object.
+  def self.parse_feed feed_url
+    parsed_feed = Hash.new
+    feed_xml = open feed_url
+    feed_giri = Nokogiri::XML(feed_xml)
 
-    logger.tagged(Time.now.strftime('%d/%m/%Y %H:%M')) {
-      logger.tagged('Update Feeds') {
-        logger.tagged(self.title) { logger.info "#{new_episodes.count} new episodes" }
-      }
-    }
-    return new_episodes
-  end
+    #-- Feed_url
+    parsed_feed[:feed_url] = feed_url
 
-  #private
+    #-- Title
+    parsed_feed[:title] = feed_giri.xpath('//channel/title').text
 
-  #-- Private instance methods
+    #-- Image_url
+    # I've seen three image url formats: an image tag, itunes:image tag,
+    # and itunes:image tag with the url as its href attribute.
 
-  # parses the feed xml into a hash containing podcast metadata, and episode info
-  def parse_feed args={}
-    args = { skip_cache: false }.merge args # default arguments
+    # <image><url>...</url></image>
+    parsed_feed[:image_url] = feed_giri.xpath('//channel/image/url').text
 
-    if @cached_feed.nil? || args[:skip_cache]
-      @cached_feed = Hash.new
-      feed_xml = open feed_url
-      feed_giri = Nokogiri::XML(feed_xml)
-
-      #-- Title
-      @cached_feed[:title] = feed_giri.xpath('//channel/title').text
-
-      #-- Image_url
-      # I've seen three image url formats: an image tag, itunes:image tag,
-      # and itunes:image tag with the url as its href attribute.
-
-      # <image><url>...</url></image>
-      @cached_feed[:image_url] = feed_giri.xpath('//channel/image/url').text
-
-      begin
-        # <itunes:image>___</itunes:image>
-        if @cached_feed[:image_url].blank?
-            @cached_feed[:image_url] = feed_giri.xpath('//channel/itunes:image').text
-        end
-
-        #<itunes:image href"___" />
-        if @cached_feed[:image_url].blank?
-          image_giri = feed_giri.xpath('//channel/itunes:image').first
-          @cached_feed[:image_url] = image_giri[:href] unless image_giri.nil?
-        end
-      rescue
-        logger.tagged('Update Feeds', self.title) { logger.warn "Failed to get image." }
+    begin
+      # <itunes:image>___</itunes:image>
+      if parsed_feed[:image_url].blank?
+          parsed_feed[:image_url] = feed_giri.xpath('//channel/itunes:image').text
       end
 
-      #-- Description
-      @cached_feed[:description] = feed_giri.xpath('//channel/description').text
-
-      #-- Episodes
-      @cached_feed[:episodes] = feed_giri.xpath('//channel/item')
+      #<itunes:image href"___" />
+      if parsed_feed[:image_url].blank?
+        image_giri = feed_giri.xpath('//channel/itunes:image').first
+        parsed_feed[:image_url] = image_giri[:href] unless image_giri.nil?
+      end
+    rescue
+      logger.tagged('Update Feeds', self.title) { logger.warn "Failed to get image." }
     end
 
+    #-- Description
+    parsed_feed[:description] = feed_giri.xpath('//channel/description').text
 
-    return @cached_feed
+    #-- Episodes
+    parsed_feed[:episodes_attributes] = feed_giri.xpath('//channel/item').map do |node|
+      Episode.parse_feed(node)
+    end
+
+    return parsed_feed
   end
 end
