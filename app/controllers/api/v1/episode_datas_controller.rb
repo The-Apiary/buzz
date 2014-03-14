@@ -14,12 +14,6 @@ class Api::V1::EpisodeDatasController < ApplicationController
     render :show
   end
 
-  def watched
-    @episode_data.current_position = params[:current_position]
-    logger.info "#{@episode_data.id} #{@episode_data.current_position} #{@episode_data.save}"
-    render json: nil
-  end
-
   def update
     if @episode_data.update(episode_data_params)
       render json: nil
