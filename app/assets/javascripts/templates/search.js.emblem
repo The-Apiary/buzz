@@ -5,10 +5,10 @@ p
     | No Search Results found.
   / Whitespace between above sentences and link
   |  
-  = link-to 'podcast.new' | Add a podcast.
+  = link-to 'podcasts.new' | Add a podcast.
 
 each results
-  link-to 'podcast.show' id
+  link-to 'podcasts.show' id
     .podcast
       .pull-left
         img src=image_url

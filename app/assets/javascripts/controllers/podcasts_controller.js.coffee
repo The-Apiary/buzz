@@ -1,13 +1,13 @@
-#:: All Controllers under the `podcast` resource.
+#:: All Controllers under the `podcasts` resource.
 
-#:: Unimplemented Podcast controller (loaded for all podcast controllers (show, new, ect.))
-#Buzz.PodcastController = Ember.ObjectController.extend()
+#:: Unimplemented Podcasts controller (loaded for all podcasts controllers (show, new, ect.))
+#Buzz.PodcastsController = Ember.ObjectController.extend()
 
-#:: Unimplemented Podcast Index Controller
-#Buzz.PodcastIndexController = Ember.ObjectController.extend()
+#:: Unimplemented Podcasts Index Controller
+#Buzz.PodcastsIndexController = Ember.ObjectController.extend()
 
-#:: Podcast Show Controller
-Buzz.PodcastShowController = Ember.ObjectController.extend
+#:: Podcasts Show Controller
+Buzz.PodcastsShowController = Ember.ObjectController.extend
 
   # Ember data won't load the hasMany relationship to episodes, so here it is
   # explicitly loaded.
@@ -30,8 +30,8 @@ Buzz.PodcastShowController = Ember.ObjectController.extend
       subscription.deleteRecord()
       subscription.save()
 
-#:: Podcast New Controller
-Buzz.PodcastNewController = Ember.ObjectController.extend
+#:: Podcasts New Controller
+Buzz.PodcastsNewController = Ember.ObjectController.extend
   feed_url: null
   errors: []
 
@@ -48,7 +48,7 @@ Buzz.PodcastNewController = Ember.ObjectController.extend
     create: ->
       podcast = Buzz.Podcast.createRecord feed_url: this.get('feed_url')
       podcast.save().then(
-        ( (podcast) => this.transitionToRoute('podcast.show', podcast) ),
+        ( (podcast) => this.transitionToRoute('podcasts.show', podcast) ),
         ( (podcast) =>
           errors = _.chain(podcast.errors).map( (messages, attr) ->
             (messages).map (message) ->
