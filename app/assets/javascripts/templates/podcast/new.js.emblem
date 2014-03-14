@@ -1,3 +1,8 @@
 %h1
+ul
+each errors
+  li = this
+
 label.sr-only Feed Url
-= input value=feed_url class="form-control" placeholder="Feed Url" action="create"
+.form-group class=feedback
+  = input value=feed_url class="form-control" placeholder="Feed Url" action="create"

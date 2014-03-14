@@ -18,8 +18,12 @@ class Podcast < ActiveRecord::Base
   # Create a new podcast from the passed url
   # Returns the new podcast
   def self.create_from_feed_url feed_url
-    podcast_data = Podcast.parse_feed feed_url
-    Podcast.create podcast_data
+    begin
+      podcast_data = Podcast.parse_feed feed_url
+      Podcast.create podcast_data
+    rescue
+      Podcast.new feed_url: feed_url
+    end
   end
 
   # Parse podcast and episode info from the feed.
@@ -54,7 +58,7 @@ class Podcast < ActiveRecord::Base
         parsed_feed[:image_url] = image_giri[:href] unless image_giri.nil?
       end
     rescue
-      logger.tagged('Update Feeds', self.title) { logger.warn "Failed to get image." }
+      logger.tagged('Update Feeds', parsed_feed[:title]) { logger.warn "Failed to get image." }
     end
 
     #-- Description
