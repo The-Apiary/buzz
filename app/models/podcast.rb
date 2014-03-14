@@ -3,7 +3,7 @@ class Podcast < ActiveRecord::Base
   #-- Associations
   has_many :episodes, inverse_of: :podcast, dependent: :destroy
 
-  accepts_nested_attributes_for :episodes
+  accepts_nested_attributes_for :episodes, reject_if: proc { |ea| !Episode.new(ea).valid? }
 
   #-- Validations
   validates :feed_url, uniqueness: true, presence: true
@@ -19,14 +19,7 @@ class Podcast < ActiveRecord::Base
   # Returns the new podcast
   def self.create_from_feed_url feed_url
     podcast_data = Podcast.parse_feed feed_url
-    episodes_data = podcast_data[:episodes_attributes]
-
-    podcast_data[:episodes_attributes] = []
-    podcast = Podcast.create podcast_data
-
-    episodes_data.each { |ed| podcast.episodes.create ed }
-
-    return podcast
+    Podcast.create podcast_data
   end
 
   # Parse podcast and episode info from the feed.

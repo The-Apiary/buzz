@@ -8,7 +8,9 @@ class Episode < ActiveRecord::Base
   has_many :episode_datas
 
   #-- Validations
-  validates_presence_of :podcast
+
+  #NOTE: this is disabled so episodes can validated without podcasts.
+  #validates_presence_of :podcast
   validates :title, :audio_url, :publication_date, presence: true, allow_blank?: false
   validates :audio_url, uniqueness: true
   validates :guid, uniqueness: true, unless: 'guid.blank?'
