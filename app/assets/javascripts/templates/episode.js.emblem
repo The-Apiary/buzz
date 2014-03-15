@@ -8,5 +8,6 @@
       span.glyphicon.glyphicon-plus{action "enqueue" this}
 
   span.episode-progress-bar style=percent_listened_width
-  h5.media-heading
-    | {{title}} {{pretty_duration}}
+  = link-to "episodes.show" this
+    h5.media-heading
+      | {{title}} {{pretty_duration}}

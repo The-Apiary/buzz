@@ -1,16 +1,20 @@
 .podcast
   .pull-left
     img src=image_url
-  .pull-right
-    if is_subscribed
-      button{action "unsubscribe" this}
-        | Unsubscribe
-    else
-      button{action "subscribe" this}
-        | Subscribe
 
   h3.media-heading
     | {{title}}
+
+.podcast-buttons
+  .btn-group
+    button.btn.btn-default{action "toggle_subscribe" this}
+      if is_subscribed
+        | Unsubscribe
+      else
+        | Subscribe
+    a.btn.btn-default href=feed_url
+      | Feed
+
 p {{description}}
 
 each episodes

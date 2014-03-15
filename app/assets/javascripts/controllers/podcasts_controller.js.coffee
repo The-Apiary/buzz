@@ -15,12 +15,19 @@ Buzz.PodcastsShowController = Ember.ObjectController.extend
       episodes = Buzz.Episode.find({podcast_id: this.get('model.id')})
   ).property('model')
 
-  #Checks whether the user is subscribed to the podcast.
+  # Checks whether the user is subscribed to the podcast.
   is_subscribed: (() ->
     subscription = this.get('subscription')
+    return subscription != null
   ).property('model', 'subscription')
 
   actions:
+    toggle_subscribe: ->
+      if this.get('is_subscribed')
+        this.send 'unsubscribe'
+      else
+        this.send 'subscribe'
+
     subscribe: ->
       subscription = Buzz.Subscription.createRecord podcast: this.get('model')
       subscription.save()
