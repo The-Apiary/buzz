@@ -1,6 +1,6 @@
 class EmberController < ApplicationController
   def player
-    @user ||= User.find_by_id_hash(params[:id_hash])
+    @user ||= User.find_or_create_by id_hash: params[:id_hash]
     login(@user)
   end
 
