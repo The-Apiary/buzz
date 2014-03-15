@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140103204018) do
+ActiveRecord::Schema.define(version: 20140315182823) do
 
   create_table "episode_data", force: true do |t|
     t.integer "episode_id"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20140103204018) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "description"
+    t.text     "link_url"
   end
 
   create_table "queued_episodes", force: true do |t|

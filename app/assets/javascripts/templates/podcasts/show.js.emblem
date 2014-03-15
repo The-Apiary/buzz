@@ -12,8 +12,10 @@
         | Unsubscribe
       else
         | Subscribe
+    a.btn.btn-default href=link_url
+      | Homepage
     a.btn.btn-default href=feed_url
-      | Feed
+      | View feed
 
 p {{description}}
 

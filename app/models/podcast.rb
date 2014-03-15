@@ -36,6 +36,9 @@ class Podcast < ActiveRecord::Base
     #-- Feed_url
     parsed_feed[:feed_url] = feed_url
 
+    #-- Link_url
+    parsed_feed[:link_url] = feed_giri.xpath('//channel/link').text
+
     #-- Title
     parsed_feed[:title] = feed_giri.xpath('//channel/title').text
 
