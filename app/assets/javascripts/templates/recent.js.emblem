@@ -1,2 +1,1 @@
-each model
-  render 'episode' this
+render 'episode_list' model

@@ -1,11 +1,14 @@
 render 'episode' this
 
-.btn-group
-  = link-to "podcasts.show" podcast class="btn btn-default"
-    = podcast.title
-  a.btn.btn-default href=link_url
-    | Link
-  a.btn.btn-default href=audio_url
-    | Download
+.btn-group.btn-group-justified
+  .btn-group
+    = link-to "podcasts.show" podcast class="btn btn-default"
+      = podcast.title
+  .btn-group
+    a.btn.btn-default href=link_url
+      | Link
+  .btn-group
+    a.btn.btn-default href=audio_url
+      | Download
 
 p {{description}}
