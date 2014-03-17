@@ -1,0 +1,10 @@
+%h1
+if errors.length
+  p There were errors creating the podcast.
+ul = each errors
+  li = this
+
+| Add a new podcast to buzz, just enter it's RSS feed.
+label.sr-only Feed Url
+.form-group class=feedback
+  = input value=feed_url class="form-control" placeholder="Feed Url" action="create"

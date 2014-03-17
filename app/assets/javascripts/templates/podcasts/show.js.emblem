@@ -1,0 +1,25 @@
+.podcast
+  .pull-left
+    img src=image_url
+
+  h3.media-heading
+    | {{title}}
+
+.podcast-buttons
+  .btn-group
+    button.btn.btn-default{action "toggle_subscribe" this}
+      if is_subscribed
+        | Unsubscribe
+      else
+        | Subscribe
+    a.btn.btn-default href=link_url
+      | Homepage
+    a.btn.btn-default href=feed_url
+      | View feed
+
+p {{description}}
+
+each episodes
+  render 'episode' this
+else
+  p No Episodes.

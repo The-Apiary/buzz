@@ -15,7 +15,18 @@ class Api::V1::PodcastsController < ApplicationController
   end
 
   def create
-    @podcast = Podcast.find_or_create_by podcast_params
+    @podcast = Podcast.find_by podcast_params
+
+    unless @podcast
+      @podcast = Podcast.create_from_feed_url podcast_params[:feed_url]
+    end
+
+    if @podcast.valid?
+      render 'show'
+    else
+      @podcast.errors.add(:feed_url, 'could not be parsed as RSS')
+      render json: { errors: @podcast.errors }, status: :unprocessable_entity
+    end
   end
 
   private

@@ -35,8 +35,10 @@ Buzz.SearchBarView = Ember.View.extend
         </p>
         '''
       empty:
-        ''''
-        <p>No Results</p>
+        '''
+        <div class="tt-no-results">
+          <p>No Results</p>
+        </div>
         '''
 
     # Compile templates

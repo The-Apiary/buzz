@@ -1,6 +1,0 @@
-/ FIXME: toggle checked attribute
-input type="checkbox" checked=show_played click="toggle_show_played"
-  | show played
-
-each
-  render "episode" this

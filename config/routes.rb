@@ -11,9 +11,7 @@ Buzz::Application.routes.draw do
       resources :queued_episodes
       resources :subscriptions
 
-      resources :episode_datas do
-        post :watched, on: :member
-      end
+      resources :episode_datas
     end
   end
 

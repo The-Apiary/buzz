@@ -16,15 +16,19 @@ Buzz.Episode = DS.Model.extend
     this.set 'episode_data.is_played', false
     Ember.run.throttle this, 'save_episode_data', 10000
 
-  create_or_update: (key, value) ->
+  # Update this episodes user data,
+  # or create the model if it doesn't exist.
+  create_or_update_episode_data: (key, value) ->
     episode_data = this.get('episode_data')
 
     if episode_data
-    # Update episode_data if it exists
+      # Episode data exists, so update the key
       episode_data.set(key, value)
-      Ember.run.throttle this, 'save_episode_data', 10000
+      # Only save every 10,000 microseconds
+      episode_data.direct_update(10000)
+
     else
-    # Create episode_data if it doesn't exist
+      # Episode data doesn't exist, so create it.
       hash = episode: this
       hash[key] = value
       episode_data = Buzz.EpisodeData.createRecord hash
@@ -34,13 +38,10 @@ Buzz.Episode = DS.Model.extend
 
     return episode_data.get(key)
 
-  save_episode_data: () ->
-    this.get('episode_data').save()
-
   is_played: ( (key, is_played) ->
     # Setter
     if (is_played != undefined)
-      return this.create_or_update(key, is_played)
+      return this.create_or_update_episode_data(key, is_played)
     # Getter
     else
       return this.get('episode_data.is_played') || false
@@ -49,13 +50,7 @@ Buzz.Episode = DS.Model.extend
   current_position: ( (key, current_position) ->
     # Setter
     if (current_position != undefined)
-      episode_data = this.get('episode_data')
-      if episode_data
-        episode_data.set('current_position', current_position)
-        Ember.run.throttle episode_data, 'save_current_position', 10000
-        return current_position
-      else
-        return this.create_or_update(key, current_position)
+      return this.create_or_update_episode_data(key, current_position)
     # Getter
     else
       return this.get('episode_data.current_position') || 0
