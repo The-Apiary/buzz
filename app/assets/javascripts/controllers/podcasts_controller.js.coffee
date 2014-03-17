@@ -13,6 +13,7 @@ Buzz.PodcastsShowController = Ember.ObjectController.extend
 
   type: 'Normal'
 
+
   # Ember data won't load the hasMany relationship to episodes, so here it is
   # explicitly loaded.
   episodes: (() ->
@@ -51,6 +52,9 @@ Buzz.PodcastsShowController = Ember.ObjectController.extend
       subscription = this.get('subscription')
       subscription.deleteRecord()
       subscription.save()
+
+    set_type: (type) ->
+      this.set('type', type.toString())
 
 #:: Podcasts New Controller
 Buzz.PodcastsNewController = Ember.ObjectController.extend

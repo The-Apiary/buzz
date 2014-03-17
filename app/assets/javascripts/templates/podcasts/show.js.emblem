@@ -19,9 +19,19 @@
     .btn-group
       a.btn.btn-default href=feed_url
         | View feed
+    / type dropdown menu
+    .btn-group
+      button.btn.btn-default.dropdown-toggle data-toggle='dropdown'
+        | Type: 
+        strong: = type
+        / Whitespace?
+        |  
+        span.caret
+      ul.dropdown-menu role='menu'
+        = each type_options
+          li: a{action 'set_type' this}: = this
 
 p {{description}}
 
-= view Ember.Select content=type_options value=type class='form-control'
 
 render 'episode_list' filtered_episodes
