@@ -22,4 +22,6 @@
 
 p {{description}}
 
-render 'episode_list' episodes
+= view Ember.Select content=type_options value=type class='form-control'
+
+render 'episode_list' filtered_episodes

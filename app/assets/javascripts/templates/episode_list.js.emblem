@@ -1,7 +1,5 @@
 = view Ember.Select content=show_played_options value=played_filter class='form-control'
 
-= view Ember.Select content=type_options value=type class='form-control'
-
 .episodes
   each episodes
     = render 'episode' this
