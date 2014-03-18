@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(version: 20140317195519) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "subscription_type", default: "normal", null: false
+    t.text     "subscription_type", default: "Normal", null: false
   end
 
   add_index "subscriptions", ["podcast_id"], name: "index_subscriptions_on_podcast_id"

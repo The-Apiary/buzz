@@ -4,13 +4,13 @@ class Subscription < ActiveRecord::Base
   belongs_to :user
 
   #-- callbacks
-  before_validation :downcase_subscription_type
+  before_validation :titlecase_subscription_type
 
   #-- Validattions
   validates :podcast, uniqueness: { scope: :user}
 
   # Valid podcast subscriptions types
-  valid_types = ['normal', 'serial', 'news']
+  valid_types = ['Normal', 'Serial', 'News']
   validates :subscription_type, inclusion: {in: valid_types, message: "'%{value}' is not in #{valid_types.inspect}"}
 
   #-- Scopes
@@ -18,7 +18,8 @@ class Subscription < ActiveRecord::Base
 
   private
 
-  def downcase_subscription_type
-    self.subscription_type.downcase!
+  def titlecase_subscription_type
+    # Why does `downcase!` exist, but not `titlecase!` ?!
+    self.subscription_type = self.subscription_type.try(:titlecase) || 'Normal'
   end
 end

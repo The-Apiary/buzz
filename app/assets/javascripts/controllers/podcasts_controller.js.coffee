@@ -11,7 +11,18 @@ Buzz.PodcastsShowController = Ember.ObjectController.extend
 
   type_options: [ 'Normal', 'Serial', 'News' ]
 
-  type: 'Normal'
+  type: ( (key, type)->
+    if (type != undefined)
+      subscription = this.get 'subscription'
+      console.log subscription
+      if subscription
+        console.log 'stuff'
+        subscription.set('subscription_type', type)
+        subscription.save()
+      return type
+    else
+      return this.get('subscription.subscription_type') || 'Normal'
+  ).property('model', 'subscription', 'subscription.subscription_type')
 
 
   # Ember data won't load the hasMany relationship to episodes, so here it is
