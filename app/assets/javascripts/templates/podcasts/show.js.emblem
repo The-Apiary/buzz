@@ -6,20 +6,32 @@
     | {{title}}
 
 .podcast-buttons
-  .btn-group
-    button.btn.btn-default{action "toggle_subscribe" this}
-      if is_subscribed
-        | Unsubscribe
-      else
-        | Subscribe
-    a.btn.btn-default href=link_url
-      | Homepage
-    a.btn.btn-default href=feed_url
-      | View feed
+  .btn-group.btn-group-justified
+    .btn-group
+      button.btn.btn-default{action "toggle_subscribe" this}
+        if is_subscribed
+          | Unsubscribe
+        else
+          | Subscribe
+    .btn-group
+      a.btn.btn-default href=link_url
+        | Homepage
+    .btn-group
+      a.btn.btn-default href=feed_url
+        | View feed
+    / type dropdown menu
+    .btn-group
+      button.btn.btn-default.dropdown-toggle data-toggle='dropdown'
+        | Type: 
+        strong: = type
+        / Whitespace?
+        |  
+        span.caret
+      ul.dropdown-menu role='menu'
+        = each type_options
+          li: a{action 'set_type' this}: = this
 
 p {{description}}
 
-each episodes
-  render 'episode' this
-else
-  p No Episodes.
+
+render 'episode_list' filtered_episodes

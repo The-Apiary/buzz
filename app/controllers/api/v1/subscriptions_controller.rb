@@ -1,5 +1,5 @@
 class Api::V1::SubscriptionsController < ApplicationController
-  before_action :set_subscription, only: [:show, :destroy]
+  before_action :set_subscription, only: [:update, :show, :destroy]
 
   def index
     @subscriptions = if params[:podcast_id]
@@ -17,6 +17,14 @@ class Api::V1::SubscriptionsController < ApplicationController
   def show
   end
 
+  def update
+    if @subscription.update(subscription_params)
+      render json: nil
+    else
+      render json: @subscription.errors, status: :unprocessable_entity
+    end
+  end
+
   def destroy
     @subscription.destroy
     render json: nil
@@ -30,6 +38,6 @@ class Api::V1::SubscriptionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def subscription_params
-      params.require(:subscription).permit(:podcast_id)
+      params.require(:subscription).permit(:subscription_type, :podcast_id)
     end
 end
