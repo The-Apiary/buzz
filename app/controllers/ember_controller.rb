@@ -1,20 +1,21 @@
 class EmberController < ApplicationController
   def player
-    @user ||= User.find_or_create_by id_hash: params[:id_hash]
-    login(@user)
+    login_user User.create unless current_user
   end
 
-  def start
-    if current_user
-      @user = current_user
+  def login
+    @user = User.find_by_id_hash params[:id_hash]
+    if @user
+      login_user @user
+      render json: :success
     else
-      @user = User.create
+      render json: { error: "Could not find user with id '#{params[:id_hash]}'" },
+                     status: :unprocessable_entity
     end
-    redirect_to player_path @user
   end
 
   def logout
-    super
+    logout_user
     redirect_to root_path
   end
 end

@@ -1,0 +1,11 @@
+if error
+  ul: li = error
+
+.form-group class=feedback
+  label.sr-only Anonymous account ID
+  .input-group
+    = input value=anon_id class="form-control" placeholder="Anonymous account ID" action="login"
+    span.input-group-btn
+      button.btn.btn-primary{ action login }
+        | Login
+

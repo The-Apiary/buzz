@@ -1,4 +1,16 @@
 %script{ type: 'text/x-handlebars' }
+  / Login modal
+  %div.modal.fade#login-modal(tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true")
+    %div.modal-dialog
+      %div.modal-content
+        %div.modal-header
+          %button.close(type="button" data-dismiss="modal" aria-hidden="true") &times;
+          %h4.modal-title#myModalLabel Login
+        %div.modal-body
+          {{ render "login" }}
+        %div.modal-footer
+          %button.btn.btn-default(type="button" data-dismiss="modal") Close
+
   .container
     %nav.navbar.navbar-default(role='navigation')
       .container-fluid
@@ -19,7 +31,15 @@
                 %a Unimplemented - Info
               %li.divider
               %li
-                = link_to "New Account", logout_path
+                -# Using window.location instead of a real link because
+                  otherwise the ember app doesn't render after the redirect.
+                %a(data-toggle="modal" data-target="#login-modal")
+                  Login
+              %li
+                -# Using window.location instead of a real link because
+                  otherwise the ember app doesn't render after the redirect.
+                = link_to_function "New Account",
+                  "window.location = '#{logout_path}'"
     .row
       .col-md-2.col-sm-2
         %ul.nav.nav-pills.nav-stacked
