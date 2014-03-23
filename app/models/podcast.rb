@@ -2,6 +2,7 @@ require 'open-uri'
 class Podcast < ActiveRecord::Base
   #-- Associations
   has_many :episodes, inverse_of: :podcast, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   accepts_nested_attributes_for :episodes, reject_if: proc { |ea| !Episode.new(ea).valid? }
 
