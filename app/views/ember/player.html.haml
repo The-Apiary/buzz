@@ -19,7 +19,10 @@
                 %a Unimplemented - Info
               %li.divider
               %li
-                = link_to "New Account", logout_path
+                -# Using window.location instead of a real link because
+                  otherwise the ember app doesn't render after the redirect.
+                = link_to_function "New Account",
+                  "window.location = '#{logout_path}'"
     .row
       .col-md-2.col-sm-2
         %ul.nav.nav-pills.nav-stacked
