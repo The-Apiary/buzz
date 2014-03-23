@@ -1,1 +1,4 @@
-| blank
+label Anonymous account ID
+.form-group /class=feedback
+  = input value=anon_id class="form-control" placeholder="Anonymous account ID" action="login"
+
