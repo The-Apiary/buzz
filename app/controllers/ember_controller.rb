@@ -1,6 +1,6 @@
 class EmberController < ApplicationController
   def player
-    login_user User.create unless current_user
+    login_user (current_user || User.create)
   end
 
   def login
