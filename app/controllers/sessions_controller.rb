@@ -3,8 +3,22 @@ class SessionsController < ApplicationController
   def create
     # NOTE: This logs in a user using their id_hash, this method is being
     # replaced with Oauth.
-    if params[:id_hash]
-      signin_id_hash params[:id_hash]
+    @user = if params[:id_hash]
+              user_from_id_hash
+            else
+              user_from_facebook
+            end
+
+    respond_to do |format|
+      if @user
+        signin @user
+        format.html { redirect_to root_url }
+        format.json { render json: :success }
+      else
+        error = "Could not find user with id '#{params[:id_hash]}'"
+        format.html { redirect_to root_url }
+        format.json { render json: { error: error }, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -16,16 +30,11 @@ class SessionsController < ApplicationController
   private
 
   # Signs in a user by id_hash
-  def signin_id_hash id_hash
-    @user = User.find_by_id_hash params[:id_hash]
-    if @user
-      signin @user
-      render json: :success
-    else
-      render json: {
-               error: "Could not find user with id '#{params[:id_hash]}'"
-             },
-             status: :unprocessable_entity
-    end
+  def user_from_id_hash
+    User.find_by_id_hash params[:id_hash]
+  end
+
+  def user_from_facebook
+    User.from_omniauth(request.env["omniauth.auth"])
   end
 end

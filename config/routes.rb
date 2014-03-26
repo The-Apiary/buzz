@@ -3,7 +3,7 @@ Buzz::Application.routes.draw do
   root 'ember#player'
 
 
-  put 'signin' => 'sessions#create', as: 'signin'
+  get 'signin' => 'sessions#create', as: 'signin'
   get 'signout' => 'sessions#destroy', as: 'signout'
   get 'auth/:provider/callback' => 'sessions#create'
   get 'auth/failure' => redirect('/')

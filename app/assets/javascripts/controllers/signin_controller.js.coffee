@@ -13,9 +13,8 @@ Buzz.SigninController = Ember.ObjectController.extend
     signin: ->
       console.log this.get 'anon_id'
       $.ajax(
-        url: '/signin'
+        url: '/signin.json'
         data: { id_hash: this.get 'anon_id' }
-        type: 'PUT'
       ).then(
         (data) => window.location.reload(),
         (data) => this.set 'error', $.parseJSON(data.responseText).error
