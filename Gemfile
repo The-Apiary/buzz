@@ -10,6 +10,9 @@ gem 'turbolinks'
 
 gem 'rails_12factor', group: :production # Heroku needs this
 
+# Facebook login
+gem 'omniauth-facebook'
+
 #:: Databases
 gem 'sqlite3', group: :development # Light weight development database
 gem 'pg',      group: :production  # Postgres database for heroku

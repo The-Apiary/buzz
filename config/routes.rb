@@ -1,8 +1,13 @@
 Buzz::Application.routes.draw do
 
   root 'ember#player'
-  get  '/logout' => 'ember#logout', as: 'logout'
-  put  '/login' => 'ember#login', as: 'login'
+
+
+  get 'signin' => 'sessions#create', as: 'signin'
+  get 'signout' => 'sessions#destroy', as: 'signout'
+  get 'auth/:provider/callback' => 'sessions#create'
+  get 'auth/failure' => redirect('/')
+
   namespace :api do
     namespace :v1 do
       get 'search' => 'search#search'

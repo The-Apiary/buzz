@@ -1,4 +1,4 @@
-Buzz.LoginController = Ember.ObjectController.extend
+Buzz.SigninController = Ember.ObjectController.extend
   anon_id: null
   error: null
 
@@ -10,12 +10,11 @@ Buzz.LoginController = Ember.ObjectController.extend
   ).property('error')
 
   actions:
-    login: ->
+    signin: ->
       console.log this.get 'anon_id'
       $.ajax(
-        url: '/login'
+        url: '/signin.json'
         data: { id_hash: this.get 'anon_id' }
-        type: 'PUT'
       ).then(
         (data) => window.location.reload(),
         (data) => this.set 'error', $.parseJSON(data.responseText).error
