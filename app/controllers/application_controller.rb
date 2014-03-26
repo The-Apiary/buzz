@@ -9,12 +9,12 @@ class ApplicationController < ActionController::Base
     @user ||= User.find_by_id(session[:user_id]) if session[:user_id]
   end
 
-  def login_user user
+  def signin user
     session[:user_id] = user.id
     @user = user
   end
 
-  def logout_user
+  def signout
     session[:user_id] = nil
   end
 end

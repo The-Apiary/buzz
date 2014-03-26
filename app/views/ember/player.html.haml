@@ -1,13 +1,13 @@
 %script{ type: 'text/x-handlebars' }
   / Login modal
-  %div.modal.fade#login-modal(tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true")
+  %div.modal.fade#signin-modal(tabindex="-1" role="dialog" aria-hidden="true")
     %div.modal-dialog
       %div.modal-content
         %div.modal-header
           %button.close(type="button" data-dismiss="modal" aria-hidden="true") &times;
-          %h4.modal-title#myModalLabel Login
+          %h4.modal-title#myModalLabel Sign In
         %div.modal-body
-          {{ render "login" }}
+          {{ render "signin" }}
         %div.modal-footer
           %button.btn.btn-default(type="button" data-dismiss="modal") Close
 
@@ -33,13 +33,13 @@
               %li
                 -# Using window.location instead of a real link because
                   otherwise the ember app doesn't render after the redirect.
-                %a(data-toggle="modal" data-target="#login-modal")
-                  Login
+                %a(data-toggle="modal" data-target="#signin-modal")
+                  Sign In
               %li
                 -# Using window.location instead of a real link because
                   otherwise the ember app doesn't render after the redirect.
                 = link_to_function "New Account",
-                  "window.location = '#{logout_path}'"
+                  "window.location = '#{signout_path}'"
     .row
       .col-md-2.col-sm-2
         %ul.nav.nav-pills.nav-stacked

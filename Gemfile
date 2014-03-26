@@ -11,6 +11,9 @@ gem 'typeahead-rails'  # Twitter typeahead.js, search bar autocomplete
 gem 'nokogiri'                 # xml/html parsing
 gem 'whenever', require: false # Schedule and run tasks with cron
 
+# Facebook login
+gem 'omniauth-facebook'
+
 gem 'underscore-rails' # Javascript toolbelt.
 
 gem 'turbolinks'
