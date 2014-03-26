@@ -18,29 +18,30 @@ class User < ActiveRecord::Base
     self.id_hash ||= User.new_hash # Let the default id_hash be overriden
   end
 
-  def subscribe(podcast)
-    self.subscriptions.create(podcast: podcast).valid? ? true : false
-  end
-
-  # Deletes the subscription to the podcast,
-  # returns false if not subscribed or couldn't be deleted.
-  def unsubscribe(podcast)
-    self.subscriptions.find_by_podcast_id(podcast).try(:delete) || false
+  def identifier
+    name || id_hash
   end
 
   def to_param
     self.id_hash
   end
 
-  def self.from_omniauth(auth)
-    where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
-      user.provider = auth.provider
-      user.uid = auth.uid
-      user.name = auth.info.name
-      user.oauth_token = auth.credentials.token
-      user.oauth_expires_at = Time.at(auth.credentials.expires_at)
-      user.save!
-    end
+  def self.from_omniauth(auth, link_user)
+    link_user = nil unless link_user.is_a? User
+
+    # Find existing omniauth user.
+    user = find_by(auth.slice(:provider, :uid)) ||
+      link_user ||
+      User.new
+
+    user.provider = auth.provider
+    user.uid = auth.uid
+    user.name = auth.info.name
+    user.oauth_token = auth.credentials.token
+    user.oauth_expires_at = Time.at(auth.credentials.expires_at)
+    user.save!
+
+    return user
   end
 
   private

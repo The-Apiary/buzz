@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
     @user = if params[:id_hash]
               user_from_id_hash
             else
-              user_from_facebook
+              user_from_facebook current_user
             end
 
     respond_to do |format|
@@ -34,7 +34,7 @@ class SessionsController < ApplicationController
     User.find_by_id_hash params[:id_hash]
   end
 
-  def user_from_facebook
-    User.from_omniauth(request.env["omniauth.auth"])
+  def user_from_facebook link_user
+    User.from_omniauth(request.env["omniauth.auth"], link_user)
   end
 end
