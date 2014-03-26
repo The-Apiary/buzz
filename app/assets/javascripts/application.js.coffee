@@ -24,6 +24,10 @@ Ember.Handlebars.registerHelper 'link-to-li', (routeName, options) ->
 
   Ember.Handlebars.helpers['link-to'].apply(this, [routeName, o_options])
 
+# UGLY: Facebook login redirects to /#_=_ (why? IDK), this will handle that
+# by directing back to /
+window.location.hash = "" if (window.location.hash == "#_=_")
+
 $ ->
   # Ember wasn't sending the csrf token, so rails was erroring with InvalidAccessToken
   token = $('meta[name="csrf-token"]').attr('content')
