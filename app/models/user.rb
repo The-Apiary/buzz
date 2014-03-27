@@ -13,6 +13,12 @@ class User < ActiveRecord::Base
   validates :id_hash, presence: true, allow_blank?: false
   validates :id_hash, uniqueness: true
 
+  #-- Scopes
+  scope :inactive_since, -> (time) { where(['last_login <= ?', time]) }
+  scope :active_since, -> (time) { where(['last_login > ?', time]) }
+  scope :anonymous, -> { where(provider: nil) }
+
+
   def init
     return unless self.new_record?
     self.id_hash ||= User.new_hash # Let the default id_hash be overriden
@@ -20,6 +26,11 @@ class User < ActiveRecord::Base
 
   def identifier
     name || id_hash
+  end
+
+  def login
+    self.last_login = Time.now
+    self.save
   end
 
   def to_param
