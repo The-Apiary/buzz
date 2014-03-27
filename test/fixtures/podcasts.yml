@@ -1,5 +1,6 @@
 radiolab:
   title: Radio Lab
+  feed_url: "http://feeds.wnyc.org/radiolab"
 
 news:
   title: News

@@ -3,7 +3,7 @@ require 'test_helper'
 class Api::V1::PodcastsControllerTest < ActionController::TestCase
   setup do
     session[:user_id] = users(:active).id
-    #@podcast = podcasts(:one)
+    @podcast = podcasts(:jadiolab)
   end
 
   test 'should get index' do
@@ -12,39 +12,15 @@ class Api::V1::PodcastsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:podcasts)
   end
 
-  #test "should get new" do
-  #  get :new
-  #  assert_response :success
-  #end
+  test "should create podcast" do
+    assert_difference('Podcast.count') do
+      post :create, podcast: { feed_url: @podcast.feed_url }
+    end
+  end
 
-  #test "should create podcast" do
-  #  assert_difference('Podcast.count') do
-  #    post :create, podcast: { feed_url: @podcast.feed_url, image_url: @podcast.image_url, title: @podcast.title }
-  #  end
 
-  #  assert_redirected_to podcast_path(assigns(:podcast))
-  #end
-
-  #test "should show podcast" do
-  #  get :show, id: @podcast
-  #  assert_response :success
-  #end
-
-  #test "should get edit" do
-  #  get :edit, id: @podcast
-  #  assert_response :success
-  #end
-
-  #test "should update podcast" do
-  #  patch :update, id: @podcast, podcast: { feed_url: @podcast.feed_url, image_url: @podcast.image_url, title: @podcast.title }
-  #  assert_redirected_to podcast_path(assigns(:podcast))
-  #end
-
-  #test "should destroy podcast" do
-  #  assert_difference('Podcast.count', -1) do
-  #    delete :destroy, id: @podcast
-  #  end
-
-  #  assert_redirected_to podcasts_path
-  #end
+  test "should show podcast" do
+    get :show, { id: @podcast, format: :json }
+    assert_response :success
+  end
 end
