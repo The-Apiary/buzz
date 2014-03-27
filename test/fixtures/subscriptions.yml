@@ -1,9 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  podcast_id: 
-  user_id: 
+  podcast: radiolab
+  user: active
 
 two:
-  podcast_id: 
-  user_id: 
+  podcast: radiolab
+  user: facebook
+
+three:
+  podcast: news
+  user: active

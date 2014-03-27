@@ -1,11 +1,5 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+radiolab:
+  title: Radio Lab
 
-one:
-  title: MyString
-  image_url: MyString
-  feed_url: MyString
-
-two:
-  title: MyString
-  image_url: MyString
-  feed_url: MyString
+news:
+  title: News

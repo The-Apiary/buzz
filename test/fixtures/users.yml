@@ -1,7 +1,18 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  hash: MyString
 
-two:
-  hash: MyString
+active:
+  id_hash: <%= User.new_hash %>
+  last_login: <%= 1.week.ago %>
+
+inactive:
+  id_hash: <%= User.new_hash %>
+  last_login: <%= 1.month.ago + 100 %>
+
+facebook:
+  id_hash: <%= User.new_hash %>
+  name: <%= Faker::Name.name %>
+  provider: facebook
+  oauth_token: EAAE9hbnhqZAkBAPpgCrMf19PpL9ZAr0f209uMJ15NJJ88COEdZnxi5l63ZAsmSqOZADCK1mwpw8hEZBzIznE8VI8JvmV1lGxxLDdGZCZCRXdHYMVkHWN6oYgvXgE6W2ylxmqpLTYfpKZAziTNKQK1UV0GyqPWpwiFKPjNTfV5opkAsvFvE440oFlT
+  oauth_expires_at: <%= 1.week.from_now %>
+  uid: 2132362849

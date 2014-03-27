@@ -5,7 +5,7 @@ class Api::V1::PodcastsController < ApplicationController
   # GET /podcasts
   # GET /podcasts.json
   def index
-    @podcasts = current_user.podcasts.limit(params[:limit]).offset(params[:offset])
+    @podcasts = current_user.podcasts
   end
 
   # GET /podcasts/1
