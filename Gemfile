@@ -33,6 +33,7 @@ gem 'jbuilder', '~> 1.2' # Build JSON APIs with ease TODO: I think I don't need 
 
 group :test do
   gem 'faker'
+  gem 'factory_girl_rails'
 end
 
 group :doc do
