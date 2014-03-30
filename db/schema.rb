@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140326171810) do
+ActiveRecord::Schema.define(version: 20140327015316) do
 
   create_table "episode_data", force: true do |t|
     t.integer "episode_id"
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 20140326171810) do
     t.string   "name"
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
+    t.datetime "last_login",       default: '2014-03-27 01:59:26'
   end
 
 end

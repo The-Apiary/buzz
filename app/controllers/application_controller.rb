@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   end
 
   def signin user
+    user.login
     session[:user_id] = user.id
     @user = user
   end

@@ -3,4 +3,6 @@
 
 every 2.hours do
  rake "feeds:update"
+ rake "users:prune"
 end
+
