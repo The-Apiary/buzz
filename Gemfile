@@ -10,6 +10,7 @@ gem 'turbolinks'
 
 gem 'rails_12factor', group: :production # Heroku needs this
 
+
 # Facebook login
 gem 'omniauth-facebook'
 
@@ -33,6 +34,12 @@ gem 'emblem-rails'             # Use Emblem for handlebars templates TODO: repla
 gem 'uglifier', '>= 1.3.0'     # Use Uglifier as compressor for JavaScript assets
 
 gem 'jbuilder', '~> 1.2' # Build JSON APIs with ease TODO: I think I don't need this, serializers does the same thing
+gem 'yajl-ruby'
+
+group :test do
+  gem 'faker'
+  gem 'factory_girl_rails'
+end
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -46,5 +53,3 @@ gem 'debugger', group: [:development, :test]
 gem 'quiet_assets', :group => :development
 
 
-# Javacript Runtime
-gem 'therubyracer'

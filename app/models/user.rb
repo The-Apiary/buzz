@@ -55,6 +55,19 @@ class User < ActiveRecord::Base
     return user
   end
 
+  # Removes inactive anonymous users
+  def self.prune! time
+      inactive_users = prunable_users time
+
+      message = "Destroying #{inactive_users.count} inactive users"
+      Rails.logger.info message
+  end
+
+  def self.prunable_users time
+    User.anonymous.inactive_since(time)
+  end
+
+
   private
 
   #-- Private class mehtods

@@ -2,11 +2,7 @@ namespace :users do
   desc "Removes anonymous users that haven't logged in in the past week"
   task :prune => :environment do
     Rails.logger.tagged(:rake, :users, :prune) {
-      inactive_users = User.anonymous.inactive_since(1.month.ago)
-
-      message = "Destroying #{inactive_users.count} inactive users"
-      Rails.logger.info message
-      puts message
+      User.prune! 1.month.ago
     }
   end
 

@@ -8,7 +8,7 @@ Buzz::Application.routes.draw do
   get 'auth/:provider/callback' => 'sessions#create'
   get 'auth/failure' => redirect('/')
 
-  namespace :api do
+  namespace :api, defaults: { format: :json } do
     namespace :v1 do
       get 'search' => 'search#search'
       resources :episodes
