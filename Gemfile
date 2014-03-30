@@ -15,7 +15,7 @@ gem 'omniauth-facebook'
 
 #:: Database
 gem 'pg'      # Postgres database for heroku
-gem 'rails_12factor'
+gem 'rails_12factor', group: :production
 
 
 #:: Javascripts
