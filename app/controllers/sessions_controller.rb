@@ -5,10 +5,11 @@ class SessionsController < ApplicationController
 
     if id_hash_params.any?
       @user = user_from_id_hash
-      @remember_me ||= params[:remember_me]
+      @remember_me ||= (params[:remember_me] == "true")
     elsif facebook_params
       @user = user_from_facebook current_user
-      @remember_me ||= request.env['omniauth.params']['remember_me'] == "true"
+      @remember_me ||= 
+        (request.env['omniauth.params']['remember_me'] == "true")
     else
       @user = nil
     end

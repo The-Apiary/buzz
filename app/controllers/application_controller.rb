@@ -18,6 +18,10 @@ class ApplicationController < ActionController::Base
       cookies[:auth_token] = user.id_hash
     end
 
+    logger.tagged(:signin) {
+      logger.info "#{user.id_hash} signed in. rememberd: #{remember_me}"
+    }
+
     @user = user
   end
 
