@@ -4,7 +4,7 @@ class Api::V1::PodcastsControllerTest < ActionController::TestCase
   setup do
     # Login user one
     @current_user = create(:user)
-    session[:user_id] = @current_user.id
+    signin @current_user
   end
 
   test 'should get index' do

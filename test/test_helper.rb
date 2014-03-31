@@ -13,4 +13,8 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
   include FactoryGirl::Syntax::Methods
+
+  def signin(user)
+    cookies[:auth_token] = user.id_hash
+  end
 end
