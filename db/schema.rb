@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140327015316) do
+ActiveRecord::Schema.define(version: 20140331051541) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "episode_data", force: true do |t|
     t.integer "episode_id"
@@ -20,7 +23,7 @@ ActiveRecord::Schema.define(version: 20140327015316) do
     t.integer "user_id"
   end
 
-  add_index "episode_data", ["user_id"], name: "index_episode_data_on_user_id"
+  add_index "episode_data", ["user_id"], name: "index_episode_data_on_user_id", using: :btree
 
   create_table "episodes", force: true do |t|
     t.string   "title"
@@ -35,7 +38,7 @@ ActiveRecord::Schema.define(version: 20140327015316) do
     t.integer  "duration"
   end
 
-  add_index "episodes", ["podcast_id"], name: "index_episodes_on_podcast_id"
+  add_index "episodes", ["podcast_id"], name: "index_episodes_on_podcast_id", using: :btree
 
   create_table "podcasts", force: true do |t|
     t.string   "title"
@@ -52,7 +55,7 @@ ActiveRecord::Schema.define(version: 20140327015316) do
     t.integer "user_id"
   end
 
-  add_index "queued_episodes", ["user_id"], name: "index_queued_episodes_on_user_id"
+  add_index "queued_episodes", ["user_id"], name: "index_queued_episodes_on_user_id", using: :btree
 
   create_table "subscriptions", force: true do |t|
     t.integer  "podcast_id"
@@ -62,8 +65,8 @@ ActiveRecord::Schema.define(version: 20140327015316) do
     t.text     "subscription_type", default: "Normal", null: false
   end
 
-  add_index "subscriptions", ["podcast_id"], name: "index_subscriptions_on_podcast_id"
-  add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id"
+  add_index "subscriptions", ["podcast_id"], name: "index_subscriptions_on_podcast_id", using: :btree
+  add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "id_hash"
@@ -75,6 +78,7 @@ ActiveRecord::Schema.define(version: 20140327015316) do
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
     t.datetime "last_login",       default: '2014-03-30 22:21:14'
+    t.string   "image"
   end
 
 end

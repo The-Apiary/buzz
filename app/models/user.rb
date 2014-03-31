@@ -37,17 +37,24 @@ class User < ActiveRecord::Base
     self.id_hash
   end
 
-  def self.from_omniauth(auth, link_user)
+  def self.from_omniauth(auth, link_user=nil)
     link_user = nil unless link_user.is_a? User
 
-    # Find existing omniauth user.
+    ##
+    # Find or create the user account to associate with
+    # this facebook account.
+    #
+    # 1. Look for existing facebook user.
+    # 2. Use the +link_user+ if it exists.
+    # 3. Create a new user.
     user = find_by(auth.slice(:provider, :uid)) ||
       link_user ||
       User.new
 
-    user.provider = auth.provider
-    user.uid = auth.uid
-    user.name = auth.info.name
+    user.image       = auth.info.image
+    user.provider    = auth.provider
+    user.uid         = auth.uid
+    user.name        = auth.info.name
     user.oauth_token = auth.credentials.token
     user.oauth_expires_at = Time.at(auth.credentials.expires_at)
     user.save!
