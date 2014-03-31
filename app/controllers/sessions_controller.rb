@@ -1,17 +1,22 @@
 class SessionsController < ApplicationController
 
   def create
-    # NOTE: This logs in a user using their id_hash, this method is being
-    # replaced with Oauth.
-    @user = if params[:id_hash]
-              user_from_id_hash
-            else
-              user_from_facebook current_user
-            end
+    @remember_me = false
+
+    if id_hash_params.any?
+      @user = user_from_id_hash
+      @remember_me ||= (params[:remember_me] == "true")
+    elsif facebook_params
+      @user = user_from_facebook current_user
+      @remember_me ||= 
+        (request.env['omniauth.params']['remember_me'] == "true")
+    else
+      @user = nil
+    end
 
     respond_to do |format|
       if @user
-        signin @user
+        signin @user, @remember_me
         format.html { redirect_to root_url }
         format.json { render json: :success }
       else
@@ -28,6 +33,14 @@ class SessionsController < ApplicationController
   end
 
   private
+
+  def id_hash_params
+    params.permit(:id_hash, :remember_me)
+  end
+
+  def facebook_params
+    params
+  end
 
   # Signs in a user by id_hash
   def user_from_id_hash

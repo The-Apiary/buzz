@@ -6,16 +6,26 @@ class ApplicationController < ActionController::Base
   private
 
   def current_user
-    @user ||= User.find_by_id(session[:user_id]) if session[:user_id]
+    @user ||= User.find_by_id_hash(cookies[:auth_token]) if cookies[:auth_token]
   end
 
-  def signin user
-    user.login
-    session[:user_id] = user.id
+  def signin(user, remember_me=false)
+    user.login # Sets the user's last login time to now.
+
+    if remember_me
+      cookies.permanent[:auth_token] = user.id_hash
+    else
+      cookies[:auth_token] = user.id_hash
+    end
+
+    logger.tagged(:signin) {
+      logger.info "#{user.id_hash} signed in. rememberd: #{remember_me}"
+    }
+
     @user = user
   end
 
   def signout
-    session[:user_id] = nil
+    cookies.delete(:auth_token)
   end
 end

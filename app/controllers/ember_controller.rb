@@ -1,5 +1,5 @@
 class EmberController < ApplicationController
   def player
-    signin (current_user || User.create)
+    signin User.create unless current_user
   end
 end
