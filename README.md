@@ -1,5 +1,25 @@
 Work in progress podcasting app built using Rails and Ember
 
+## Getting started
+
+### Database setup
+
+This project is using postgresql because that is the databse supported by
+Heroku. [Here are the postgres install instructions for Arch Linux](https://wiki.archlinux.org/index.php/Postgres)
+
+1. Install postgres from your package manager
+2. Switch to the `postgres` user
+   `$ sudo -i -u postgres`
+3. Initialize the postgres data store
+  `[posgres]$ initdb --locale en_US.UTF-8 -E UTF8 -D '/var/lib/postgres/data'`
+4. Start the postgres service (If you use Systemd the command is `systemctl start postgresql`)
+5. Create the postgres user
+  `[posgres]$ createuser --interactive`
+  Username:  `<your username>`
+  Superuser?: `n`
+  Create Databases: `y`
+  Create Rolls: `n`
+
 ## Updating podcast feeds
 
 ### Manually
