@@ -1,13 +1,9 @@
 namespace :dump do
   desc "Dumps feeds from heroku"
-  task :feeds do
+  task :feeds => :environment do
     feed_sql = "SELECT feed_url from podcasts"
 
-    # I'm not sure if the data needs to be included in the filename
-    # filename = "#{Time.now.strftime('%d-%m-%y')}_feeds_dump"
-    filename = "feeds_dump"
-    output_file = File.join [ Rails.root, "lib", "assets", filename ]
-
+    output_file = Rails.configuration.feed_dump_filename
     puts "Dumping feeds from heroku to #{output_file}"
 
     output = %x{echo '#{feed_sql}' | heroku pg:psql}

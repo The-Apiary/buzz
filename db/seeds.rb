@@ -1,44 +1,6 @@
-podcast_urls = [
-  'http://americanpublicmedia.publicradio.org/podcasts/xml/dinner-party/podcast.xml',
-  'http://bornyesterdaypodcast.com//rss',
-  'http://feeds.99percentinvisible.org/99percentinvisible',
-  'http://feeds.feedburner.com/SlateCultureGabfest?format=xml',
-  'http://feeds.feedburner.com/SlateLexiconValley',
-  'http://feeds.feedburner.com/WelcomeToNightVale',
-  'http://feeds.feedburner.com/dancarlin/history?format=xml',
-  'http://feeds.feedburner.com/risk-show/yWzy?format=xml',
-  'http://feeds.feedburner.com/tciafpodcast',
-  'http://feeds.feedburner.com/thetruthapm',
-  'http://feeds.prx.org/toe',
-  'http://feeds.soundcloud.com/users/soundcloud:users:13270730/sounds.rss',
-  'http://feeds.themoth.org/themothpodcast',
-  'http://feeds.thisamericanlife.org/talpodcast',
-  'http://feeds.wnyc.org/onthemedia',
-  'http://feeds.wnyc.org/radiolab',
-  'http://nerdist.libsyn.com/rss',
-  'http://rubyrogues.com/feed/',
-  'http://thrillingadventurehour.libsyn.com/rss',
-  'http://www.howstuffworks.com/podcasts/stuff-you-should-know.rss',
-  'http://www.kcrw.com/music/programs/mb/RSS',
-  'http://www.kcrw.com/news/programs/in/RSS',
-  'http://www.marketplace.org/node/all/podcast.xml',
-  'http://www.npr.org/rss/podcast.php?id=35',
-  'http://www.npr.org/rss/podcast.php?id=510184',
-  'http://www.npr.org/rss/podcast.php?id=510282',
-  'http://www.npr.org/rss/podcast.php?id=510294',
-  'http://www.npr.org/rss/podcast.php?id=510298',
-  'http://www.npr.org/rss/podcast.php?id=510299',
-  'http://www.startalkradio.net/feed/shows/',
-  'http://www.thesoundsinmyhead.com/rss.xml',
-  'http://www.mangledmeditations.me/Podcast.xml',
-  'http://feeds.feedburner.com/judgejohnhodgman',
-  'http://www.maximumfun.org/feeds/iw.xml',
-  'http://songexploder.libsyn.com/rss',
-  'http://selectedshortspri.pri.libsynpro.com/rss',
-  'http://www.qdnow.com/grammar.xml',
-  'http://feeds.feedburner.com/AmericasTestKitchenRadio',
-  'http://www.npr.org/rss/podcast.php?id=510071'
-]
+# Seed podcasts from the latest heroku dump.
+feeds_dump = Rails.configuration.feed_dump_filename
+podcast_urls = File.open(feeds_dump, 'r').each_line.map(&:strip)
 
 puts "Creating podcasts"
 podcast_urls.each do |url|
