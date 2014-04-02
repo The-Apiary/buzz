@@ -8,15 +8,12 @@ gem 'nokogiri' # xml/html parsing
 gem 'whenever' # Schedule and run tasks with cron
 gem 'turbolinks'
 
-
-
 # Facebook login
 gem 'omniauth-facebook'
 
 #:: Database
 gem 'pg'      # Postgres database for heroku
 gem 'rails_12factor', group: :production
-
 
 #:: Javascripts
 gem 'ember-rails'
@@ -34,6 +31,10 @@ gem 'uglifier', '>= 1.3.0'     # Use Uglifier as compressor for JavaScript asset
 
 gem 'jbuilder', '~> 1.2' # Build JSON APIs with ease TODO: I think I don't need this, serializers does the same thing
 gem 'yajl-ruby'          # Faster json engine
+
+group :test, :development do
+  gem 'heroku'
+end
 
 group :test do
   gem 'faker'

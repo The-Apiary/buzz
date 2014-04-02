@@ -27,6 +27,7 @@ GEM
       multi_json (~> 1.3)
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
+    addressable (2.3.6)
     arel (4.0.2)
     atomic (1.1.16)
     barber (0.4.2)
@@ -72,6 +73,7 @@ GEM
       ember-rails (>= 0.14.0)
     emblem-source (0.3.13)
     erubis (2.7.0)
+    excon (0.32.1)
     execjs (2.0.2)
     factory_girl (4.4.0)
       activesupport (>= 3.0.0)
@@ -91,6 +93,15 @@ GEM
       railties (~> 4.0.0)
     handlebars-source (1.3.0)
     hashie (2.0.5)
+    heroku (3.6.0)
+      heroku-api (~> 0.3.17)
+      launchy (>= 0.3.2)
+      netrc (~> 0.7.7)
+      rest-client (~> 1.6.1)
+      rubyzip
+    heroku-api (0.3.18)
+      excon (~> 0.27)
+      multi_json (~> 1.8)
     hike (1.2.3)
     i18n (0.6.9)
     jbuilder (1.5.3)
@@ -105,6 +116,8 @@ GEM
     jwt (0.1.11)
       multi_json (>= 1.5)
     kgio (2.9.2)
+    launchy (2.4.2)
+      addressable (~> 2.3)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -114,6 +127,7 @@ GEM
     multi_json (1.9.2)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
+    netrc (0.7.7)
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
     oauth2 (0.9.3)
@@ -161,6 +175,9 @@ GEM
     rake (10.2.1)
     rdoc (4.1.1)
       json (~> 1.4)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
+    rubyzip (1.1.2)
     sass (3.2.18)
     sass-rails (4.0.2)
       railties (>= 4.0.0, < 5.0)
@@ -215,6 +232,7 @@ DEPENDENCIES
   factory_girl_rails
   faker
   haml-rails
+  heroku
   jbuilder (~> 1.2)
   jquery-cdn
   nokogiri
