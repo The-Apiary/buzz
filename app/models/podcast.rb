@@ -18,12 +18,7 @@ class Podcast < ActiveRecord::Base
   # Create a new podcast from the passed url
   # Returns the new podcast
   def self.create_from_feed_url feed_url
-    begin
-      podcast_data = Podcast.parse_feed feed_url
-      Podcast.create podcast_data
-    rescue
-      Podcast.new feed_url: feed_url
-    end
+    Podcast.create (Podcast.parse_feed feed_url)
   end
 
   # Parse podcast and episode info from the feed.
