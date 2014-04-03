@@ -10,9 +10,13 @@ namespace :feeds do
 
       # Get old episodes to later diff against new episodes
       old_episodes = podcast.episodes.load.to_a
+      old_categories = podcast.categories.load.to_a
 
       #-- Update the podcast, and podcasts episodes
       podcast_data = Podcast.parse_feed podcast.feed_url
+      podcast_data[:categories] = podcast_data[:categories].map do |name|
+        Category.find_or_initialize_by(name: name)
+      end
       podcast.attributes = podcast_data
 
 
@@ -27,13 +31,22 @@ namespace :feeds do
       added_episodes = episodes - old_episodes
       removed_episodes = old_episodes - episodes
 
+      # Diff created/removed categories
+      categories = podcast.categories.load.to_a
+      added_categories = categories - old_categories
+      removed_categories = old_categories - categories
+
       #-- Print changes to podcast or episodes
       puts "-> #{title}"
       changed_attributes.each do |attr, was|
         puts "    #{attr}: #{was} -> #{podcast[attr]}"
       end
+
       puts "    Added #{added_episodes.count} episodes" if added_episodes.any?
       puts "    Removed #{removed_episodes.count} episodes" if removed_episodes.any?
+
+      puts "    Added #{added_categories.count} categories" if added_categories.any?
+      puts "    Removed #{removed_categories.count} categories" if removed_categories.any?
 
       #-- Log changes to podcast or episodes
       update_messages = Array.new

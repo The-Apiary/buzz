@@ -2,6 +2,7 @@ class Podcast < ActiveRecord::Base
   #-- Associations
   has_many :episodes, inverse_of: :podcast, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
+  has_and_belongs_to_many :categories
 
   accepts_nested_attributes_for :episodes, reject_if: proc { |ea| !Episode.new(ea).valid? }
 
@@ -13,12 +14,25 @@ class Podcast < ActiveRecord::Base
   default_scope { order :title }
   scope :alphabetic, -> { order :title }
 
+  def add_category name
+    new_cat = Category.where(name: name).first_or_create
+    categories << new_cat unless categories.include? new_cat
+
+    return categories
+  end
+
   #-- Public class mehtods
 
   # Create a new podcast from the passed url
   # Returns the new podcast
   def self.create_from_feed_url feed_url
-    Podcast.create (Podcast.parse_feed feed_url)
+    podcast_data = Podcast.parse_feed feed_url
+    podcast_data[:categories] =
+      podcast_data[:categories].uniq.map { |name| Category.find_or_initialize_by name: name }
+
+    podcast = Podcast.create podcast_data
+
+    return podcast
   end
 
   # Parse podcast and episode info from the feed.
@@ -61,7 +75,7 @@ class Podcast < ActiveRecord::Base
 
     #-- Categories
 
-    categories = []
+    categories = Array.new
 
     ## <media:category>___</media:category>
     begin

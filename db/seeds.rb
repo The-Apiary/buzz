@@ -10,8 +10,9 @@ podcast_urls.each do |url|
 
   puts "-> title: #{podcast.title}"
   puts "    feed_url: #{podcast.feed_url}"
-  puts "    image_url: #{podcast.image_url}"
+  puts "   image_url: #{podcast.image_url}"
   puts "    episodes: #{podcast.episodes.count}"
+  puts "  categories: #{podcast.categories.count}"
 end
 
 puts "Now #{Podcast.count} podcasts"
