@@ -59,6 +59,29 @@ class Podcast < ActiveRecord::Base
       logger.tagged('Update Feeds', parsed_feed[:title]) { logger.warn "Failed to get image." }
     end
 
+    #-- Categories
+
+    categories = []
+
+    ## <media:category>___</media:category>
+    begin
+      categories += feed_giri.xpath('//channel/media:category').map(&:text).to_a
+    rescue Nokogiri::XML::XPath::SyntaxError
+      logger.tagged('Update Feeds', parsed_feed[:title]) { logger.warn "Failed to get media:category." }
+    end
+
+    ## <itunes:category text="___">
+    begin
+      categories += feed_giri.xpath('//channel/itunes:category').map { |node| node[:text] }
+    rescue Nokogiri::XML::XPath::SyntaxError
+      logger.tagged('Update Feeds', parsed_feed[:title]) { logger.warn "Failed to get itunes:category." }
+    end
+
+    # Split strings with &'s or /'s into multiple categories
+    categories = categories.map { |c| c.split(/[\/&]/) }.flatten
+
+    parsed_feed[:categories] = categories.map(&:strip).uniq.reject(&:blank?)
+
     #-- Description
     parsed_feed[:description] = feed_giri.xpath('//channel/description').text
 
