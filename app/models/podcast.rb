@@ -1,4 +1,3 @@
-require 'open-uri'
 class Podcast < ActiveRecord::Base
   #-- Associations
   has_many :episodes, inverse_of: :podcast, dependent: :destroy
@@ -31,7 +30,7 @@ class Podcast < ActiveRecord::Base
   # Returns a hash object.
   def self.parse_feed feed_url
     parsed_feed = Hash.new
-    feed_xml = open feed_url
+    feed_xml = FeedCache.open feed_url
     feed_giri = Nokogiri::XML(feed_xml)
 
     #-- Feed_url
