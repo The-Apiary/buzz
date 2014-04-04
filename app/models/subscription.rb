@@ -1,6 +1,6 @@
 class Subscription < ActiveRecord::Base
   #-- Associations
-  belongs_to :podcast
+  belongs_to :podcast, counter_cache: true
   belongs_to :user
 
   #-- callbacks

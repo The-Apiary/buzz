@@ -1,5 +1,6 @@
+h3 Popular Podcasts
 each model
-  link-to 'podcasts.show' this.podcast
+  link-to 'podcasts.show' this
     .podcast
       .pull-left
         img src=image_url
