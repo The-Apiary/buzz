@@ -1,6 +1,6 @@
 %row
   .col-md-8
-    h3 Popular Podcasts
-    partial 'podcasts/list'
+    h3= name
+    render 'podcasts/list' podcasts
   .col-md-4
     render 'categories/index'

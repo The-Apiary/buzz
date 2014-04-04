@@ -1,0 +1,7 @@
+%h3 Categories
+each all
+  = link-to 'categories.show' this
+    span.badge= this.name
+else
+  | no categories
+

@@ -2,7 +2,7 @@ class Api::V1::CategoriesController < ApplicationController
   before_action :set_category
 
   def index
-    @categories = Categories.all
+    @categories = Category.all
   end
 
   def show
