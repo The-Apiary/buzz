@@ -37,9 +37,9 @@ class Podcast < ActiveRecord::Base
 
   # Parse podcast and episode info from the feed.
   # Returns a hash object.
-  def self.parse_feed feed_url
+  def self.parse_feed feed_url, ttl=1.hour
     parsed_feed = Hash.new
-    feed_xml = FeedCache.open feed_url
+    feed_xml = FeedCache.open feed_url, ttl
     feed_giri = Nokogiri::XML(feed_xml)
 
     #-- Feed_url

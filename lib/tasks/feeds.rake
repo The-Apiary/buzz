@@ -13,7 +13,8 @@ namespace :feeds do
       old_categories = podcast.categories.load.to_a
 
       #-- Update the podcast, and podcasts episodes
-      podcast_data = Podcast.parse_feed podcast.feed_url
+      # Pass 0 ttl to skip cache
+      podcast_data = Podcast.parse_feed podcast.feed_url, 0
       podcast_data[:categories] = podcast_data[:categories].map do |name|
         Category.find_or_initialize_by(name: name)
       end
