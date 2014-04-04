@@ -16,7 +16,7 @@ Buzz.SearchBarView = Ember.View.extend
       header:
         '''
         <div class="tt-header">
-          <a href="#/search/{{query}}">
+          <a href="#/search/{{escape query}}">
             <p>Search for {{query}}</p>
           </a>
         </div>
