@@ -5,7 +5,16 @@ class Api::V1::PodcastsController < ApplicationController
   # GET /podcasts
   # GET /podcasts.json
   def index
-    @podcasts = current_user.podcasts
+    if params[:subscribed]
+      @podcasts = current_user.podcasts.includes(:categories)
+    elsif params[:popular]
+      @podcasts = Podcast.popular
+    elsif params[:ids]
+      logger.tagged('test') { logger.info  params[:ids] }
+      @podcasts = Podcast.where(id: params[:ids])
+    else
+      render json: { error: "Could not process #{params}" }, status: :unprocessable_entity
+    end
   end
 
   # GET /podcasts/1

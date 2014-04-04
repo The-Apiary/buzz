@@ -4,7 +4,7 @@
 #Buzz.PodcastsController = Ember.ObjectController.extend()
 
 #:: Unimplemented Podcasts Index Controller
-#Buzz.PodcastsIndexController = Ember.ObjectController.extend()
+#Buzz.PodcastsIndexController = Ember.ArrayController.extend
 
 #:: Podcasts Show Controller
 Buzz.PodcastsShowController = Ember.ObjectController.extend

@@ -4,6 +4,9 @@
 
   h3.media-heading
     | {{title}}
+    div.categories: each categories
+      = link-to 'categories.show' this
+        span.badge= this
 
 .podcast-buttons
   .btn-group.btn-group-justified
@@ -32,6 +35,7 @@
           li: a{action 'set_type' this}: = this
 
 p {{description}}
+
 
 
 render 'episode_list' filtered_episodes

@@ -1,0 +1,6 @@
+%row
+  .col-md-8
+    h3 Popular Podcasts
+    partial 'podcasts/list'
+  .col-md-4
+    render 'categories/index'

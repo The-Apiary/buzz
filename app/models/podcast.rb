@@ -13,12 +13,17 @@ class Podcast < ActiveRecord::Base
   #-- Scopes
   default_scope { order :title }
   scope :alphabetic, -> { order :title }
+  scope :popular, -> { order 'subscriptions_count desc' }
 
   def add_category name
     new_cat = Category.where(name: name).first_or_create
     categories << new_cat unless categories.include? new_cat
 
     return categories
+  end
+
+  def category_names
+    categories.map(&:name)
   end
 
   #-- Public class mehtods
