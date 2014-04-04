@@ -5,6 +5,7 @@
   h3.media-heading
     | {{title}}
     div.categories: each categories
+      = link-to 'categories' this
         span.badge= this
 
 .podcast-buttons
