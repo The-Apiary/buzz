@@ -11,14 +11,15 @@ Heroku. [Here are the postgres install instructions for Arch Linux](https://wiki
 2. Switch to the `postgres` user
    `$ sudo -i -u postgres`
 3. Initialize the postgres data store
-  `[posgres]$ initdb --locale en_US.UTF-8 -E UTF8 -D '/var/lib/postgres/data'`
-4. Start the postgres service (If you use Systemd the command is `systemctl start postgresql`)
+  `[postgres]$ initdb --locale en_US.UTF-8 -E UTF8 -D '/var/lib/postgres/data'`
+4. Start the postgres service (If you use Systemd the command is `[you] $ systemctl start postgresql`)
 5. Create the postgres user
-  `[posgres]$ createuser --interactive`
+  `[postgres]$ createuser --interactive`
   Username:  `<your username>`
   Superuser?: `n`
   Create Databases: `y`
   Create Rolls: `n`
+6. `rake db:setup`
 
 ## Updating podcast feeds
 
