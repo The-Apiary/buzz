@@ -21,6 +21,10 @@ class Podcast < ActiveRecord::Base
     return categories
   end
 
+  def category_names
+    categories.pluck(:name)
+  end
+
   #-- Public class mehtods
 
   # Create a new podcast from the passed url
