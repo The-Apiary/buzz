@@ -5,8 +5,8 @@ class AddSubscriptionsCountToPodcast < ActiveRecord::Migration
     end
 
     Podcast.reset_column_information
-    Podcast.all.each do |pod|
-      pod.update_attribute :subscriptions_count, pod.subscriptions.count
+    Podcast.find_each do |pod|
+      Podcast.reset_counters pod.id, :subscriptions
     end
   end
 end
