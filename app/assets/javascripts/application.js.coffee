@@ -13,6 +13,9 @@
 # for more details see: http:#emberjs.com/guides/application/
 window.Buzz = Ember.Application.create()
 
+Handlebars.registerHelper 'escape', (value) ->
+  return escape(value)
+
 Ember.Handlebars.registerHelper 'link-to-li', (routeName, options) ->
   o_options = _(options).clone()
   o_options.hash = _(options.hash).clone()
