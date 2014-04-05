@@ -8,7 +8,7 @@ class Api::V1::PodcastsControllerTest < ActionController::TestCase
   end
 
   test 'should get popular podcasts' do
-    podcast = create(:podcast)
+    podcast = create(:radiolab)
     create(:subscription, podcast: podcast)
     create(:subscription, user: @current_user, podcast: podcast)
     get :index, {format: 'json', popular: true}
@@ -17,7 +17,7 @@ class Api::V1::PodcastsControllerTest < ActionController::TestCase
   end
 
   test 'should create new podcast' do
-    feed_url = attributes_for(:podcast)[:feed_url]
+    feed_url = attributes_for(:radiolab)[:feed_url]
     assert_difference('Podcast.count') do
       post :create, { podcast: { feed_url: feed_url }, format: :json }
       assert_response :success
@@ -26,7 +26,7 @@ class Api::V1::PodcastsControllerTest < ActionController::TestCase
   end
 
   test 'should not create duplicate podcast' do
-    podcast = create(:podcast)
+    podcast = create(:radiolab)
     assert_no_difference('Podcast.count') do
       post :create, { podcast: { feed_url: podcast.feed_url }, format: :json }
       assert_response :success
@@ -35,7 +35,7 @@ class Api::V1::PodcastsControllerTest < ActionController::TestCase
   end
 
   test "should show podcast" do
-    podcast = create(:podcast)
+    podcast = create(:radiolab)
     get :show, { id: podcast, format: :json }
     assert_response :success
     assert_equal assigns(:podcast), podcast
