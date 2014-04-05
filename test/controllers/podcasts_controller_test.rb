@@ -7,13 +7,13 @@ class Api::V1::PodcastsControllerTest < ActionController::TestCase
     signin @current_user
   end
 
-  test 'should get index' do
+  test 'should get popular podcasts' do
     podcast = create(:podcast)
     create(:subscription, podcast: podcast)
     create(:subscription, user: @current_user, podcast: podcast)
-    get :index, {format: 'json'}
+    get :index, {format: 'json', popular: true}
     assert_response :success
-    assert_equal assigns(:podcasts), @current_user.podcasts
+    assert_equal assigns(:podcasts), Podcast.popular
   end
 
   test 'should create new podcast' do
