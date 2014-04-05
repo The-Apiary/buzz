@@ -1,8 +1,10 @@
 FactoryGirl.define do
+
+
   factory :podcast do
-    title    "Podcast"
-    feed_url { "http://podcast.com/#{SecureRandom.urlsafe_base64}" }
-    image_url { "http://podcast.com/#{SecureRandom.urlsafe_base64}.img" }
+    sequence(:title)     { |n| "Podcast #{n}" }
+    sequence(:feed_url)  { |n| "http://podcast.com/#{n}" }
+    sequence(:image_url) { |n| "http://podcast.com/#{n}.img" }
     description "An invalid podcast"
 
     factory :radiolab do
