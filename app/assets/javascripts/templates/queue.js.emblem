@@ -3,4 +3,6 @@ h3 Queue
 with current_episode
   view Buzz.PlayerView
 each queued_episodes
-  render "episode" this.episode
+  .queued_episode draggable="true"
+    render "episode" this.episode
+  .drop-target
