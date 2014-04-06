@@ -160,7 +160,7 @@ class QueueManagerTest < ActiveSupport::TestCase
     qm.push e1
     qm.push e2
     assert_difference 'QueuedEpisode.count', 1 do
-      qe = qm.add_between(episode, after: e1, before: e2)
+      qe = qm.add_between(episode, e1, e2)
       assert_equal episode, qe.episode
     end
   end
@@ -177,11 +177,93 @@ class QueueManagerTest < ActiveSupport::TestCase
     qm.push e1
     qm.push e2
     assert_difference 'QueuedEpisode.count', 1 do
-      qm.add_between(episode, after: e1, before: e2)
+      qm.add_between(episode, e1, e2)
 
       assert_equal user.queued_episodes.first.episode, e1
       assert_equal user.queued_episodes.last.episode, e2
     end
+  end
+
+  #-- Add After
+
+  test "add_after: Should create queued episode after other episode" do
+    user = create(:user)
+    episode = create(:episode)
+    after = create(:episode)
+
+    qm = QueueManager.new(user)
+
+    4.times { qm.push(create(:episode)) }
+    qm.push(after)
+    4.times { qm.push(create(:episode)) }
+
+    assert_difference 'QueuedEpisode.count', 1 do
+      qm.add_after(episode, after)
+    end
+
+    after_idx = user.queued_episodes.index {|qe| qe.episode == after }
+    episode_idx = user.queued_episodes.index {|qe| qe.episode == episode }
+    assert_equal after_idx + 1, episode_idx
+  end
+
+  test "add_after: Should create queued episode after other episode at end of queue" do
+    user = create(:user)
+    episode = create(:episode)
+    after = create(:episode)
+
+    qm = QueueManager.new(user)
+
+    4.times { qm.push(create(:episode)) }
+    qm.push(after)
+
+    assert_difference 'QueuedEpisode.count', 1 do
+      qm.add_after(episode, after)
+    end
+
+    after_idx = user.queued_episodes.index {|qe| qe.episode == after }
+    episode_idx = user.queued_episodes.index {|qe| qe.episode == episode }
+    assert_equal after_idx + 1, episode_idx
+  end
+
+  #-- Add Before
+
+  test "add_before: Should create queued episode before other episode" do
+    user = create(:user)
+    episode = create(:episode)
+    before = create(:episode)
+
+    qm = QueueManager.new(user)
+
+    4.times { qm.push(create(:episode)) }
+    qm.push(before)
+    4.times { qm.push(create(:episode)) }
+
+    assert_difference 'QueuedEpisode.count', 1 do
+      qm.add_before(episode, before)
+    end
+
+    before_idx = user.queued_episodes.index {|qe| qe.episode == before }
+    episode_idx = user.queued_episodes.index {|qe| qe.episode == episode }
+    assert_equal before_idx - 1, episode_idx
+  end
+
+  test "add_before: Should create queued episode before other episode at beginning of queue" do
+    user = create(:user)
+    episode = create(:episode)
+    before = create(:episode)
+
+    qm = QueueManager.new(user)
+
+    qm.push(before)
+    4.times { qm.push(create(:episode)) }
+
+    assert_difference 'QueuedEpisode.count', 1 do
+      qm.add_before(episode, before)
+    end
+
+    before_idx = user.queued_episodes.index {|qe| qe.episode == before }
+    episode_idx = user.queued_episodes.index {|qe| qe.episode == episode }
+    assert_equal before_idx - 1, episode_idx
   end
 
   #-- Remove
@@ -210,7 +292,7 @@ class QueueManagerTest < ActiveSupport::TestCase
     user.queued_episodes.create(episode: e2, idx: 1)
 
     assert_difference 'user.queued_episodes.count' do
-      qm.add_between(create(:episode), after: e1, before: e2)
+      qm.add_between(create(:episode), e1, e2)
       assert_equal true, qm.rebased?
     end
   end

@@ -65,8 +65,9 @@ class QueueManager
     end
   end
 
+  ##
   # Add an episode between two other episodes.
-  def add_between(episode, after: after, before: before)
+  def add_between(episode, after, before)
     do_with_rebase_retry do
       idxs = [episode_index(after), episode_index(before)]
 
@@ -75,6 +76,28 @@ class QueueManager
       end
 
       move_to_index(episode, index(*idxs))
+    end
+  end
+
+  ##
+  # Add an episode after another episode
+  def add_after episode, after
+    do_with_rebase_retry do
+      after_idx = episode_index(after)
+      other_idx = idx_after(after_idx)
+
+      move_to_index episode, index(after_idx, other_idx)
+    end
+  end
+
+  ##
+  # Add an episode before another episode
+  def add_before episode, before
+    do_with_rebase_retry do
+      before_idx = episode_index(before)
+      other_idx = idx_before(before_idx)
+
+      move_to_index episode, index(other_idx, before_idx)
     end
   end
 
@@ -191,6 +214,24 @@ class QueueManager
   # Get the index between the first episode and min value
   def head_index
     index(QueueManager.min_idx, queued_episodes.first.try(:idx) || QueueManager.max_idx)
+  end
+
+  ##
+  # The index of the episode after the passed episdoe
+  def idx_after idx
+    queued_episodes
+      .where('idx > ?', idx)
+      .order('idx asc')
+      .first.try(:idx) || QueueManager.max_idx
+  end
+
+  ##
+  # The index of the episode before the passed episdoe
+  def idx_before idx
+    queued_episodes
+      .where('idx < ?', idx)
+      .order('idx desc')
+      .first.try(:idx) || QueueManager.min_idx
   end
 
   ##
