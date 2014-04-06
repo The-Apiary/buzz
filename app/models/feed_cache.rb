@@ -37,13 +37,10 @@ class FeedCache
   def self.open feed, ttl=@@default_ttl
     create_cache
 
-    Rails.logger.tagged(:feed_cache) { Rails.logger.info cache_file(feed) }
 
     unless cached?(feed, ttl)
-      Rails.logger.tagged(:feed_cache, :miss) { Rails.logger.info feed }
       get(feed)
     else
-      Rails.logger.tagged(:feed_cache, :hit) { Rails.logger.info feed }
       Kernel.open cache_file(feed)
     end
 
