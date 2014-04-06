@@ -215,18 +215,18 @@ class QueueManagerTest < ActiveSupport::TestCase
     end
   end
 
-  #test "Should rebase when tail gets too crowded" do
-  #  user = create(:user)
-  #  qm = QueueManager.new(user)
+  test "Should rebase when tail gets too crowded" do
+    user = create(:user)
+    qm = QueueManager.new(user)
 
-  #  e = create(:episode)
-  #  user.queued_episodes.create(episode: e, idx: QueueManager.max_idx)
+    e = create(:episode)
+    user.queued_episodes.create(episode: e, idx: QueueManager.max_idx)
 
-  #  assert_difference 'user.queued_episodes.count', 1 do
-  #    qm.push(create(:episode))
-  #    assert_equal true, qm.rebased?
-  #  end
-  #end
+    assert_difference 'user.queued_episodes.count', 1 do
+      qm.push(create(:episode))
+      assert_equal true, qm.rebased?
+    end
+  end
 
   test "Should rebase when head gets too crowded" do
     user = create(:user)

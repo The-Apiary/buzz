@@ -52,28 +52,22 @@ class QueueManager
   ##
   # Add an episode to the end of the queue.
   def push(episode)
-    begin
+    do_with_rebase_retry do
       move_to_index episode, tail_index
-    rescue GapTooSmall
-      rebase
-      push episode
     end
   end
 
   ##
   # Add an episode to the end of teh queue.
   def shift(episode)
-    begin
+    do_with_rebase_retry do
       move_to_index episode, head_index
-    rescue GapTooSmall
-      rebase
-      shift episode
     end
   end
 
   # Add an episode between two other episodes.
   def add_between(episode, after: after, before: before)
-    begin
+    do_with_rebase_retry do
       idxs = [episode_index(after), episode_index(before)]
 
       if idxs.any?(&:nil?)
@@ -81,11 +75,9 @@ class QueueManager
       end
 
       move_to_index(episode, index(*idxs))
-    rescue GapTooSmall
-      rebase
-      add_between(episode, after: after, before: before)
     end
   end
+
 
   ##
   # Remove the episode from the queue.
@@ -112,7 +104,6 @@ class QueueManager
   ##
   # Evenly distributes the queued episodes throughout the address space
   def rebase
-    Rails.logger.tagged(:queue, :rebase) { Rails.logger.info "rebasing user #{@user.id}'s queue" }
     @was_rebased = true
     qes = queued_episodes
     range = (QueueManager.min_idx..QueueManager.max_idx)
@@ -143,7 +134,6 @@ class QueueManager
     end
 
     queued_episodes.reload
-    Rails.logger.tagged(:queue, :rebase) { Rails.logger.info "done rebasing user #{@user.id}'s queue" }
 
     return queued_episodes
   end
@@ -167,6 +157,27 @@ class QueueManager
       queued_episodes.find_by_episode_id(episode).try(:idx)
     else
       raise ArgumentError "episodes must be owned by user"
+    end
+  end
+
+  ##
+  # Try to run the block, if GapTooSmall is raised
+  # rebase and try again.
+  #
+  # Block should have no side effects before GapTooSmall might be raised.
+  def do_with_rebase_retry(&block)
+    begin
+      yield block
+    rescue GapTooSmall
+      Rails.logger.tagged(:queue, :rebase) do
+        Rails.logger.info "rebasing user #{@user.id}'s queue"
+
+        rebase
+
+        Rails.logger.info "done rebasing user #{@user.id}'s queue"
+
+        yield block
+      end
     end
   end
 
