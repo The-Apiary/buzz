@@ -1,5 +1,4 @@
 .add-before
   .drop-target
 .queued_episode draggable="true"
-  = idx
   render "episode" this.episode

@@ -4,6 +4,15 @@ Buzz.QueueController = Ember.ArrayController.extend
     Buzz.QueuedEpisode.find()
   ).property('Buzz.QueuedEpisode')
 
+  sorted_queued_episodes: (->
+    this.get('queued_episodes').sortBy('idx')
+  ).property('queued_episodes', 'queued_episodes.@each', 'queued_episodes.@each.idx')
+
+  current_episode: (->
+    this.get('sorted_queued_episodes.firstObject.episode')
+  ).property('sorted_queued_episodes.firstObject.episode')
+
+
   is_enqueued: (episode_id) ->
     this.get('queued_episodes').mapProperty('episode.id').contains(episode_id)
 
