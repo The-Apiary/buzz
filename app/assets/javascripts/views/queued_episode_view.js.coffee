@@ -24,6 +24,7 @@ Buzz.QueuedEpisodeView = Ember.View.extend
       before_id = self.get('controller.model.episode.id')
 
       qe.set('before_episode', before_id)
+      qe.set('idx', self.get('idx') - 0.5)
       qe.save()
 
 
@@ -38,7 +39,4 @@ Buzz.QueuedEpisodeView = Ember.View.extend
     #-- Prevent default action to allow drop
     this.$('.drop-target').bind 'dragover', (e) ->
       e.preventDefault()
-
-  willDestroyElement: () ->
-    console.log 'remove'
 

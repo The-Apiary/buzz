@@ -3,5 +3,5 @@ h3 Queue
 .queue
   with current_episode
     view Buzz.PlayerView
-  each sorted_queued_episodes
+  each queued_episodes
     render 'queued_episode' this
