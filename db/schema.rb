@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140404164328) do
+ActiveRecord::Schema.define(version: 20140405201651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,13 @@ ActiveRecord::Schema.define(version: 20140404164328) do
   end
 
   add_index "episode_data", ["user_id"], name: "index_episode_data_on_user_id", using: :btree
+
+  create_table "episode_queues", force: true do |t|
+    t.integer  "user_id"
+    t.string   "episodes",   default: [], array: true
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "episodes", force: true do |t|
     t.string   "title"
@@ -63,6 +70,7 @@ ActiveRecord::Schema.define(version: 20140404164328) do
   create_table "queued_episodes", force: true do |t|
     t.integer "episode_id"
     t.integer "user_id"
+    t.integer "idx",        default: 0
   end
 
   add_index "queued_episodes", ["user_id"], name: "index_queued_episodes_on_user_id", using: :btree

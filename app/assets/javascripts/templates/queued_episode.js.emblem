@@ -1,0 +1,4 @@
+.add-before
+  .drop-target
+.queued_episode draggable="true"
+  render "episode" this.episode
