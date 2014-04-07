@@ -75,7 +75,7 @@ class Podcast < ActiveRecord::Base
         parsed_feed[:image_url] = image_giri[:href] unless image_giri.nil?
       end
     rescue
-      logger.tagged('Update Feeds', parsed_feed[:title]) { logger.warn "Failed to get image." }
+      logger.tagged('Update Feeds', parsed_feed[:title]) { logger.debug "Failed to get image." }
     end
 
     #-- Categories
@@ -86,14 +86,14 @@ class Podcast < ActiveRecord::Base
     begin
       categories += feed_giri.xpath('//channel/media:category').map(&:text).to_a
     rescue Nokogiri::XML::XPath::SyntaxError
-      logger.tagged('Update Feeds', parsed_feed[:title]) { logger.warn "Failed to get media:category." }
+      logger.tagged('Update Feeds', parsed_feed[:title]) { logger.debug "Failed to get media:category." }
     end
 
     ## <itunes:category text="___">
     begin
       categories += feed_giri.xpath('//channel/itunes:category').map { |node| node[:text] }
     rescue Nokogiri::XML::XPath::SyntaxError
-      logger.tagged('Update Feeds', parsed_feed[:title]) { logger.warn "Failed to get itunes:category." }
+      logger.tagged('Update Feeds', parsed_feed[:title]) { logger.debug "Failed to get itunes:category." }
     end
 
     # Split strings with &'s or /'s into multiple categories
