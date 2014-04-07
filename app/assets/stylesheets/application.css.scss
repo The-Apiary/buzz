@@ -23,6 +23,11 @@
   z-index: -1;
 }
 
+.queue
+  .episode, .podcast {
+    margin: 0 0;
+ }
+
 .episode, .podcast {
   height: 32;
   overflow: hidden;
@@ -72,5 +77,21 @@
     &:not(:last-child) {
       border-bottom: 1px solid #b8c3c9;
     }
+  }
+}
+
+.add-after {
+  &.over {
+    background-color: gray;
+    height: 40px;
+  }
+  height: 10px;
+  transition: height 0.25s, background-color 0.25s;
+  .drop-target {
+    position: relative;
+    transition: height 0.25s;
+    width: 100%;
+    top: -15px;
+    height: 45px;
   }
 }
