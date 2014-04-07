@@ -13,11 +13,14 @@ Buzz.PlayerView = Ember.View.extend
 
     # Set the current position in the current track
     player.addEventListener 'timeupdate', (event) ->
-      self.get('controller').send('setCurrentPosition', this.currentTime)
+      if self.get('controller')
+        self.get('controller').send('setCurrentPosition', this.currentTime)
+
 
     # Set the current tracks durration
     player.addEventListener 'durationchange', (event) ->
-      self.get('controller').send('setDuration', this.duration)
+      if self.get('controller')
+        self.get('controller').send('setDuration', this.duration)
 
     # play next track
     player.addEventListener 'ended', (event) ->

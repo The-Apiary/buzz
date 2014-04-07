@@ -27,10 +27,9 @@ Buzz.QueuedEpisodeView = Ember.View.extend
       qe.set('idx', self.get('idx') - 0.5)
       qe.save()
 
-
-
     #-- Highlight drop areas.
-    this.$('.drop-target').bind 'dragenter', ->
+    this.$('.drop-target').bind 'dragenter', (e) ->
+      console.log e
       this.parentNode.classList.add('over')
 
     this.$('.drop-target').bind 'dragleave', ->
