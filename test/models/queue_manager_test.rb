@@ -95,6 +95,20 @@ class QueueManagerTest < ActiveSupport::TestCase
     end
   end
 
+  test "push: Should return the modified queued episode" do
+    user = create(:user)
+    episode = create(:episode)
+    other = create(:episode)
+
+    qm = QueueManager.new(user)
+    qm.push(other)
+
+    qe = qm.push episode
+
+    assert_instance_of QueuedEpisode, qe
+    assert episode, qe.episode
+  end
+
   #-- Shift
 
   test "shift: Should create queued episodes" do
@@ -146,6 +160,20 @@ class QueueManagerTest < ActiveSupport::TestCase
     end
   end
 
+  test "shift: Should return the modified queued episode" do
+    user = create(:user)
+    episode = create(:episode)
+    other = create(:episode)
+
+    qm = QueueManager.new(user)
+    qm.push(other)
+
+    qe = qm.shift episode
+
+    assert_instance_of QueuedEpisode, qe
+    assert episode, qe.episode
+  end
+
   #-- Add between
 
   test "add_between: Should create queeud episode" do
@@ -182,6 +210,22 @@ class QueueManagerTest < ActiveSupport::TestCase
       assert_equal user.queued_episodes.first.episode, e1
       assert_equal user.queued_episodes.last.episode, e2
     end
+  end
+
+  test "add_between: Should return the modified queued episode" do
+    user = create(:user)
+    episode = create(:episode)
+    before = create(:episode)
+    after = create(:episode)
+
+    qm = QueueManager.new(user)
+    qm.push(before)
+    qm.push(after)
+
+    qe = qm.add_between episode, after, before
+
+    assert_instance_of QueuedEpisode, qe
+    assert episode, qe.episode
   end
 
   #-- Add After
@@ -225,6 +269,20 @@ class QueueManagerTest < ActiveSupport::TestCase
     assert_equal after_idx + 1, episode_idx
   end
 
+  test "add_after: Should return the modified queued episode" do
+    user = create(:user)
+    episode = create(:episode)
+    after = create(:episode)
+
+    qm = QueueManager.new(user)
+    qm.push(after)
+
+    qe = qm.add_after episode, after
+
+    assert_instance_of QueuedEpisode, qe
+    assert episode, qe.episode
+  end
+
   #-- Add Before
 
   test "add_before: Should create queued episode before other episode" do
@@ -264,6 +322,20 @@ class QueueManagerTest < ActiveSupport::TestCase
     before_idx = user.queued_episodes.index {|qe| qe.episode == before }
     episode_idx = user.queued_episodes.index {|qe| qe.episode == episode }
     assert_equal before_idx - 1, episode_idx
+  end
+
+  test "add_before: Should return the modified queued episode" do
+    user = create(:user)
+    episode = create(:episode)
+    before = create(:episode)
+
+    qm = QueueManager.new(user)
+    qm.push(before)
+
+    qe = qm.add_before episode, before
+
+    assert_instance_of QueuedEpisode, qe
+    assert episode, qe.episode
   end
 
   #-- Remove

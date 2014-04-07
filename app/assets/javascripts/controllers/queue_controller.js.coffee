@@ -4,10 +4,6 @@ Buzz.QueueController = Ember.ArrayController.extend
     Buzz.QueuedEpisode.find()
   ).property('Buzz.QueuedEpisode')
 
-  current_episode: (->
-    this.get('queued_episodes.firstObject.episode')
-  ).property('queued_episodes', 'queued_episodes.length')
-
   is_enqueued: (episode_id) ->
     this.get('queued_episodes').mapProperty('episode.id').contains(episode_id)
 
@@ -19,6 +15,7 @@ Buzz.QueueController = Ember.ArrayController.extend
     queued_episode.save()
 
   enqueue: (episode) ->
+    console.log episode
     queued_episode = Buzz.QueuedEpisode.createRecord episode: episode
     queued_episode.save()
 
