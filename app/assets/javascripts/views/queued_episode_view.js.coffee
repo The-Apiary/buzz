@@ -1,12 +1,16 @@
 Buzz.QueuedEpisodeView = Ember.View.extend
   templateName: 'queued_episode'
+  dragging: null
+
   didInsertElement: () ->
     self = this
 
     #-- Drag start and end events
 
+    console.log this.$('.queued_episode').prev()
     this.$('.queued_episode[draggable=true]').bind 'dragstart', (e) ->
       this.style.opacity = '0.4'
+      self.set 'dragging', true
 
       # Store the episode id in the drag event so it can be retreved in
       # the drop event.
@@ -14,6 +18,7 @@ Buzz.QueuedEpisodeView = Ember.View.extend
 
     this.$('.queued_episode[draggable=true]').bind 'dragend', ->
       this.style.opacity = '1.0'
+      self.set 'dragging', false
 
       $('.drop-target').each () ->
         this.parentNode.classList.remove('over')
@@ -29,7 +34,8 @@ Buzz.QueuedEpisodeView = Ember.View.extend
 
     #-- Highlight drop areas.
     this.$('.drop-target').bind 'dragenter', (e) ->
-      this.parentNode.classList.add('over')
+      unless self.get 'dragging'
+        this.parentNode.classList.add('over')
 
     this.$('.drop-target').bind 'dragleave', ->
       this.parentNode.classList.remove('over')
