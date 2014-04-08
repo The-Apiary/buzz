@@ -1,6 +1,7 @@
 Buzz.QueueController = Ember.ArrayController.extend
   sortProperties: ['idx']
   current_episodeBinding: 'queued_episodes.firstObject.episode'
+
   model:(-> Buzz.QueuedEpisode.find()).property('Buzz.QueuedEpisode')
 
   queued_episodes: (->
@@ -32,7 +33,7 @@ Buzz.QueueController = Ember.ArrayController.extend
         current_episode.save()
 
         # Delete the queued episode, removing it from the queue
-        queued_episode = this.get('current_episode')
+        queued_episode = this.get('queued_episodes.firstObject')
         queued_episode.deleteRecord()
         queued_episode.save()
 
