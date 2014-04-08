@@ -38,8 +38,8 @@
               %li
                 -# Using window.location instead of a real link because
                   otherwise the ember app doesn't render after the redirect.
-                = link_to_function "New Account",
-                  "window.location = '#{signout_path}'"
+                %a(href='#' onclick="window.location='#{signout_path}'")
+                  Sign Out
     .row
       .col-md-2.col-sm-2
         %ul.nav.nav-pills.nav-stacked

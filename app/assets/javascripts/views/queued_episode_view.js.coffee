@@ -7,7 +7,6 @@ Buzz.QueuedEpisodeView = Ember.View.extend
 
     #-- Drag start and end events
 
-    console.log this.$('.queued_episode').prev()
     this.$('.queued_episode[draggable=true]').bind 'dragstart', (e) ->
       this.style.opacity = '0.4'
       self.set 'dragging', true
