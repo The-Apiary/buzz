@@ -60,11 +60,11 @@ namespace :feeds do
 
   desc "Dumps feeds from heroku"
   task :dump => :environment do
-    feed_sql = "SELECT feed_url from podcasts"
 
     output_file = Rails.configuration.feed_dump_filename
     puts "Dumping feeds from heroku to #{output_file}"
 
+    feed_sql = "SELECT feed_url from podcasts ORDER BY podcasts.feed_url"
     output = %x{echo '#{feed_sql}' | heroku pg:psql}
 
     # Drip sourounding marks that are not feeds.
