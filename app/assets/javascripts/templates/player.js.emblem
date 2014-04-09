@@ -1,4 +1,4 @@
 / NOTE TO SELF: stop commiting changes that disable autoplay, or mute this player.
 / stop using the developer environment to listen and setup then use production or the server.
 / Times Commited: 4
-audio src=audio_url controls="controls" autoplay="true"
+audio src=audio_url controls="controls" /autoplay="true"

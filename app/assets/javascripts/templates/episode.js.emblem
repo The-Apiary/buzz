@@ -2,10 +2,24 @@
   .pull-left
     img src=podcast.image_url
   .pull-right
-    if is_enqueued
-      span.glyphicon.glyphicon-minus{action "dequeue" this}
-    else
-      span.glyphicon.glyphicon-plus{action "enqueue" this}
+    .btn-group.btn-group-xs
+      .btn-group.btn-group-xs
+        button.btn.dropdown-toggle data-toggle='dropdown' title='Episode Options'
+          span.glyphicon.glyphicon-chevron-down
+        ul.dropdown-menu
+          li href='#'
+            a Play Now
+          li href='#'
+            a Play Later
+          li href='#'
+            a Mark Played
+      if is_enqueued
+        button.btn  title='Dequeue Episode'
+          span.glyphicon.glyphicon-minus{action "dequeue" this}
+      else
+        button.btn  title='Enqueue Episode'
+          span.glyphicon.glyphicon-plus{action "enqueue" this}
+
 
   span.episode-progress-bar style=percent_listened_width
   = link-to "episodes.show" this
