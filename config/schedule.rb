@@ -2,6 +2,7 @@
 # use -s 'environment=development' to run the tasks in development
 
 every 2.hours do
+ rake "heroku:maintain"
  rake "feeds:update"
  rake "users:prune"
 end
