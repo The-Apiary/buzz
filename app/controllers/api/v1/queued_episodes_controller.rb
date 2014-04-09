@@ -9,7 +9,11 @@ class Api::V1::QueuedEpisodesController < ApplicationController
 
   def create
     episode = Episode.find params[:queued_episode][:episode_id]
-    qe = @qm.push(episode)
+    if params[:queued_episode][:unshift]
+      qe = @qm.unshift(episode)
+    else
+      qe = @qm.push(episode)
+    end
 
     @queued_episode = qe
     render 'show'

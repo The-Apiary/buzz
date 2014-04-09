@@ -109,20 +109,20 @@ class QueueManagerTest < ActiveSupport::TestCase
     assert episode, qe.episode
   end
 
-  #-- Shift
+  #-- unshift
 
-  test "shift: Should create queued episodes" do
+  test "unshift: Should create queued episodes" do
     user = create(:user)
     episode = create(:episode)
 
     qm = QueueManager.new(user)
 
     assert_difference 'QueuedEpisode.count', 1 do
-      qm.shift(episode)
+      qm.unshift(episode)
     end
   end
 
-  test "shift: Should not create duplicate queued episodes" do
+  test "unshift: Should not create duplicate queued episodes" do
     user = create(:user)
     episode = create(:episode)
 
@@ -130,18 +130,18 @@ class QueueManagerTest < ActiveSupport::TestCase
 
     qm.push(episode)
     assert_no_difference 'QueuedEpisode.count' do
-      qm.shift(episode)
+      qm.unshift(episode)
     end
   end
 
-  test "shift: Should add episodes to the beginning of the queue" do
+  test "unshift: Should add episodes to the beginning of the queue" do
     user = create(:user)
     episode = create(:episode)
 
     qm = QueueManager.new(user)
     qm.push(create(:episode))
 
-    qe = qm.shift(episode)
+    qe = qm.unshift(episode)
     assert_equal user.queued_episodes.first, qe
     assert_equal 2, user.queued_episodes.count
   end
@@ -155,12 +155,12 @@ class QueueManagerTest < ActiveSupport::TestCase
     qm.push(create(:episode))
     qm.push(episode)
     assert_no_difference 'QueuedEpisode.count' do
-      qe = qm.shift(episode)
+      qe = qm.unshift(episode)
       assert_equal user.queued_episodes.first, qe
     end
   end
 
-  test "shift: Should return the modified queued episode" do
+  test "unshift: Should return the modified queued episode" do
     user = create(:user)
     episode = create(:episode)
     other = create(:episode)
@@ -168,7 +168,7 @@ class QueueManagerTest < ActiveSupport::TestCase
     qm = QueueManager.new(user)
     qm.push(other)
 
-    qe = qm.shift episode
+    qe = qm.unshift episode
 
     assert_instance_of QueuedEpisode, qe
     assert episode, qe.episode
@@ -390,7 +390,7 @@ class QueueManagerTest < ActiveSupport::TestCase
     user.queued_episodes.create(episode: e, idx: QueueManager.min_idx)
 
     assert_difference 'user.queued_episodes.count', 1 do
-      qm.shift(create(:episode))
+      qm.unshift(create(:episode))
       assert_equal true, qm.rebased?
     end
   end

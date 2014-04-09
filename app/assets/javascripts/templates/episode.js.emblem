@@ -7,18 +7,20 @@
         button.btn.dropdown-toggle data-toggle='dropdown' title='Episode Options'
           span.glyphicon.glyphicon-chevron-down
         ul.dropdown-menu
-          li href='#'
-            a Play Now
-          li href='#'
-            a Play Later
-          li href='#'
-            a Mark Played
+          li
+            a{action 'unshift'}  Play Now
+          li
+            a{action 'push'}  Play Later
+          li
+            a{action 'mark_played'} Mark Played
+          li
+            a{action 'reset'} Reset
       if is_enqueued
-        button.btn  title='Dequeue Episode'
-          span.glyphicon.glyphicon-minus{action "dequeue" this}
+        button.btn  title='Remove episode from queue'
+          span.glyphicon.glyphicon-minus{action "remove"}
       else
-        button.btn  title='Enqueue Episode'
-          span.glyphicon.glyphicon-plus{action "enqueue" this}
+        button.btn  title='Add episode to end of queue'
+          span.glyphicon.glyphicon-plus{action "push"}
 
 
   span.episode-progress-bar style=percent_listened_width
