@@ -10,4 +10,4 @@ Buzz.EpisodeListController = Ember.ArrayController.extend
       this.get('model').filter (episode) -> episode.get 'is_played'
     else
       this.get('model')
-  ).property('model', 'model.@each', 'played_filter')
+  ).property('model', 'model.@each.is_played', 'played_filter')

@@ -12,9 +12,13 @@
           li
             a{action 'push'}  Play Later
           li.divider
-          li.disabled
-            a{action 'mark_played'} Mark Played
-          li.disabled
+          if is_played
+            li
+              a{action 'set_played' false} Mark Unplayed
+          else
+            li
+              a{action 'set_played' true} Mark Played
+          li class=reset_enabled
             a{action 'reset'} Reset
       if is_enqueued
         button.btn  title='Remove episode from queue'
