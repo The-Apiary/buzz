@@ -23,7 +23,7 @@ Buzz.QueueController = Ember.ArrayController.extend
     # before getting it's real index from the server..
     queued_episode = Buzz.QueuedEpisode.createRecord
       episode: episode,
-      idx: Number.MAX_SAFE_INTEGER
+      idx: 9007199254740992
 
     queued_episode.save()
 
@@ -32,7 +32,7 @@ Buzz.QueueController = Ember.ArrayController.extend
     # beginning before getting it's real index from the server..
     queued_episode = Buzz.QueuedEpisode.createRecord
       episode: episode,
-      idx: Number.MIN_SAFE_INTEGER
+      idx: -9007199254740992
       unshift: true
 
     queued_episode.save()
