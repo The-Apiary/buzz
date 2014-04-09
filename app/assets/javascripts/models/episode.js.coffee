@@ -12,9 +12,11 @@ Buzz.Episode = DS.Model.extend
 
   # Set episode to unplayed state.
   reset: ->
-    this.set 'episode_data.current_position', 0
-    this.set 'episode_data.is_played', false
-    Ember.run.throttle this, 'save_episode_data', 10000
+    episode_data = this.get('episode_data')
+    episode_data.set('current_position', 0)
+    episode_data.set('is_played', 0)
+    episode_data.save()
+
 
   # Update this episodes user data,
   # or create the model if it doesn't exist.
@@ -104,4 +106,8 @@ Buzz.Episode = DS.Model.extend
   percent_listened_width: (->
     return "width: #{this.get('percent_listened')}%;"
   ).property('percent_listened')
+
+  reset_enabled: (->
+    'disabled' if this.get('current_position') == 0
+  ).property('current_position')
 

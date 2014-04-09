@@ -6,11 +6,16 @@ Buzz.EpisodeController = Ember.ObjectController.extend
   actions:
     remove: () ->
       this.get('controllers.queue').remove(this.get('model'))
+
     push: () ->
       this.get('controllers.queue').push(this.get('model'))
+
     unshift: () ->
       this.get('controllers.queue').unshift(this.get('model'))
-    mark_played: () ->
-      console.log('mark_played')
+
+    set_played: (bool) ->
+      console.log 'mark_played'
+      this.get('model').set('is_played', bool)
+
     reset: () ->
-      console.log('reset')
+      this.get('model').reset()
