@@ -11,9 +11,10 @@
             a{action 'unshift'}  Play Now
           li
             a{action 'push'}  Play Later
-          li
+          li.divider
+          li.disabled
             a{action 'mark_played'} Mark Played
-          li
+          li.disabled
             a{action 'reset'} Reset
       if is_enqueued
         button.btn  title='Remove episode from queue'
