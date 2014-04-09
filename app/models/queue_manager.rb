@@ -59,7 +59,7 @@ class QueueManager
 
   ##
   # Add an episode to the end of teh queue.
-  def shift(episode)
+  def unshift(episode)
     do_with_rebase_retry do
       move_to_index episode, head_index
     end
@@ -231,7 +231,7 @@ class QueueManager
     queued_episodes
       .where('idx < ?', idx)
       .order('idx desc')
-      .first.try(:idx) || QueueManager.min_idx
+      .last.try(:idx) || QueueManager.min_idx
   end
 
   ##

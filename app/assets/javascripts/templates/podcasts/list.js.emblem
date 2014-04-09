@@ -1,10 +1,11 @@
-each model
-  link-to 'podcasts.show' this
-    .podcast
-      .pull-left
-        img src=image_url
+ul.podcast-list.list-unstyled: each model
+  .clearfix
+    li: link-to 'podcasts.show' this
+      .podcast
+        .pull-left
+          img src=image_url
 
-      h5.media-heading
-        | {{title}}
+        h5.media-heading
+          | {{title}}
 else
   p No podcasts.
