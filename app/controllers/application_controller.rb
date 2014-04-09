@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   end
 
   def signin(user, remember_me=false)
-    user.login # Sets the user's last login time to now.
+    user.set_last_login # Sets the user's last login time to now.
 
     if remember_me
       cookies.permanent[:auth_token] = user.id_hash

@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
     name || id_hash
   end
 
-  def login
+  def set_last_login
     self.last_login = Time.now
     self.save
   end
