@@ -77,7 +77,7 @@ Buzz.Episode = DS.Model.extend
 
     # xx:xx:xx if hours present, xx:xx otherwise
     time = [minutes, seconds]
-    time.push hours if hours != 0
+    time.unshift hours if hours != 0
 
     time.map(pad).join(':')
 
