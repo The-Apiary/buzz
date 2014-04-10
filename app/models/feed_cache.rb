@@ -24,7 +24,7 @@ class FeedCache
     # Open returns a StringIO when the reponse is short.
     if tf.is_a? StringIO
       File.open(cache_file(feed), 'w') do |f|
-        tf.lines { |line| f.write(line) }
+        tf.each_line { |line| f.write(line) }
       end
     else
       FileUtils.cp(tf, cache_file(feed))
