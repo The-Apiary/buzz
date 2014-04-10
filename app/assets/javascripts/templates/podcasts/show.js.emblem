@@ -4,7 +4,7 @@
 
   h3.media-heading
     | {{title}}
-    div.categories: each categories
+    div.pull-right.categories: each categories
       = link-to 'categories.show' this
         span.badge= this
 
