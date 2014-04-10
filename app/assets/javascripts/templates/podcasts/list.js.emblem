@@ -1,4 +1,4 @@
-ul.podcast-list.list-unstyled: each model
+ul.podcast-list.list-unstyled: each
   .clearfix
     li: link-to 'podcasts.show' this
       .podcast

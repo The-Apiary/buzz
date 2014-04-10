@@ -9,3 +9,4 @@ Buzz.Podcast = DS.Model.extend
   categories:    DS.attr 'array'
   episodes:      DS.hasMany 'Buzz.Episode', async: true
   subscription:  DS.belongsTo 'Buzz.Subscription', async:true
+  subscriptions_count: DS.attr 'number'

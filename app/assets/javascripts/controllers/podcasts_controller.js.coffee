@@ -3,12 +3,13 @@
 #:: Unimplemented Podcasts controller (loaded for all podcasts controllers (show, new, ect.))
 #Buzz.PodcastsController = Ember.ObjectController.extend()
 
-#:: Unimplemented Podcasts Index Controller
-#Buzz.PodcastsIndexController = Ember.ArrayController.extend
+#:: Podcasts Index Controller
+Buzz.PodcastsIndexController = Ember.ArrayController.extend
+  sortProperties: ['subscriptions_count']
+  sortAscending: false
 
 #:: Podcasts Show Controller
 Buzz.PodcastsShowController = Ember.ObjectController.extend
-
   type_options: [ 'Normal', 'Serial', 'News' ]
 
   type: ( (key, type)->
