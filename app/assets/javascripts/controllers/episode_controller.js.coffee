@@ -14,7 +14,6 @@ Buzz.EpisodeController = Ember.ObjectController.extend
       this.get('controllers.queue').unshift(this.get('model'))
 
     set_played: (bool) ->
-      console.log 'mark_played'
       this.get('model').set('is_played', bool)
 
     reset: () ->
