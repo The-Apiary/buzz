@@ -18,7 +18,10 @@
           else
             li
               a{action 'set_played' true} Mark Played
-          li class=reset_enabled
+          / NOTE: The reset action is disabled for now.
+            When the currently playing episode is reset the episode should
+            start over, but I'm unsure the best way to do that.
+          /li class=reset_enabled
             a{action 'reset'} Reset
 
       if is_enqueued
