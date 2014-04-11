@@ -14,7 +14,14 @@ namespace :feeds do
 
       #-- Update the podcast, and podcasts episodes
       # Pass 0 ttl to skip cache
-      podcast_data = Podcast.parse_feed podcast.feed_url, 0
+      begin
+        podcast_data = Podcast.parse_feed podcast.feed_url, 0
+      rescue OpenURI::HTTPError => ex
+        puts "Could not reache feed #{ex.message}"
+        Rails.logger.tagged('feeds:update', start_time, podcast.title) { "Could not reache feed #{ex.message}" }
+        next
+      end
+
       podcast_data[:categories] = podcast_data[:categories].map do |name|
         Category.find_or_initialize_by(name: name)
       end
