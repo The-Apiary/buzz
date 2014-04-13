@@ -5,11 +5,9 @@ Buzz.PlayerView = Ember.View.extend
   bindControlEvents: (player) ->
     self = this
     player.addEventListener 'play', () ->
-      console.log 'play'
       self.set 'controller.is_playing', true
 
     player.addEventListener 'pause', () ->
-      console.log 'pause'
       self.set 'controller.is_playing', false
 
     player.addEventListener 'volumechange', () ->

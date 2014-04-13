@@ -12,7 +12,6 @@ Buzz.SigninController = Ember.ObjectController.extend
 
   actions:
     signin: ->
-      console.log this.get 'anon_id'
       $.ajax(
         url: '/signin.json'
         data: 

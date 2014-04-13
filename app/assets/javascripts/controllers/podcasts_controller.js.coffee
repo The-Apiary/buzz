@@ -15,9 +15,7 @@ Buzz.PodcastsShowController = Ember.ObjectController.extend
   type: ( (key, type)->
     if (type != undefined)
       subscription = this.get 'subscription'
-      console.log subscription
       if subscription
-        console.log 'stuff'
         subscription.set('subscription_type', type)
         subscription.save()
       return type
@@ -74,7 +72,6 @@ Buzz.PodcastsNewController = Ember.ObjectController.extend
   errors: []
 
   feedback: (->
-    console.log this.get('errors.length') > 0
     if this.get('errors.length') > 0
       return 'has-feedback has-error'
     else
