@@ -20,14 +20,20 @@ Buzz.Episode = DS.Model.extend
 
   # Update this episodes user data,
   # or create the model if it doesn't exist.
-  create_or_update_episode_data: (key, value) ->
+  create_or_update_episode_data: (key, value, options) ->
     episode_data = this.get('episode_data')
+
+    options ||= {}
+    _.defaults(options, throttled: true)
 
     if episode_data
       # Episode data exists, so update the key
       episode_data.set(key, value)
       # Only save every 10,000 microseconds
-      episode_data.direct_update(10000)
+      if options.throttled
+        episode_data.direct_update(10000)
+      else
+        episode_data.direct_update(0)
 
     else
       # Episode data doesn't exist, so create it.
@@ -43,7 +49,7 @@ Buzz.Episode = DS.Model.extend
   is_played: ( (key, is_played) ->
     # Setter
     if (is_played != undefined)
-      return this.create_or_update_episode_data(key, is_played)
+      return this.create_or_update_episode_data(key, is_played, throttled: false)
     # Getter
     else
       return this.get('episode_data.is_played') || false
