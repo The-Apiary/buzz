@@ -18,6 +18,7 @@
   else
     button.btn title="Volume" click=mute
       span.glyphicon.glyphicon-volume-up
+
 audio controls="controls" autoplay="true"
   source src=audio_url
   | Your browser can't play this podcast

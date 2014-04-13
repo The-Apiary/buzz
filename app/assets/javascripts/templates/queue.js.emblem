@@ -1,7 +1,8 @@
 h3 Queue
 
 .queue
-  render 'player' current_episode
+  with current_episode
+    render 'player' this
   ul.list-unstyled: each queued_episodes
     .clearfix
       li: render 'queued_episode' this
