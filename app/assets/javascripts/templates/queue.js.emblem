@@ -1,8 +1,7 @@
 h3 Queue
 
 .queue
-  with current_episode
-    view Buzz.PlayerView
+  render 'player' current_episode
   ul.list-unstyled: each queued_episodes
     .clearfix
       li: render 'queued_episode' this

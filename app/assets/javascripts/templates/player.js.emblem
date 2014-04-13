@@ -1,4 +1,23 @@
 / NOTE TO SELF: stop commiting changes that disable autoplay, or mute this player.
 / stop using the developer environment to listen and setup then use production or the server.
 / Times Commited: 6
-audio src=audio_url controls="controls" autoplay="true"
+.btn-group
+  if is_playing
+    button.btn title="Pause" click=pause
+      span.glyphicon.glyphicon-pause
+  else
+    button.btn title="Play" click=play
+      span.glyphicon.glyphicon-play
+
+  button.btn title="Skip" click=skip
+    span.glyphicon.glyphicon-step-forward
+
+  if is_muted
+    button.btn title="Volume" click=unmute
+      span.glyphicon.glyphicon-volume-off
+  else
+    button.btn title="Volume" click=mute
+      span.glyphicon.glyphicon-volume-up
+audio controls="controls" autoplay="true"
+  source src=audio_url
+  | Your browser can't play this podcast
