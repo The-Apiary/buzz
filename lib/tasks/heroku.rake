@@ -8,7 +8,7 @@ namespace :heroku do
     system 'rake feeds:dump'
 
     puts '> Pruning inavtive users'
-    system 'heroku run rake users:prune'
+    system 'heroku run rake users:stats users:prune'
   end
 end
 
