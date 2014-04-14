@@ -18,6 +18,10 @@
           %span.navbar-brand Buzz
         %form.navbar-form.navbar-left(role='search')
           {{ view 'Buzz.SearchBarView' }}
+
+        {{#with controllers.queue.current_episode }}
+        {{ render 'player' this }}
+        {{/with}}
         %ul.nav.navbar-nav.navbar-right
           %li.dropdown
             %a.dropdown-toggle(href="#" data-toggle="dropdown")

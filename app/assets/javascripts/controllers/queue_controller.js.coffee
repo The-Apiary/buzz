@@ -15,8 +15,9 @@ Buzz.QueueController = Ember.ArrayController.extend
     queued_episode = this.get('model').find (qe) ->
       qe.get('episode') == episode
 
-    queued_episode.deleteRecord()
-    queued_episode.save()
+    if queued_episode
+      queued_episode.deleteRecord()
+      queued_episode.save()
 
   push: (episode) ->
     # Idx is set to javascript's max int so it will be added to the end
@@ -36,24 +37,3 @@ Buzz.QueueController = Ember.ArrayController.extend
       unshift: true
 
     queued_episode.save()
-
-  actions:
-      markPlayed: () ->
-        current_episode = this.get 'current_episode'
-
-        # Mark the episode as played
-        current_episode.set 'is_played', true
-
-        # Delete the queued episode, removing it from the queue
-        queued_episode = this.get('queued_episodes.firstObject')
-        queued_episode.deleteRecord()
-        queued_episode.save()
-
-      setCurrentPosition: (position) ->
-        this.get('current_episode').set('current_position', position)
-
-      setDuration: (duration) ->
-        current_episode = this.get('current_episode')
-        if current_episode.get('duration') != duration
-          current_episode.set('duration', duration)
-          current_episode.save()
