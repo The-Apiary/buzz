@@ -1,24 +1,29 @@
 / NOTE TO SELF: stop commiting changes that disable autoplay, or mute this player.
 / stop using the developer environment to listen and setup then use production or the server.
 / Times Commited: 6
-.btn-group
-  if is_playing
-    button.btn title="Pause" click=pause
-      span.glyphicon.glyphicon-pause
-  else
-    button.btn title="Play" click=play
-      span.glyphicon.glyphicon-play
 
-  button.btn title="Skip" click=skip
-    span.glyphicon.glyphicon-step-forward
+ul.nav.navbar-nav
+  li: .btn-group.player-controls
+    if is_playing
+      a.btn.navbar-btn title="Pause" click=pause
+        span.glyphicon.glyphicon-pause
+    else
+      a.btn.navbar-btn title="Play" click=play
+        span.glyphicon.glyphicon-play
 
-  if is_muted
-    button.btn title="Volume" click=unmute
-      span.glyphicon.glyphicon-volume-off
-  else
-    button.btn title="Volume" click=mute
-      span.glyphicon.glyphicon-volume-up
+    a.btn.navbar-btn title="Skip" click=skip
+      span.glyphicon.glyphicon-step-forward
 
-audio controls="controls" autoplay="true"
-  source src=audio_url
-  | Your browser can't play this podcast
+    if is_muted
+      a.btn.navbar-btn title="Unmute" click=unmute
+        span.glyphicon.glyphicon-volume-off
+    else
+      a.btn.navbar-btn title="Mute" click=mute
+        span.glyphicon.glyphicon-volume-up
+  li.navbar-text = title
+
+/ Hide controlls for now
+.hide
+  audio controls="controls" autoplay="true"
+    source src=audio_url
+    | Your browser can't play this podcast
