@@ -1,0 +1,10 @@
+#!/bin/bash
+
+times=$(cat log/development.log | grep 'OK in [0-9]\+ms' -o | grep '[0-9]\+' -o)
+total=$(echo "$times" | paste -sd+ | bc)
+count=$(echo "$times" | wc -l)
+average=$(echo "$total / $count" | bc)
+
+echo "total ${total}ms
+requests ${count}
+average ${average}ms" | column -t
