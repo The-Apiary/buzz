@@ -58,6 +58,14 @@ class Episode < ActiveRecord::Base
   end
 
   def episode_data(user)
-    episode_datas.detect { |ed| ed.user == user }
+    episode_datas.find_by user: user
+  end
+
+  def current_position(user)
+    episode_data(user).try(:current_position) || 0
+  end
+
+  def is_played(user)
+    episode_data(user).try(:is_played) || false
   end
 end

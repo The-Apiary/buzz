@@ -7,44 +7,14 @@ Buzz.Episode = DS.Model.extend
   audio_url:        DS.attr 'string'
   publication_date: DS.attr 'date'
   duration:         DS.attr 'number'
+  current_position: DS.attr 'number'
+  is_played:        DS.attr 'boolean'
   podcast:          DS.belongsTo 'Buzz.Podcast', async: true
-  episode_data:     DS.belongsTo 'Buzz.EpisodeData', async: true
 
   # Set episode to unplayed state.
   reset: ->
-    episode_data = this.get('episode_data')
-    episode_data.set('current_position', 0)
-    episode_data.set('is_played', 0)
-    episode_data.save()
-
-
-  # Update this episodes user data,
-  # or create the model if it doesn't exist.
-  create_or_update_episode_data: (key, value, options) ->
-    episode_data = this.get('episode_data')
-
-    options ||= {}
-    _.defaults(options, throttled: true)
-
-    if episode_data
-      # Episode data exists, so update the key
-      episode_data.set(key, value)
-      # Only save every 10,000 microseconds
-      if options.throttled
-        episode_data.direct_update(10000)
-      else
-        episode_data.direct_update(0)
-
-    else
-      # Episode data doesn't exist, so create it.
-      hash = episode: this
-      hash[key] = value
-      episode_data = Buzz.EpisodeData.createRecord hash
-      this.set('episode_data', episode_data)
-      episode_data.set(key, value)
-      episode_data.save()
-
-    return episode_data.get(key)
+    this.set('current_position', 0)
+    this.set('is_played', false)
 
   is_played: ( (key, is_played) ->
     # Setter
@@ -116,4 +86,3 @@ Buzz.Episode = DS.Model.extend
   reset_enabled: (->
     'disabled' if this.get('current_position') == 0
   ).property('current_position')
-
