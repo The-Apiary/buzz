@@ -14,6 +14,12 @@ total     1679ms
 requests  15
 average   111ms
 
+### None
+episode.episode_data equals nil
+total     1902ms
+requests  20
+average   95ms
+
 ### find_by
 total     1615ms
 requests  15
