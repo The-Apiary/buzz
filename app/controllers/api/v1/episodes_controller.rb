@@ -1,6 +1,6 @@
 class Api::V1::EpisodesController < ApplicationController
   respond_to :json
-  before_action :set_episode, only: [:show, :edit, :update, :destroy]
+  before_action :set_episode, only: [:show, :edit, :update]
 
   def index
     @episodes = if params[:podcast_id]
@@ -13,6 +13,18 @@ class Api::V1::EpisodesController < ApplicationController
   end
 
   def show
+  end
+
+  # Updates or creates a user's episode_data
+  def data
+    @episode_data = EpisodeData.find_or_initialize_by(
+      episode_id: params[:id],
+      user_id: current_user.id)
+    if @episode_data.update(episode_data_params)
+      render json: nil
+    else
+      render json: @episode_data.errors, status: :unprocessable_entity
+    end
   end
 
   def update
@@ -31,5 +43,9 @@ class Api::V1::EpisodesController < ApplicationController
 
   def episode_params
     params.require(:episode).permit(:title, :link_url, :description, :audio_url, :podcast_id, :episode_data, :duration)
+  end
+
+  def episode_data_params
+    params.permit(:is_played, :current_position)
   end
 end
