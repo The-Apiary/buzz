@@ -58,6 +58,6 @@ class Episode < ActiveRecord::Base
   end
 
   def episode_data(user)
-    episode_datas.detect { |ed| ed.user == user }
+    episode_datas.find_by user: user
   end
 end

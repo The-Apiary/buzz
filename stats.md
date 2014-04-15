@@ -1,0 +1,20 @@
+# Benchmarking statistics
+
+I'm timing the average request length of different episode_data load schemes.
+
+
+## Test procedure
+
+- Reset the database to the latest dump from heroku.
+- Load the `#/recent` page 3 times.
+- Rung `./timing` and record the values here.
+
+### Original
+total     1679ms
+requests  15
+average   111ms
+
+### find_by
+total     1615ms
+requests  15
+average   107ms
