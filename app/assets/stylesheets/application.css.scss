@@ -8,12 +8,17 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
- *= require_self
  *= require_tree .
  *= require bootstrap
+ *= require_self
  */
 
 $episode-height: 32px;
+
+body {
+  // I like shattered and dust. I really like stardust but it seems harder to design around.
+  background-image: image-url('dust.png');
+}
 
 .episode-progress-bar {
   background-color: #e1e1e1;
