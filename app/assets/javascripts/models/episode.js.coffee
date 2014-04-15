@@ -13,26 +13,34 @@ Buzz.Episode = DS.Model.extend
 
   # Set episode to unplayed state.
   reset: ->
-    this.set('current_position', 0)
-    this.set('is_played', false)
+    data = { current_position: 0, is_played: false }
+    options = { throttled: false }
 
-  is_played: ( (key, is_played) ->
-    # Setter
-    if (is_played != undefined)
-      return this.create_or_update_episode_data(key, is_played, throttled: false)
-    # Getter
-    else
-      return this.get('episode_data.is_played') || false
-  ).property('episode_data.is_played')
+    update_episode_data data, options
 
-  current_position: ( (key, current_position) ->
-    # Setter
-    if (current_position != undefined)
-      return this.create_or_update_episode_data(key, current_position)
-    # Getter
+  update_current_position: (cur_pos, options) ->
+    this.update_episode_data({current_position: cur_pos}, options)
+
+  update_is_played: (is_played, options) ->
+    this.update_episode_data({is_played: is_played}, options)
+
+  update_episode_data: (data, options) ->
+    # Establish default options
+    options ||= {}
+    _.defaults(options, {throttled: true, timeout: 10000})
+
+    _.each data, (value, key) =>
+      this.set key, value
+
+    base_url = Buzz.Adapter.buildURL('episode', this.id)
+    url = [base_url, 'data'].join '/'
+
+    args = {url: url, data: data, type: 'POST'}
+    if options.throttled
+      Ember.run.throttle $, 'ajax', args, options.timeout
     else
-      return this.get('episode_data.current_position') || 0
-  ).property('episode_data.current_position')
+      $.ajax(args)
+
 
   pretify_time: (duration) ->
     return '--:--' unless duration

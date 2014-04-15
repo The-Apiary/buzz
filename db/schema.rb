@@ -96,7 +96,7 @@ ActiveRecord::Schema.define(version: 20140415181515) do
     t.string   "name"
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
-    t.datetime "last_login",       default: '2014-03-30 22:33:30'
+    t.datetime "last_login",       default: '2014-03-30 22:21:14'
     t.string   "image"
   end
 
