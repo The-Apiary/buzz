@@ -14,32 +14,50 @@
   .container
     %nav.navbar.navbar-default(role='navigation')
       .container-fluid
+        / Header
         .navbar-header
+          %button.navbar-toggle(type="button" data-toggle="collapse" data-target="#navbar-collapse")
+            %span.sr-only Toggle navigation
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
           %span.navbar-brand Buzz
-        %form.navbar-form.navbar-left(role='search')
-          {{ view 'Buzz.SearchBarView' }}
-        %ul.nav.navbar-nav.navbar-right
-          %li.dropdown
-            %a.dropdown-toggle(href="#" data-toggle="dropdown")
-              %strong= @user.identifier
-              %span.glyphicon.glyphicon-user
-              %b.caret
-            %ul.dropdown-menu
-              %li
-                %a Unimplemented - Claim Account
-              %li
-                %a Unimplemented - Info
-              %li.divider
-              %li
-                -# Using window.location instead of a real link because
-                  otherwise the ember app doesn't render after the redirect.
-                %a(data-toggle="modal" data-target="#signin-modal")
-                  Sign In
-              %li
-                -# Using window.location instead of a real link because
-                  otherwise the ember app doesn't render after the redirect.
-                %a(href='#' onclick="window.location='#{signout_path}'")
-                  Sign Out
+
+        / Collapsable area
+        .collapse.navbar-collapse#navbar-collapse
+          / Search area
+          %form.navbar-form.navbar-left(role='search')
+            {{ view 'Buzz.SearchBarView' }}
+
+          / Player
+          {{#with controllers.queue.current_episode }}
+          {{ render 'player' this }}
+          {{/with}}
+
+
+          %ul.nav.navbar-nav.navbar-right
+            / Login form
+            %li.dropdown
+              %a.dropdown-toggle(href="#" data-toggle="dropdown")
+                %strong= @user.identifier
+                %span.glyphicon.glyphicon-user
+                %b.caret
+              %ul.dropdown-menu
+                %li
+                  %a Unimplemented - Claim Account
+                %li
+                  %a Unimplemented - Info
+                %li.divider
+                %li
+                  -# Using window.location instead of a real link because
+                    otherwise the ember app doesn't render after the redirect.
+                  %a(data-toggle="modal" data-target="#signin-modal")
+                    Sign In
+                %li
+                  -# Using window.location instead of a real link because
+                    otherwise the ember app doesn't render after the redirect.
+                  %a(href='#' onclick="window.location='#{signout_path}'")
+                    Sign Out
     .row
       .col-md-2.col-sm-2
         %ul.nav.nav-pills.nav-stacked

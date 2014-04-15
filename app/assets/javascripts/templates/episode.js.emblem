@@ -25,10 +25,10 @@
             a{action 'reset'} Reset
 
       if is_enqueued
-        button.btn.btn-warning{action "remove"}  title='Remove episode from queue'
+        button.btn.btn-warning title='Remove episode from queue' click=remove
           span.glyphicon.glyphicon-minus
       else
-        button.btn.btn-primary{action "push"}  title='Add episode to end of queue'
+        button.btn.btn-primary title='Add episode to end of queue' click=push
           span.glyphicon.glyphicon-plus
 
 

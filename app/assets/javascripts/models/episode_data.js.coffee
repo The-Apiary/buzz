@@ -21,5 +21,4 @@ Buzz.EpisodeData = DS.Model.extend
   unthrottled_direct_update: ->
     base_url = Buzz.Adapter.buildURL('episode_data', this.id)
     data = episode_data: this.serialize()
-    console.log data
     $.ajax(url: base_url, data: data, type: 'PUT')

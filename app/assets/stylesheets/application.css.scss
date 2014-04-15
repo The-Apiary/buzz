@@ -20,6 +20,13 @@ body {
   background-image: image-url('dust.png');
 }
 
+.player-controls {
+  .btn {
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+}
+
 .episode-progress-bar {
   background-color: #e1e1e1;
   position: absolute;

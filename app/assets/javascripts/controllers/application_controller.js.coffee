@@ -1,4 +1,5 @@
 Buzz.ApplicationController = Ember.ObjectController.extend
+  needs: ['queue']
   # FIXME: I think this should be in the search view.
   query: null
 
