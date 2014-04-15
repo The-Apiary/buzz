@@ -17,4 +17,9 @@ average   111ms
 ### find_by
 total     1615ms
 requests  15
-average   107ms
+average   107ma
+
+### find_by with index
+total     1664ms
+requests  15
+average   110ms
