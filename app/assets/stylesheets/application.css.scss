@@ -25,6 +25,19 @@ body {
     padding-left: 3px;
     padding-right: 3px;
   }
+
+  .title-display {
+    margin: 7px 0;
+
+    .scrubber {
+      height: 10px;
+      margin-bottom: 0px;
+    }
+  }
+}
+
+.progress-bar-grey {
+  background-color: lightgray;
 }
 
 .episode-progress-bar {
