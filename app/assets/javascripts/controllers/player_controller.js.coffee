@@ -28,8 +28,9 @@ Buzz.PlayerController = Ember.ObjectController.extend
 
     setDuration: (duration) ->
       current_episode = this.get('model')
-      console.log current_episode.get('duration'), duration
-      if current_episode.get('duration') != duration
-        console.log 'setDuration'
+      current_duration = current_episode.get('duration')
+
+      # Only save the new duration if the difference is greater than one.
+      if current_duration < duration - 1 || current_duration > duration + 1
         current_episode.set('duration', duration)
         current_episode.save()
