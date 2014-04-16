@@ -9,7 +9,7 @@ json.episodes episodes do |episode|
   json.partial! 'api/v1/episodes/episode', episode: episode
 end
 
-podcasts = Podcast.where id: episodes.map(&:podcast_id)
+podcasts = Podcast.where(id: episodes.map(&:podcast_id))
 
 json.podcasts podcasts do |podcast|
   json.partial! 'api/v1/podcasts/podcast', podcast: podcast

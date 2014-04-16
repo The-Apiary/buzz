@@ -11,9 +11,9 @@ class Podcast < ActiveRecord::Base
   validates :title, presence: true
 
   #-- Scopes
-  default_scope { order :title }
+  default_scope { order(:title).includes(:categories) }
   scope :alphabetic, -> { order :title }
-  scope :popular, -> { order 'subscriptions_count desc' }
+  scope :popular, -> { order('subscriptions_count desc') }
 
   def add_category name
     new_cat = Category.where(name: name).first_or_create

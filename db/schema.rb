@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140415181515) do
+ActiveRecord::Schema.define(version: 20140416003858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,10 +20,15 @@ ActiveRecord::Schema.define(version: 20140415181515) do
     t.text "name"
   end
 
+  add_index "categories", ["name"], name: "index_categories_on_name", using: :btree
+
   create_table "categories_podcasts", force: true do |t|
     t.integer "podcast_id"
     t.integer "category_id"
   end
+
+  add_index "categories_podcasts", ["category_id"], name: "index_categories_podcasts_on_category_id", using: :btree
+  add_index "categories_podcasts", ["podcast_id"], name: "index_categories_podcasts_on_podcast_id", using: :btree
 
   create_table "episode_data", force: true do |t|
     t.integer "episode_id"
@@ -32,15 +37,9 @@ ActiveRecord::Schema.define(version: 20140415181515) do
     t.integer "user_id"
   end
 
+  add_index "episode_data", ["episode_id"], name: "index_episode_data_on_episode_id", using: :btree
   add_index "episode_data", ["user_id", "episode_id"], name: "index_episode_data_on_user_id_and_episode_id", using: :btree
   add_index "episode_data", ["user_id"], name: "index_episode_data_on_user_id", using: :btree
-
-  create_table "episode_queues", force: true do |t|
-    t.integer  "user_id"
-    t.string   "episodes",   default: [], array: true
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "episodes", force: true do |t|
     t.string   "title"
@@ -56,6 +55,7 @@ ActiveRecord::Schema.define(version: 20140415181515) do
   end
 
   add_index "episodes", ["podcast_id"], name: "index_episodes_on_podcast_id", using: :btree
+  add_index "episodes", ["publication_date"], name: "index_episodes_on_publication_date", using: :btree
 
   create_table "podcasts", force: true do |t|
     t.string   "title"
@@ -68,12 +68,16 @@ ActiveRecord::Schema.define(version: 20140415181515) do
     t.integer  "subscriptions_count", default: 0
   end
 
+  add_index "podcasts", ["subscriptions_count"], name: "index_podcasts_on_subscriptions_count", using: :btree
+  add_index "podcasts", ["title"], name: "index_podcasts_on_title", using: :btree
+
   create_table "queued_episodes", force: true do |t|
     t.integer "episode_id"
     t.integer "user_id"
     t.integer "idx",        default: 0
   end
 
+  add_index "queued_episodes", ["episode_id"], name: "index_queued_episodes_on_episode_id", using: :btree
   add_index "queued_episodes", ["user_id"], name: "index_queued_episodes_on_user_id", using: :btree
 
   create_table "subscriptions", force: true do |t|
@@ -96,8 +100,10 @@ ActiveRecord::Schema.define(version: 20140415181515) do
     t.string   "name"
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
-    t.datetime "last_login",       default: '2014-03-30 22:21:14'
+    t.datetime "last_login",       default: '2014-03-30 22:33:30'
     t.string   "image"
   end
+
+  add_index "users", ["id_hash"], name: "index_users_on_id_hash", using: :btree
 
 end
