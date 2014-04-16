@@ -16,12 +16,16 @@ ul.nav.navbar-nav
     else
       a.btn.navbar-btn title="Mute" click=mute
         span.glyphicon.glyphicon-volume-up
-  li.navbar-text = title
-
+  li.navbar-text
+    = title
+    .scrubber.progress
+      .progress-bar.progress-bar-danger style=percent_listened_width
+      .progress-bar.progress-bar-default style=percent_buffered_width
 / Hide controlls for now
   / NOTE TO SELF: stop commiting changes that disable autoplay, or mute this player.
   / stop using the developer environment to listen and setup then use production or the server.
   / Times Commited: 6
-audio controls="controls" /autoplay="true"
-  source src=audio_url
-  | Your browser can't play this podcast
+.hide
+  audio controls="controls" /autoplay="true"
+    source src=audio_url
+    | Your browser can't play this podcast

@@ -1,8 +1,18 @@
 Buzz.PlayerController = Ember.ObjectController.extend
   needs: 'queue'
   queueBinding: 'controllers.queue'
-  is_playing: true
   player: null
+
+  is_playing: true
+  buffered: 0
+
+  percent_buffered_width: (->
+    listened = this.get 'percent_listened'
+    buffered = (this.get('buffered') / this.get('duration')) * 100
+
+    return "width: #{buffered - listened}%;"
+  ).property('buffered', 'percent_listened')
+
 
   actions:
     play: ->
@@ -15,6 +25,8 @@ Buzz.PlayerController = Ember.ObjectController.extend
       this.get('player').muted = true
     unmute: ->
       this.get('player').muted = false
+    seek: (perc) ->
+      this.get('player').currentTime = this.get('player').duration * perc
 
     markPlayed: () ->
       current_episode = this.get 'model'

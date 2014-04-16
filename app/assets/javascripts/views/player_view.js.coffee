@@ -27,6 +27,19 @@ Buzz.PlayerView = Ember.View.extend
       if self.get('controller')
         self.get('controller').send('setDuration', this.duration)
 
+    player.addEventListener 'stalled', () ->
+      console.log 'stalled'
+
+    # Update buffered attribute
+    player.addEventListener 'progress', () ->
+      # The end of the last buffered segment
+      length = player.buffered.length
+      if length > 0
+        buffered = player.buffered.end(length - 1)
+      else
+        buffered = 0
+      self.set('controller.buffered', buffered)
+
     # Resume playback from previous position
     player.addEventListener 'canplay', _.once ->
       currentTime = self.get('controller.model.current_position')
@@ -39,14 +52,23 @@ Buzz.PlayerView = Ember.View.extend
 
 
   didInsertElement: () ->
-    player = this.$('audio')[0]
-    this.set 'controller.player', player
+    self = this
+    player = self.$('audio')[0]
+    self.set 'controller.player', player
 
-    this.bindControlEvents(player)
-    this.bindEpisodeDataUpdate(player)
+    self.bindControlEvents(player)
+    self.bindEpisodeDataUpdate(player)
 
     if player.paused
-      this.set 'controller.is_playing', false
+      self.set 'controller.is_playing', false
+
+    scrubber = self.$('.scrubber')
+
+    # Bind seek events to the scrubber
+    scrubber.bind 'click', (e) ->
+      pos = e.offsetX
+      width = e.currentTarget.clientWidth
+      self.get('controller').send('seek', pos/width)
 
 
   willDestroyElement: () ->
