@@ -66,7 +66,7 @@ Buzz.PlayerView = Ember.View.extend
 
     # Bind seek events to the scrubber
     scrubber.bind 'click', (e) ->
-      pos = e.offsetX
+      pos = e.clientX - e.currentTarget.getBoundingClientRect().left
       width = e.currentTarget.clientWidth
       self.get('controller').send('seek', pos/width)
 

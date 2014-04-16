@@ -5,6 +5,17 @@ Buzz.PlayerController = Ember.ObjectController.extend
 
   is_playing: true
   buffered: 0
+  currentTime: 0
+
+  percent_listened: (->
+    return (this.get('currentTime') / this.get('duration')) * 100
+  ).property('currentTime')
+
+  percent_listened_width: (->
+    listened = this.get 'percent_listened'
+
+    return "width: #{listened}%;"
+  ).property('currentTime')
 
   percent_buffered_width: (->
     listened = this.get 'percent_listened'
@@ -26,7 +37,10 @@ Buzz.PlayerController = Ember.ObjectController.extend
     unmute: ->
       this.get('player').muted = false
     seek: (perc) ->
-      this.get('player').currentTime = this.get('player').duration * perc
+      currentTime = this.get('player').duration * perc
+
+      this.set 'currentTime', currentTime
+      this.get('player').currentTime = currentTime
 
     markPlayed: () ->
       current_episode = this.get 'model'
@@ -35,8 +49,9 @@ Buzz.PlayerController = Ember.ObjectController.extend
       # Delete the queued episode, removing it from the queue
       this.get('queue').remove(current_episode)
 
-    setCurrentPosition: (position) ->
-      this.get('model').update_current_position position
+    setCurrentPosition: (currentTime) ->
+      this.set('currentTime', currentTime)
+      this.get('model').update_current_position currentTime
 
     setDuration: (duration) ->
       current_episode = this.get('model')
