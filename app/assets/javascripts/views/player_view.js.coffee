@@ -37,12 +37,16 @@ Buzz.PlayerView = Ember.View.extend
       self.get('controller').send('markPlayed')
 
 
+
   didInsertElement: () ->
     player = this.$('audio')[0]
     this.set 'controller.player', player
 
     this.bindControlEvents(player)
     this.bindEpisodeDataUpdate(player)
+
+    if player.paused
+      this.set 'controller.is_playing', false
 
 
   willDestroyElement: () ->
