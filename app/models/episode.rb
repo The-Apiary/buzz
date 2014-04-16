@@ -25,7 +25,7 @@ class Episode < ActiveRecord::Base
 
     episode_hash[:title] = CGI.unescapeHTML node.xpath('title').text
     episode_hash[:link_url] = node.xpath('link').text
-    episode_hash[:description] = node.xpath('description').text
+    episode_hash[:description] = CGI.unescapeHTML node.xpath('description').text
     episode_hash[:guid] = node.xpath('guid').text
 
     episode_hash[:publication_date] = node.xpath('pubDate').text
