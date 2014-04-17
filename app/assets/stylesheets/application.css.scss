@@ -47,7 +47,7 @@ body {
   bottom: 0;
   left: $episode-height;
   height: $episode-height;
-  transition: all .2s ease-in-out;
+  transition: all .2s ease;
   z-index: -1;
 }
 
@@ -114,7 +114,7 @@ body {
     height: 40px;
   }
   height: 10px;
-  transition: height 0.25s, background-color 0.25s;
+  transition: height 0.25s, ease, background-color 0.25s;
   .drop-target {
     position: relative;
     transition: height 0.25s;
