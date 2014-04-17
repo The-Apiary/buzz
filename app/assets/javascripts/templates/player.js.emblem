@@ -1,27 +1,26 @@
 .player-controls
-  ul.nav.navbar-nav
-    li: .btn-group
-      if is_playing
-        a.btn.navbar-btn title="Pause" click=pause
-          span.glyphicon.glyphicon-pause
-      else
-        a.btn.navbar-btn title="Play" click=play
-          span.glyphicon.glyphicon-play
+  .btn-group.navbar-left
+    if is_playing
+      a.btn.navbar-btn title="Pause" click=pause
+        span.glyphicon.glyphicon-pause
+    else
+      a.btn.navbar-btn title="Play" click=play
+        span.glyphicon.glyphicon-play
 
-      a.btn.navbar-btn title="Skip" click=skip
-        span.glyphicon.glyphicon-step-forward
+    a.btn.navbar-btn title="Skip" click=skip
+      span.glyphicon.glyphicon-step-forward
 
-      if is_muted
-        a.btn.navbar-btn title="Unmute" click=unmute
-          span.glyphicon.glyphicon-volume-off
-      else
-        a.btn.navbar-btn title="Mute" click=mute
-          span.glyphicon.glyphicon-volume-up
-    li.navbar-text.title-display
-      = title
-      .scrubber.progress
-        .progress-bar.progress-bar-danger style=percent_listened_width
-        .progress-bar.progress-bar-grey style=percent_buffered_width
+    if is_muted
+      a.btn.navbar-btn title="Unmute" click=unmute
+        span.glyphicon.glyphicon-volume-off
+    else
+      a.btn.navbar-btn title="Mute" click=mute
+        span.glyphicon.glyphicon-volume-up
+  .navbar-text.title-display
+    = title
+    .scrubber.progress
+      .progress-bar.progress-bar-danger style=percent_listened_width
+      .progress-bar.progress-bar-grey style=percent_buffered_width
   / Hide controlls for now
     / NOTE TO SELF: stop commiting changes that disable autoplay, or mute this player.
     / stop using the developer environment to listen and setup then use production or the server.
