@@ -22,19 +22,31 @@
             %span.icon-bar
             %span.icon-bar
 
+        / Player
+        {{#with controllers.queue.current_episode }}
+        {{ render 'player' this }}
+        {{/with}}
+
+
         / Collapsable area
         .collapse.navbar-collapse#navbar-collapse
-          / Search area
-          %form.navbar-form.navbar-left(role='search')
-            {{ view 'Buzz.SearchBarView' }}
 
-          / Player
-          {{#with controllers.queue.current_episode }}
-          {{ render 'player' this }}
-          {{/with}}
 
+          .visible-xs
+            %ul.nav.nav-bar
+              -# Nested link-to's place the 'active' class on the outside li.
+              -# TODO: Make this a handlebars helper
+              %li
+                {{ view 'Buzz.SearchBarView' }}
+              {{#link-to-li 'recent' }}Recent{{/link-to-li}}
+              {{#link-to-li 'subscriptions' }}Your Subscriptions{{/link-to-li}}
+              {{#link-to-li 'podcasts' }}Podcasts{{/link-to-li}}
 
           %ul.nav.navbar-nav.navbar-right
+            %li
+              / Search area
+              %form.hidden-xs.navbar-form(role='search')
+                {{ view 'Buzz.SearchBarView' }}
             / Login form
             %li.dropdown
               %a.dropdown-toggle(href="#" data-toggle="dropdown")
@@ -58,7 +70,7 @@
                   %a(href='#' onclick="window.location='#{signout_path}'")
                     Sign Out
     .row
-      .col-md-2.col-xs-12
+      .col-md-2.hidden-xs
         %ul.nav.nav-pills.nav-stacked
           -# Nested link-to's place the 'active' class on the outside li.
           -# TODO: Make this a handlebars helper
