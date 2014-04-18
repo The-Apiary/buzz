@@ -8,8 +8,8 @@ Buzz.Episode = DS.Model.extend
   episode_type:        DS.attr 'string'
   publication_date: DS.attr 'date'
   duration:         DS.attr 'number'
-  current_position: DS.attr 'number'
-  is_played:        DS.attr 'boolean'
+  ed_current_position: DS.attr 'number'
+  ed_is_played:        DS.attr 'boolean'
   podcast:          DS.belongsTo 'Buzz.Podcast', async: true
 
   # Set episode to unplayed state.
@@ -18,6 +18,35 @@ Buzz.Episode = DS.Model.extend
     options = { throttled: false }
 
     update_episode_data data, options
+
+  # Used to implement attributes that can be changed serverside
+  # without setting the state to changed.
+  #
+  # Some values, namely is_played and current_positoin, are changed often
+  # and without saving to the database. A call that would reload an episode
+  # after the position has changed would error because the state is
+  # uncommited. The error is avoided by preserving the origional attributes
+  # and changing these values. See also update_episode_data
+  cached_attribute: (key, value) ->
+    if value != undefined
+      # If a value is passed set the cached attribute to that value
+      this["cached_#{key}"] = value
+    else
+      # If no value is passed return the cached value, if cache isn't full
+      # initialize it to the real attribute value.
+      this["cached_#{key}"] || this["cached_#{key}"] = this.get("ed_#{key}")
+
+    this["cached_#{key}"]
+
+  current_position: ( (key, value) ->
+    this.cached_attribute(key, value)
+  ).property('ed_current_position')
+
+  is_played: ( (key, value) ->
+    this.cached_attribute(key, value)
+  ).property('ed_is_played')
+
+
 
   update_current_position: (cur_pos, options) ->
     this.update_episode_data({current_position: cur_pos}, options)
