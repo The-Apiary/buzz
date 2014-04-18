@@ -5,6 +5,7 @@ Buzz.Episode = DS.Model.extend
   link_url:         DS.attr 'string'
   description:      DS.attr 'string'
   audio_url:        DS.attr 'string'
+  episode_type:        DS.attr 'string'
   publication_date: DS.attr 'date'
   duration:         DS.attr 'number'
   current_position: DS.attr 'number'

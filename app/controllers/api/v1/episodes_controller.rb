@@ -42,7 +42,7 @@ class Api::V1::EpisodesController < ApplicationController
   end
 
   def episode_params
-    params.require(:episode).permit(:title, :link_url, :description, :audio_url, :podcast_id, :episode_data, :duration)
+    params.require(:episode).permit(:duration)
   end
 
   def episode_data_params
