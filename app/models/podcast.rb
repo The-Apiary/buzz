@@ -2,7 +2,7 @@ class Podcast < ActiveRecord::Base
   #-- Associations
   has_many :episodes, inverse_of: :podcast, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
-  has_and_belongs_to_many :categories
+  has_and_belongs_to_many :categories, unique: true
 
   accepts_nested_attributes_for :episodes, reject_if: proc { |ea| !Episode.new(ea).valid? }
 
