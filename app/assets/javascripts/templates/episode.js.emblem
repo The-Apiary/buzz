@@ -35,4 +35,4 @@
   span.episode-progress-bar style=percent_listened_width
   = link-to "episodes.show" this
     h5.media-heading
-      | {{title}} {{pretty_duration}}
+      | {{title}} {{pretty-time duration}}

@@ -31,6 +31,30 @@ Ember.Handlebars.registerHelper 'link-to-li', (routeName, options) ->
 # by directing back to /
 window.location.hash = "" if (window.location.hash == "#_=_")
 
+Ember.Handlebars.registerBoundHelper 'pretty-time', (time) ->
+  return '--:--' unless time
+
+  # Put this somewhere else
+  hours   = Math.floor time / (60 * 60)
+  divisor_for_minutes = time % (60 * 60)
+  minutes = Math.floor divisor_for_minutes / 60
+  divisor_for_seconds = divisor_for_minutes % 60
+  seconds = Math.ceil divisor_for_seconds
+
+  # Convert to strings
+  pad = (n) ->
+    n = n + ''
+
+    # dumb, TODO better way to do this?
+    while n.length < 2
+      n = '0' + n
+    return n
+
+  # x:xx:xx if hours present, xx:xx otherwise
+  time = [minutes, seconds].map(pad)
+  time.unshift hours if hours != 0
+  time.join(':')
+
 $ ->
   # Ember wasn't sending the csrf token, so rails was erroring with InvalidAccessToken
   token = $('meta[name="csrf-token"]').attr('content')

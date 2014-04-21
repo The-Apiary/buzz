@@ -72,41 +72,6 @@ Buzz.Episode = DS.Model.extend
       $.ajax(args)
 
 
-  pretify_time: (duration) ->
-    return '--:--' unless duration
-
-    # Put this somewhere else
-    hours   = Math.floor duration / (60 * 60)
-    divisor_for_minutes = duration % (60 * 60)
-    minutes = Math.floor divisor_for_minutes / 60
-    divisor_for_seconds = divisor_for_minutes % 60
-    seconds = Math.ceil divisor_for_seconds
-
-    # Convert to strings
-    pad = (n) ->
-      n = n + ''
-
-      # dumb, TODO better way to do this?
-      while n.length < 2
-        n = '0' + n
-      return n
-
-    # xx:xx:xx if hours present, xx:xx otherwise
-    time = [minutes, seconds]
-    time.unshift hours if hours != 0
-
-    time.map(pad).join(':')
-
-  pretty_position: (->
-    duration = this.get 'current_position'
-    this.pretify_time(duration)
-  ).property('current_position')
-
-  pretty_duration: (->
-    duration = this.get 'duration'
-    this.pretify_time(duration)
-  ).property('duration')
-
   percent_listened: (->
     duration = this.get 'duration'
     current_position = this.get 'current_position'
