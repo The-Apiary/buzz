@@ -11,24 +11,25 @@
         %div.modal-footer
           %button.btn.btn-default(type="button" data-dismiss="modal") Close
 
-  .container
-    %nav.navbar.navbar-default(role='navigation')
-      .container-fluid
-        / Header
-        .navbar-header
-          %button.navbar-toggle(type="button" data-toggle="collapse" data-target="#navbar-collapse")
-            %span.sr-only Toggle navigation
-            %span.icon-bar
-            %span.icon-bar
-            %span.icon-bar
+  / The navbar
+  %nav.navbar.navbar-default.navbar-static-top(role='navigation')
+    .container-fluid
+      / Header
+      .col-md-9
+        %button.navbar-toggle(type="button" data-toggle="collapse" data-target="#navbar-collapse")
+          %span.sr-only Toggle navigation
+          %span.icon-bar
+          %span.icon-bar
+          %span.icon-bar
 
-          / Player
-          {{#with controllers.queue.current_episode }}
-          {{ render 'player' this }}
-          {{/with}}
+        / Player
+        {{#with controllers.queue.current_episode }}
+        {{ render 'player' this }}
+        {{/with}}
 
 
-        / Collapsable area
+      / Collapsable area
+      .col-md-3
         .collapse.navbar-collapse#navbar-collapse
 
 
@@ -69,6 +70,9 @@
                     otherwise the ember app doesn't render after the redirect.
                   %a(href='#' onclick="window.location='#{signout_path}'")
                     Sign Out
+
+  / Here be everything else
+  .container
     .row
       .col-md-2.hidden-xs
         %ul.nav.nav-pills.nav-stacked

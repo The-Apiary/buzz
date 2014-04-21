@@ -13,6 +13,9 @@
  *= require_self
  */
 
+.navbar .col-md-9 {
+}
+
 $episode-height: 32px;
 
 body {
@@ -21,6 +24,10 @@ body {
 }
 
 .player-controls {
+  border: 1px solid red;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
   text-align: center;
   .btn {
     padding-left: 3px;
@@ -28,7 +35,9 @@ body {
   }
 
   .title-display {
+    flex: 20; // I just chose a high value, I don't relly get flexboxs
     margin: 7px 0;
+    border: 1px solid green;
 
     .scrubber {
       height: 10px;
