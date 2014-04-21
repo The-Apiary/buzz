@@ -28,19 +28,30 @@ Buzz.PlayerController = Ember.ObjectController.extend
   actions:
     play: ->
       this.get('player').play()
+      return false
+
     pause: ->
       this.get('player').pause()
+      return false
+
     skip: ->
       this.get('queue').remove(this.get 'model')
+      return false
+
     mute: ->
       this.get('player').muted = true
+      return false
+
     unmute: ->
       this.get('player').muted = false
+      return false
+
     seek: (perc) ->
       currentTime = this.get('player').duration * perc
 
       this.set 'currentTime', currentTime
       this.get('player').currentTime = currentTime
+      return false
 
     markPlayed: () ->
       current_episode = this.get 'model'
