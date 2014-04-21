@@ -12,6 +12,8 @@ namespace :feeds do
       old_episodes = podcast.episodes.load.to_a
       old_categories = podcast.categories.load.to_a
 
+      invalid_episodes = []
+
       #-- Update the podcast, and podcasts episodes
       # Pass 0 ttl to skip cache
       begin
@@ -22,9 +24,21 @@ namespace :feeds do
         next
       end
 
+      # Map string categories to Categories
       podcast_data[:categories] = podcast_data[:categories].map do |name|
         Category.find_or_initialize_by(name: name)
       end
+
+      # Update episode data
+      episode_count = podcast_data[:episodes_attributes].count
+      podcast_data.delete(:episodes_attributes).each do |ea|
+         episode = Episode.find_or_initialize_by(audio_url: ea[:audio_url])
+         unless episode.update(ea)
+           invalid_episodes << episode.errors.full_messages
+         end
+      end
+
+      # Update the podcasts attributes, this also creates new episodes
       podcast.attributes = podcast_data
 
 
@@ -50,6 +64,8 @@ namespace :feeds do
         puts "    #{attr}: #{was} -> #{podcast[attr]}"
       end
 
+
+      puts "    #{invalid_episodes.count}/#{episode_count} invalid episodes #{invalid_episodes.flatten.uniq}" if invalid_episodes.count > 0
       puts "    Added #{added_episodes.count} episodes" if added_episodes.any?
       puts "    Removed #{removed_episodes.count} episodes" if removed_episodes.any?
 
@@ -61,6 +77,7 @@ namespace :feeds do
       update_messages << "+#{added_episodes.count}" if added_episodes.any?
       update_messages << "-#{removed_episodes_episodes.count}" if removed_episodes.any?
       update_messages << "#{changed_attributes.count} attributes updated" if changed_attributes.any?
+      update_messages << "#{invalid_episodes.count}/#{episode_count} invalid episodes" if invalid_episodes.count > 0
       Rails.logger.tagged('feeds:update', start_time, podcast.title) { Rails.logger.info update_messages.join(", ") } if update_messages.any?
     end
   end

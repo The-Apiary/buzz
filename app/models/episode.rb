@@ -12,8 +12,9 @@ class Episode < ActiveRecord::Base
   validates :audio_url, uniqueness: true
   validates :guid, uniqueness: true, unless: 'guid.blank?'
   validates :episode_type,
-    format: { with: /audio/, message: "'%{value}' is audio"  },
-    on: :create
+    format: { with: /audio/, message: "'%{value}' is not audio"  },
+    on: :create,
+    unless: 'episode_type.blank?'
 
   validates :episode_type, presence: true, allow_blank?: false, on: :create
 
