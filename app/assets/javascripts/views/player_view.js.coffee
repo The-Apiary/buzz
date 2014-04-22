@@ -5,14 +5,28 @@ Buzz.PlayerView = Ember.View.extend
   bindControlEvents: (player) ->
     self = this
     player.addEventListener 'play', () ->
-      self.set 'controller.is_playing', true
+      if self.get('controller')
+        self.set 'controller.is_playing', true
 
     player.addEventListener 'pause', () ->
-      self.set 'controller.is_playing', false
+      if self.get('controller')
+        self.set 'controller.is_playing', false
 
     player.addEventListener 'volumechange', () ->
-      self.set 'controller.is_muted', player.muted
-      self.set 'controller.volume', player.volume
+      if self.get('controller')
+        self.set 'controller.is_muted', player.muted
+        self.set 'controller.volume', player.volume
+
+    # Update buffered attribute
+    player.addEventListener 'progress', () ->
+      # The end of the last buffered segment
+      length = player.buffered.length
+      if length > 0
+        buffered = player.buffered.end(length - 1)
+      else
+        buffered = 0
+      if self.get('controller')
+        self.set('controller.buffered', buffered)
 
   # Update current positon, duration, and next track actions.
   bindEpisodeDataUpdate: (player) ->
@@ -29,16 +43,6 @@ Buzz.PlayerView = Ember.View.extend
 
     player.addEventListener 'stalled', () ->
       console.log 'stalled'
-
-    # Update buffered attribute
-    player.addEventListener 'progress', () ->
-      # The end of the last buffered segment
-      length = player.buffered.length
-      if length > 0
-        buffered = player.buffered.end(length - 1)
-      else
-        buffered = 0
-      self.set('controller.buffered', buffered)
 
     # Resume playback from previous position
     player.addEventListener 'canplay', _.once ->
@@ -74,4 +78,3 @@ Buzz.PlayerView = Ember.View.extend
   willDestroyElement: () ->
     player = this.$('audio')[0]
     player.removeEventListener 'ended'
-

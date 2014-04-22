@@ -30,6 +30,9 @@
       else
         button.btn.btn-primary title='Add episode to end of queue' click=push
           span.glyphicon.glyphicon-plus
+      button.btn.btn-success click=play
+        span.glyphicon.glyphicon-play
+
 
 
   span.episode-progress-bar style=percent_listened_width
