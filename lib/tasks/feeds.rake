@@ -6,13 +6,13 @@ namespace :feeds do
 
     Rails.logger.tagged('feeds:update', start_time) { Rails.logger.info "Getting new episodes from podcast feeds" }
     puts "Getting new episodes from podcast feeds"
-    Podcast.find_each do |podcast|
+    Podcast.first.tap do |podcast|
 
       # Get old episodes to later diff against new episodes
       old_episodes = podcast.episodes.load.to_a
       old_categories = podcast.categories.load.to_a
 
-      invalid_episodes = []
+      episode_errors = []
 
       #-- Update the podcast, and podcasts episodes
       # Pass 0 ttl to skip cache
@@ -32,14 +32,15 @@ namespace :feeds do
       # Update episode data
       episode_count = podcast_data[:episodes_attributes].count
       podcast_data.delete(:episodes_attributes).each do |ea|
-         episode = Episode.find_or_initialize_by(audio_url: ea[:audio_url])
-         unless episode.update(ea)
-           invalid_episodes << episode.errors.full_messages
-         end
+        episode = podcast.episodes.find_or_initialize_by(audio_url: ea[:audio_url])
+        unless episode.update ea
+          episode_errors << episode.errors.full_messages
+        end
       end
 
       # Update the podcasts attributes, this also creates new episodes
       podcast.attributes = podcast_data
+
 
 
       # Get old title, and changed attributes.
@@ -65,7 +66,7 @@ namespace :feeds do
       end
 
 
-      puts "    #{invalid_episodes.count}/#{episode_count} invalid episodes #{invalid_episodes.flatten.uniq}" if invalid_episodes.count > 0
+      puts "    #{episode_errors.count}/#{episode_count} invalid episodes #{episode_errors.flatten.uniq}" if episode_errors.count > 0
       puts "    Added #{added_episodes.count} episodes" if added_episodes.any?
       puts "    Removed #{removed_episodes.count} episodes" if removed_episodes.any?
 
@@ -77,7 +78,7 @@ namespace :feeds do
       update_messages << "+#{added_episodes.count}" if added_episodes.any?
       update_messages << "-#{removed_episodes_episodes.count}" if removed_episodes.any?
       update_messages << "#{changed_attributes.count} attributes updated" if changed_attributes.any?
-      update_messages << "#{invalid_episodes.count}/#{episode_count} invalid episodes" if invalid_episodes.count > 0
+      update_messages << "#{episode_errors.count}/#{episode_count} invalid episodes" if episode_errors.count > 0
       Rails.logger.tagged('feeds:update', start_time, podcast.title) { Rails.logger.info update_messages.join(", ") } if update_messages.any?
     end
   end
