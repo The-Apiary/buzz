@@ -6,7 +6,7 @@ namespace :feeds do
 
     Rails.logger.tagged('feeds:update', start_time) { Rails.logger.info "Getting new episodes from podcast feeds" }
     puts "Getting new episodes from podcast feeds"
-    Podcast.first.tap do |podcast|
+    Podcast.find_each do |podcast|
 
       # Get old episodes to later diff against new episodes
       old_episodes = podcast.episodes.load.to_a

@@ -24,7 +24,6 @@ body {
 }
 
 .player-controls {
-  border: 1px solid red;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-around;
@@ -37,7 +36,6 @@ body {
   .title-display {
     flex: 20; // I just chose a high value, I don't relly get flexboxs
     margin: 7px 0;
-    border: 1px solid green;
 
     .scrubber {
       height: 10px;
