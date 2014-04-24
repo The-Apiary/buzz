@@ -105,7 +105,7 @@ namespace :feeds do
   desc "Experiment with feed parse code"
   task :test => :environment do
     #-- Change pre test code above
-    Podcast.where(title: 'Wiretap from CBC Radio').each  do |pod|
+    Podcast.where(title: 'The Partially Examined Life Philosophy Podcast').each  do |pod|
       parsed = Podcast.parse_feed pod.feed_url, 0
     end
   end

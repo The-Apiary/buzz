@@ -60,23 +60,43 @@ class Podcast < ActiveRecord::Base
     # I've seen three image url formats: an image tag, itunes:image tag,
     # and itunes:image tag with the url as its href attribute.
 
-    # <image><url>...</url></image>
-    parsed_feed[:image_url] = feed_giri.xpath('//channel/image/url').text
+    image_urls = []
 
-    begin
-      # <itunes:image>___</itunes:image>
-      if parsed_feed[:image_url].blank?
-          parsed_feed[:image_url] = feed_giri.xpath('//channel/itunes:image').text
-      end
-
-      #<itunes:image href"___" />
-      if parsed_feed[:image_url].blank?
-        image_giri = feed_giri.xpath('//channel/itunes:image').first
-        parsed_feed[:image_url] = image_giri[:href] unless image_giri.nil?
-      end
-    rescue
-      logger.tagged('Update Feeds', parsed_feed[:title]) { logger.debug "Failed to get image." }
+    # <image><url>___</url></image>
+    if parsed_feed[:image_url].blank?
+      image_urls << feed_giri.xpath('//channel/image/url').text
     end
+
+    # <itunes:image>___</itunes:image>
+    begin
+      image_urls << feed_giri.xpath('//channel/itunes:image').text
+    rescue Nokogiri::XML::XPath::SyntaxError => ex
+      puts ex.message
+    end
+
+    #<itunes:image href"___" />
+    begin
+      image_giri = feed_giri.xpath('//channel/itunes:image').first
+      image_urls << image_giri[:href] unless image_giri.nil?
+    rescue Nokogiri::XML::XPath::SyntaxError => ex
+      puts ex.message
+    end
+
+    # Some of the images in feeds are invalid.
+    # Pick the first image that doesn't respond 4XX or 5XX.
+    parsed_feed[:image_url] = image_urls.lazy.reject do |urlStr|
+      if urlStr =~ /^#{URI::regexp}$/
+        uri = URI.parse(urlStr)
+        request = Net::HTTP.new uri.host
+        response = request.request_head uri.path
+        response.code =~ /[45][0-9]{2}/
+      else
+        true
+      end
+    end.first
+
+    puts parsed_feed[:image_url]
+
 
     #-- Categories
 
