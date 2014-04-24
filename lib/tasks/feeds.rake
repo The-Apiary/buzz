@@ -15,9 +15,9 @@ namespace :feeds do
       episode_errors = []
 
       #-- Update the podcast, and podcasts episodes
-      # Pass 0 ttl to skip cache
       begin
-        podcast_data = Podcast.parse_feed podcast.feed_url, 0
+        # 0 second ttl to skips the cache
+        podcast_data = Podcast.parse_feed podcast.feed_url, 0.seconds
       rescue OpenURI::HTTPError => ex
         puts "Could not reache feed #{ex.message}"
         Rails.logger.tagged('feeds:update', start_time, podcast.title) { "Could not reache feed #{ex.message}" }
@@ -40,8 +40,6 @@ namespace :feeds do
 
       # Update the podcasts attributes, this also creates new episodes
       podcast.attributes = podcast_data
-
-
 
       # Get old title, and changed attributes.
       title = podcast.title_was
