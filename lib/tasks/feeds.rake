@@ -106,38 +106,9 @@ namespace :feeds do
 
   desc "Experiment with feed parse code"
   task :test => :environment do
-    #-- Change pre test code below
-    blank = []; one = []; many = []; all = []
-
     #-- Change pre test code above
-    Podcast.all.each do |pod|
-      parsed = Podcast.parse_feed pod.feed_url
-      #-- Change test code below
-
-      # Testing category results. Not many podcasts use media:category
-      puts "#{pod.title}:	#{parsed[:categories]}"
-
-      if parsed[:categories].blank?
-        blank << parsed
-      elsif parsed[:categories].length == 1
-        one << parsed
-      elsif parsed[:categories].length > 1
-        many << parsed
-      end
-
-      all << parsed
-
-      #-- Change test code above
+    Podcast.where(title: 'Wiretap from CBC Radio').each  do |pod|
+      parsed = Podcast.parse_feed pod.feed_url, 0
     end
-    #-- Change post test code below
-
-    puts "blank: #{blank.count}. one: #{one.count}. many: #{many.count}"
-
-    categories = all.map { |pf| pf[:categories] }.flatten
-
-    puts categories.uniq.sort
-    puts "#{categories.count} categories, #{categories.uniq.count} unique"
-
-    #-- Change post test code above
   end
 end
