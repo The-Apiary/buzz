@@ -13,14 +13,37 @@
  *= require_self
  */
 
-.navbar .col-md-9 {
-}
-
 $episode-height: 32px;
 
 body {
   // I like shattered and dust. I really like stardust but it seems harder to design around.
   background-image: image-url('dust.png');
+}
+
+// Horizontal layout for desktops
+@media (min-width: 768px) {
+  .player-navbar {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+
+    .navbar-header {
+      flex: 20; // I just chose a high value, I don't relly get flexboxs
+    }
+  }
+}
+
+// Vertical stack on phones
+@media (max-width: 786px) {
+  .player-navbar {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+
+    .navbar-header {
+      flex: 20; // I just chose a high value, I don't relly get flexboxs
+    }
+  }
 }
 
 .player-controls {

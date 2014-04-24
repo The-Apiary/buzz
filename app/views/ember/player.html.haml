@@ -13,9 +13,9 @@
 
   / The navbar
   %nav.navbar.navbar-default.navbar-static-top(role='navigation')
-    .container-fluid
+    .player-navbar.container-fluid
       / Header
-      .col-md-9
+      .navbar-header
         %button.navbar-toggle(type="button" data-toggle="collapse" data-target="#navbar-collapse")
           %span.sr-only Toggle navigation
           %span.icon-bar
@@ -29,47 +29,46 @@
 
 
       / Collapsable area
-      .col-md-3
-        .collapse.navbar-collapse#navbar-collapse
+      .collapse.navbar-collapse#navbar-collapse
 
 
-          .visible-xs
-            %ul.nav.nav-bar
-              -# Nested link-to's place the 'active' class on the outside li.
-              -# TODO: Make this a handlebars helper
-              %li
-                {{ view 'Buzz.SearchBarView' }}
-              {{#link-to-li 'recent' }}Recent{{/link-to-li}}
-              {{#link-to-li 'subscriptions' }}Your Subscriptions{{/link-to-li}}
-              {{#link-to-li 'podcasts' }}Podcasts{{/link-to-li}}
-
-          %ul.nav.navbar-nav.navbar-right
+        .visible-xs
+          %ul.nav.nav-bar
+            -# Nested link-to's place the 'active' class on the outside li.
+            -# TODO: Make this a handlebars helper
             %li
-              / Search area
-              %form.hidden-xs.navbar-form(role='search')
-                {{ view 'Buzz.SearchBarView' }}
-            / Login form
-            %li.dropdown
-              %a.dropdown-toggle(href="#" data-toggle="dropdown")
-                %strong= @user.identifier
-                %span.glyphicon.glyphicon-user
-                %b.caret
-              %ul.dropdown-menu
-                %li
-                  %a Unimplemented - Claim Account
-                %li
-                  %a Unimplemented - Info
-                %li.divider
-                %li
-                  -# Using window.location instead of a real link because
-                    otherwise the ember app doesn't render after the redirect.
-                  %a(data-toggle="modal" data-target="#signin-modal")
-                    Sign In
-                %li
-                  -# Using window.location instead of a real link because
-                    otherwise the ember app doesn't render after the redirect.
-                  %a(href='#' onclick="window.location='#{signout_path}'")
-                    Sign Out
+              {{ view 'Buzz.SearchBarView' }}
+            {{#link-to-li 'recent' }}Recent{{/link-to-li}}
+            {{#link-to-li 'subscriptions' }}Your Subscriptions{{/link-to-li}}
+            {{#link-to-li 'podcasts' }}Podcasts{{/link-to-li}}
+
+        %ul.nav.navbar-nav.navbar-right
+          %li
+            / Search area
+            %form.hidden-xs.navbar-form(role='search')
+              {{ view 'Buzz.SearchBarView' }}
+          / Login form
+          %li.dropdown
+            %a.dropdown-toggle(href="#" data-toggle="dropdown")
+              %strong= @user.identifier
+              %span.glyphicon.glyphicon-user
+              %b.caret
+            %ul.dropdown-menu
+              %li
+                %a Unimplemented - Claim Account
+              %li
+                %a Unimplemented - Info
+              %li.divider
+              %li
+                -# Using window.location instead of a real link because
+                  otherwise the ember app doesn't render after the redirect.
+                %a(data-toggle="modal" data-target="#signin-modal")
+                  Sign In
+              %li
+                -# Using window.location instead of a real link because
+                  otherwise the ember app doesn't render after the redirect.
+                %a(href='#' onclick="window.location='#{signout_path}'")
+                  Sign Out
 
   / Here be everything else
   .container
