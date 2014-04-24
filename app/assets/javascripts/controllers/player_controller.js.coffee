@@ -8,7 +8,9 @@ Buzz.PlayerController = Ember.ObjectController.extend
   currentTime: 0
 
   percent_listened: (->
-    return (this.get('currentTime') / this.get('duration')) * 100
+    listened = (this.get('currentTime') / this.get('duration')) * 100
+    listened = 100 if listened > 100
+    return listened
   ).property('currentTime')
 
   percent_listened_width: (->
@@ -21,7 +23,9 @@ Buzz.PlayerController = Ember.ObjectController.extend
     listened = this.get 'percent_listened'
     buffered = (this.get('buffered') / this.get('duration')) * 100
 
-    return "width: #{buffered - (listened + 0.2)}%;"
+    buffered = 100 if buffered > 100
+
+    return "width: calc(#{buffered}% - #{listened}% - 1px);"
   ).property('buffered', 'percent_listened')
 
 
