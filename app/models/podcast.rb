@@ -95,9 +95,6 @@ class Podcast < ActiveRecord::Base
       end
     end.first
 
-    puts parsed_feed[:image_url]
-
-
     #-- Categories
 
     categories = Array.new
