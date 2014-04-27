@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140420165608) do
+ActiveRecord::Schema.define(version: 20140427151214) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,10 +31,12 @@ ActiveRecord::Schema.define(version: 20140420165608) do
   add_index "categories_podcasts", ["podcast_id"], name: "index_categories_podcasts_on_podcast_id", using: :btree
 
   create_table "episode_data", force: true do |t|
-    t.integer "episode_id"
-    t.integer "current_position", default: 0
-    t.boolean "is_played"
-    t.integer "user_id"
+    t.integer  "episode_id"
+    t.integer  "current_position", default: 0
+    t.boolean  "is_played"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "episode_data", ["episode_id"], name: "index_episode_data_on_episode_id", using: :btree
