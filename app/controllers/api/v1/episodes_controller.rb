@@ -5,11 +5,19 @@ class Api::V1::EpisodesController < ApplicationController
   def index
     @episodes = if params[:podcast_id]
                   Podcast.find(params[:podcast_id]).episodes
-                elsif params[:recent]
-                  current_user.episodes.where(['publication_date > ?', 1.month.ago]).limit(100)
+                    .includes(:episode_datas)
+                    .order(publication_date: :desc)
+                elsif params[:recently_published]
+                  current_user.recently_published_episodes
+                    .includes(:episode_datas)
+                    .order(publication_date: :desc)
+                elsif params[:recently_listened]
+                  current_user.recently_listened_episodes
                 else
                   current_user.episodes
-                end.includes(:episode_datas).order(publication_date: :desc)
+                    .includes(:episode_datas)
+                    .order(publication_date: :desc)
+                end
   end
 
   def show

@@ -1,3 +1,3 @@
 Buzz.RecentRoute = Ember.Route.extend
   model: (podcast) ->
-    Buzz.Episode.find({recent: true})
+    Buzz.Episode.find({recently_published: true})

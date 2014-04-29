@@ -37,6 +37,19 @@ class User < ActiveRecord::Base
     self.id_hash
   end
 
+  def recently_published_episodes
+    episodes
+      .where(['publication_date > ?', 1.month.ago])
+      .limit(100)
+  end
+
+  def recently_listened_episodes
+    episode_datas
+      .order('updated_at DESC')
+      .includes(:episode)
+      .map(&:episode)
+  end
+
   def self.from_omniauth(auth, link_user=nil)
     link_user = nil unless link_user.is_a? User
 
