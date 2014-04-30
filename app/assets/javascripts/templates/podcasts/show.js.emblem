@@ -36,4 +36,4 @@
 
 p {{description}}
 
-render 'episodes.list' filtered_episodes
+episode-list episodes=filtered_episodes played_filter="Show Both"

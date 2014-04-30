@@ -4,7 +4,7 @@ class Api::V1::EpisodesController < ApplicationController
 
   def index
     @episodes = if params[:podcast_id]
-                  ember_show params[:podcast_id]
+                  podcast_episodes params[:podcast_id]
                 elsif params[:recently_published]
                   recently_published
                 elsif params[:recently_listened]
