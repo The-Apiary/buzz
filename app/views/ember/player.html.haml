@@ -33,15 +33,7 @@
 
 
         .visible-xs
-          %ul.nav.nav-bar
-            -# Nested link-to's place the 'active' class on the outside li.
-            -# TODO: Make this a handlebars helper
-            %li
-              {{ view 'Buzz.SearchBarView' }}
-            {{#link-to-li 'episodes.latest' }}Latest Episodes{{/link-to-li}}
-            {{#link-to-li 'episodes.listened' }}Listening History{{/link-to-li}}
-            {{#link-to-li 'subscriptions' }}Your Subscriptions{{/link-to-li}}
-            {{#link-to-li 'podcasts' }}Podcasts{{/link-to-li}}
+          {{ main-nav }}
 
         %ul.nav.navbar-nav.navbar-right
           %li
@@ -75,13 +67,7 @@
   .container
     .row
       .col-md-2.hidden-xs
-        %ul.nav.nav-pills.nav-stacked
-          -# Nested link-to's place the 'active' class on the outside li.
-          -# TODO: Make this a handlebars helper
-          {{#link-to-li 'episodes.latest' }}Latest Episodes{{/link-to-li}}
-          {{#link-to-li 'episodes.listened' }}Listening History{{/link-to-li}}
-          {{#link-to-li 'subscriptions' }}Your Subscriptions{{/link-to-li}}
-          {{#link-to-li 'podcasts' }}Podcasts{{/link-to-li}}
+        {{ main-nav }}
       .col-md-6.col-xs-12
         {{ outlet }}
       .col-md-4.col-xs-12
