@@ -37,15 +37,21 @@ class User < ActiveRecord::Base
     self.id_hash
   end
 
+  ##
+  # List of episodes published in the last month
   def recently_published_episodes
     episodes
       .where(['publication_date > ?', 1.month.ago])
       .limit(100)
   end
 
+  ##
+  # List of episodes listened to in the last month,
+  # orderd by last listened to.
   def recently_listened_episodes
     episode_datas
       .order('updated_at DESC')
+      .where(['updated_at > ?', 1.month.ago])
       .includes(:episode)
       .map(&:episode)
   end

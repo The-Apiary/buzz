@@ -4,19 +4,13 @@ class Api::V1::EpisodesController < ApplicationController
 
   def index
     @episodes = if params[:podcast_id]
-                  Podcast.find(params[:podcast_id]).episodes
-                    .includes(:episode_datas)
-                    .order(publication_date: :desc)
+                  ember_show params[:podcast_id]
                 elsif params[:recently_published]
-                  current_user.recently_published_episodes
-                    .includes(:episode_datas)
-                    .order(publication_date: :desc)
+                  recently_published
                 elsif params[:recently_listened]
-                  current_user.recently_listened_episodes
+                  recently_listened
                 else
-                  current_user.episodes
-                    .includes(:episode_datas)
-                    .order(publication_date: :desc)
+                  all_episodes
                 end
   end
 
@@ -44,6 +38,29 @@ class Api::V1::EpisodesController < ApplicationController
   end
 
   private
+
+  # All episodes for the given podcast
+  def podcast_episodes podcast_id
+    Podcast.find(podcast_id).episodes
+      .includes(:episode_datas)
+      .order(publication_date: :desc)
+  end
+
+  def recently_published
+    current_user.recently_published_episodes
+      .includes(:episode_datas)
+      .order(publication_date: :desc)
+  end
+
+  def recently_listened
+    current_user.recently_listened_episodes
+  end
+
+  def all_episodes
+    current_user.episodes
+      .includes(:episode_datas)
+      .order(publication_date: :desc)
+  end
 
   def set_episode
     @episode = Episode.find(params[:id])
