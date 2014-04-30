@@ -1,2 +1,2 @@
 Buzz.IndexRoute = Ember.Route.extend
-  redirect: -> this.transitionTo 'recent'
+  redirect: -> this.transitionTo 'episodes.latest'
