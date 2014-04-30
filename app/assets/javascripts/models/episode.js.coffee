@@ -1,16 +1,17 @@
 # TODO: Should this function be here?
 
 Buzz.Episode = DS.Model.extend
-  title:            DS.attr 'string'
-  link_url:         DS.attr 'string'
-  description:      DS.attr 'string'
-  audio_url:        DS.attr 'string'
+  title:               DS.attr 'string'
+  link_url:            DS.attr 'string'
+  description:         DS.attr 'string'
+  audio_url:           DS.attr 'string'
   episode_type:        DS.attr 'string'
-  publication_date: DS.attr 'date'
-  duration:         DS.attr 'number'
+  publication_date:    DS.attr 'date'
+  duration:            DS.attr 'number'
+  last_listened_at:    DS.attr 'date'
   ed_current_position: DS.attr 'number'
   ed_is_played:        DS.attr 'boolean'
-  podcast:          DS.belongsTo 'Buzz.Podcast', async: true
+  podcast:             DS.belongsTo 'Buzz.Podcast', async: true
 
   # Set episode to unplayed state.
   reset: ->

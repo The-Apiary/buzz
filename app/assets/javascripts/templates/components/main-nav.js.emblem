@@ -1,0 +1,10 @@
+%li
+  view 'Buzz.SearchBarView'
+link-to-li 'episodes.latest'
+  | Latest Episodes
+link-to-li 'episodes.listened'
+  | Listening History
+link-to-li 'subscriptions'
+  | Your Subscriptions
+link-to-li 'podcasts'
+  | Podcasts

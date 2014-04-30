@@ -67,4 +67,12 @@ class Episode < ActiveRecord::Base
   def is_played(user)
     episode_data(user).try(:is_played) || false
   end
+
+  def is_played(user)
+    episode_data(user).try(:updated_at)
+  end
+
+  def last_listened_at(user)
+    episode_data(user).try(:updated_at) || nil
+  end
 end

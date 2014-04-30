@@ -1,4 +1,4 @@
-Buzz.EpisodeListController = Ember.ArrayController.extend
+Buzz.EpisodesListController = Ember.ArrayController.extend
   show_played_options: [ 'Show Unplayed', 'Show Played', 'Show Both' ]
 
   played_filter: 'Show Unplayed'

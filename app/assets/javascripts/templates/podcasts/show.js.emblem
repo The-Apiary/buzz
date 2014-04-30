@@ -36,6 +36,4 @@
 
 p {{description}}
 
-
-
-render 'episode_list' filtered_episodes
+render 'episodes.list' filtered_episodes
