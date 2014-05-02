@@ -33,6 +33,13 @@ class Episode < ActiveRecord::Base
 
     #:: Description
     description = node.xpath('description').text
+    if description.blank?
+      begin
+        description = node.xpath('itunes:summary').text
+      rescue Nokogiri::XML::XPath::SyntaxError => ex
+        puts ex.message
+      end
+    end
     # drop the first and last characters because they are always
     # extraneous single quotes
     description = sanitize(description)[1..-2]
