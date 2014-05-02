@@ -1,3 +1,4 @@
+include ActionView::Helpers::SanitizeHelper
 class Episode < ActiveRecord::Base
   #-- Associations
   belongs_to :podcast, inverse_of: :episodes
@@ -24,11 +25,23 @@ class Episode < ActiveRecord::Base
   def self.parse_feed(node)
     episode_hash = Hash.new
 
+    #:: Title
     episode_hash[:title] = CGI.unescapeHTML node.xpath('title').text
+
+    #:: Link url
     episode_hash[:link_url] = node.xpath('link').text
-    episode_hash[:description] = CGI.unescapeHTML node.xpath('description').text
+
+    #:: Description
+    description = node.xpath('description').text
+    # drop the first and last characters because they are always
+    # extraneous single quotes
+    description = sanitize(description)[1..-2]
+    episode_hash[:description] = description
+
+    #:: GUID
     episode_hash[:guid] = node.xpath('guid').text
 
+    #:: Publication date
     episode_hash[:publication_date] = node.xpath('pubDate').text
 
     # duration is a string, usually [hh]:mm:ss

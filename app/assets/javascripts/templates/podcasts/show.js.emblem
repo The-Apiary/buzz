@@ -25,7 +25,7 @@
     / type dropdown menu
     .btn-group
       button.btn.btn-default.dropdown-toggle data-toggle='dropdown'
-        | Type: 
+        ' Type:
         strong: = type
         / Whitespace?
         |  
@@ -34,6 +34,6 @@
         = each type_options
           li: a{action 'set_type' this}: = this
 
-p {{description}}
+div == description
 
 episode-list episodes=filtered_episodes played_filter="Show Both"

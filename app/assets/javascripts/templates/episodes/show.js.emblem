@@ -11,4 +11,4 @@ render 'episode' this.model
     a.btn.btn-default href=audio_url
       | Download
 
-p = description
+div == description

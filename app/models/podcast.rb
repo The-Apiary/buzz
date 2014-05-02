@@ -11,7 +11,7 @@ class Podcast < ActiveRecord::Base
   validates :title, presence: true
 
   #-- Scopes
-  default_scope { order(:title).includes(:categories) }
+  default_scope { order(:title) }
   scope :alphabetic, -> { order :title }
   scope :popular, -> { order('subscriptions_count desc') }
 
@@ -119,7 +119,11 @@ class Podcast < ActiveRecord::Base
     parsed_feed[:categories] = categories.map(&:strip).uniq.reject(&:blank?)
 
     #-- Description
-    parsed_feed[:description] = feed_giri.xpath('//channel/description').text
+    description = feed_giri.xpath('//channel/description').text
+    # drop the first and last characters because they are always
+    # extraneous single quotes
+    description = sanitize(description)[1..-2]
+    parsed_feed[:description] = description
 
     #-- Episodes
     parsed_feed[:episodes_attributes] = feed_giri.xpath('//channel/item').map do |node|
