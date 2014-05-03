@@ -9,16 +9,20 @@ Buzz.Episode = DS.Model.extend
   publication_date:    DS.attr 'date'
   duration:            DS.attr 'number'
   last_listened_at:    DS.attr 'date'
+
+  # ed_* values should not be used in the ui, they are proxied without the
+  # ed_ prefix. See the note for cached_attribute
   ed_current_position: DS.attr 'number'
   ed_is_played:        DS.attr 'boolean'
   podcast:             DS.belongsTo 'Buzz.Podcast', async: true
 
   # Set episode to unplayed state.
   reset: ->
-    data = { current_position: 0, is_played: false }
+    this.set('current_position', 0)
+    data = { current_position: 0 }
     options = { throttled: false }
 
-    update_episode_data data, options
+    this.update_episode_data data, options
 
   # Used to implement attributes that can be changed serverside
   # without setting the state to changed.
@@ -86,7 +90,3 @@ Buzz.Episode = DS.Model.extend
   percent_listened_width: (->
     return "width: #{this.get('percent_listened')}%;"
   ).property('percent_listened')
-
-  reset_enabled: (->
-    'disabled' if this.get('current_position') == 0
-  ).property('current_position')
