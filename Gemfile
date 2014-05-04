@@ -37,8 +37,8 @@ gem 'therubyracer'
 
 group :test, :development do
   gem 'heroku'
-  gem 'bugsnag'
 end
+gem 'bugsnag'
 
 group :test do
   gem 'faker'
