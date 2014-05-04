@@ -1,5 +1,5 @@
 %li
-  view 'Buzz.SearchBarView'
+  render 'SearchBar' undefined
 link-to-li 'episodes.latest'
   | Latest Episodes
 link-to-li 'episodes.listened'
