@@ -37,6 +37,7 @@ gem 'therubyracer'
 
 group :test, :development do
   gem 'heroku'
+  gem 'bugsnag'
 end
 
 group :test do
