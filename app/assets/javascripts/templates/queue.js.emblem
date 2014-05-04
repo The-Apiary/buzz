@@ -1,5 +1,4 @@
-h3 Queue
-
+h4 Upcoming
 .queue
   ul.list-unstyled: each queued_episodes
     .clearfix

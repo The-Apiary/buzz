@@ -58,11 +58,14 @@ Buzz.PlayerController = Ember.ObjectController.extend
       return false
 
     markPlayed: () ->
-      current_episode = this.get 'model'
+      ce = this.get 'model'
       # Mark the episode as played
-      current_episode.update_is_played true, throttled: false
+      data = { is_played: true, current_position: this.get('currentTime') }
+      options = { throttled: false }
+      ce.update_episode_data data, options
+
       # Delete the queued episode, removing it from the queue
-      this.get('queue').remove(current_episode)
+      this.get('queue').remove(ce)
 
     setCurrentPosition: (currentTime) ->
       this.set('currentTime', currentTime)

@@ -60,6 +60,9 @@ Buzz.PlayerView = Ember.View.extend
     player = self.$('audio')[0]
     self.set 'controller.player', player
 
+    # Set the pages title to the episode title.
+    $(document).attr 'title', self.get('controller.model.title')
+
     self.bindControlEvents(player)
     self.bindEpisodeDataUpdate(player)
 
@@ -78,3 +81,6 @@ Buzz.PlayerView = Ember.View.extend
   willDestroyElement: () ->
     player = this.$('audio')[0]
     player.removeEventListener 'ended'
+
+    # Unset the pages title.
+    $(document).attr 'title', 'Buzz'

@@ -13,7 +13,7 @@
 
   / The navbar
   %nav.navbar.navbar-default.navbar-static-top(role='navigation')
-    .player-navbar.container-fluid
+    .player-navbar.container
       / Header
       .navbar-header
         %button.navbar-toggle(type="button" data-toggle="collapse" data-target="#navbar-collapse")
@@ -66,9 +66,12 @@
   / Here be everything else
   .container
     .row
+      / Sidebar
       .col-md-2.hidden-xs
         {{ main-nav }}
-      .col-md-6.col-xs-12
-        {{ outlet }}
-      .col-md-4.col-xs-12
+      / Queue
+      .col-md-4.col-md-push-6.col-xs-12
         {{ render "queue" }}
+      / Main area
+      .col-md-6.col-md-pull-4.col-xs-12
+        {{ outlet }}
