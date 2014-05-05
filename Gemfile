@@ -5,7 +5,6 @@ ruby '2.1.1'
 #:: Stack
 gem 'rails', '4.1.0' # Rails
 gem 'nokogiri' # xml/html parsing
-gem 'whenever' # Schedule and run tasks with cron
 gem 'turbolinks'
 
 # Facebook login

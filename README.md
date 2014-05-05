@@ -27,16 +27,6 @@ Heroku. [Here are the postgres install instructions for Arch Linux](https://wiki
 
 Run `$ rake feeds:update` to update all feeds.
 
-### Cron through whenever
-
-There is a schedule file in `config/schedule.rb` that defines cron tasks to run
-`rake feeds:update` every two hours. Assuming you have cron enabled you should run:
-
-`whenever -w -s 'environment=<RAILS_ENV>'`
-
-where `<RAILS_ENV>` is `development` on a development box, and `production` if this is
-a release server.
-
 ## Testing with Facebook login.
 
 This app draws your facebook developer credentials from your system's
