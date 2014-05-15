@@ -12,9 +12,26 @@ class Api::V1::PodcastsController < ApplicationController
     elsif params[:ids]
       logger.tagged('test') { logger.info  params[:ids] }
       @podcasts = Podcast.where(id: params[:ids])
+    elsif params[:q]
+      search
     else
       render json: { error: "Could not process #{params}" }, status: :unprocessable_entity
     end
+  end
+
+  def search
+    @podcasts =
+      if params[:q]
+
+        # Basic fuzzy search, will match the passed query anywhere in a string.
+        #        |--        Title        --|    |--        Feed         --|
+        query = "lower(title) LIKE lower(:q) OR lower(feed_url) = lower(:q)"
+        Podcast.where(query, {q: "%#{params[:q]}%"})
+      else
+        []
+      end
+
+      render :index
   end
 
   # GET /podcasts/1

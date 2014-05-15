@@ -3,7 +3,6 @@
 #= require ember
 #= require ember-data
 #= require turbolinks
-#= require typeahead
 #= require underscore
 #= require_self
 #= require buzz

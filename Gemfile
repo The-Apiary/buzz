@@ -17,7 +17,6 @@ gem 'rails_12factor', group: :production
 #:: Javascripts
 gem 'ember-rails'
 gem 'jquery-cdn'       # Use jquery as the JavaScript library
-gem 'typeahead-rails'  # Twitter typeahead.js, search bar autocomplete
 gem 'underscore-rails' # Javascript toolbelt.
 gem 'bootstrap-sass'   # css stylesheets
 

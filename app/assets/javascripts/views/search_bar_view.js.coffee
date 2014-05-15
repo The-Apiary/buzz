@@ -2,56 +2,27 @@ Buzz.SearchBarView = Ember.View.extend
   templateName: 'search_bar'
 
   didInsertElement: () ->
-    # Instantiate the bloodhound suggestion engine
-    numbers = new Bloodhound
-        datumTokenizer: (d) ->Bloodhound.tokenizers.whitespace(d.title)
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: '/api/v1/search.json?q=%QUERY'
+    self = this
+    # The search dropdown is focused
+    this.$('.search').on 'focus', ->
+      self.set('controller.focus_changed', true)
 
-    # Initialize the bloodhound suggestion engine
-    numbers.initialize()
+    this.$('.search').on 'mouseenter', ->
+      self.set('controller.focus_changed', true)
 
-    # describe template strings here
-    templates =
-      header:
-        '''
-        <div class="tt-header">
-          <a href="#/search/{{escape query}}">
-            <p>Search for {{query}}</p>
-          </a>
-        </div>
-        '''
-      # FIXME: This is bad.
-      # Change the <a href="..."> to {{#link-to}}
-      # All of these blocks should be declaired as templates,
-      # and compiled with ember's handlebars.
-      suggestion:
-        '''
-        <p>
-          <a href="#/podcasts/{{id}}">
-            <img src="{{image_url}}"></img>
-            <strong>{{title}}</strong>
-          </a>
-        </p>
-        '''
-      empty:
-        '''
-        <div class="tt-no-results">
-          <p>No Results</p>
-        </div>
-        '''
+    this.$('.search-dropdown-menu').on 'mouseenter', ->
+      self.set('controller.focus_changed', true)
 
-    # Compile templates
-    _(templates).each (string, key, obj) ->
-      obj[key] = Handlebars.compile string
+    # The search dropdown is not focused
+    # These should be the opposites of the above
+    this.$('.search').on 'blur', ->
+      self.set('controller.focus_changed', true)
 
-    # instantiate the typeahead UI
-    this.$('.typeahead').typeahead(null, {
-        displayKey: 'title',
-        source: numbers.ttAdapter()
-        templates: templates
-    });
+    this.$('.search').on 'mouseleave', ->
+      self.set('controller.focus_changed', false)
 
+    this.$('.search-dropdown-menu').on 'mouseleave', ->
+      self.set('controller.focus_changed', false)
   willDestroyElement: () ->
     # Typeahead input element
-    this.$('.typeahead').typeahead('destroy')
+    this.$('.search-dropdown-menu').hide()

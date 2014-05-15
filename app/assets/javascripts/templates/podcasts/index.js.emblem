@@ -1,3 +1,6 @@
+= link-to 'podcasts.new'
+  button.btn.btn-primary.btn-sm.btn-block type='button'
+    | Add New Podcast
 %row
   .col-md-8
     h3 Popular Podcasts

@@ -95,7 +95,7 @@ body {
  }
 
 .episode, .podcast {
-  height: $episode-height;
+  min-height: $episode-height;
   margin: 5px 0;
   position: relative;
   width: 100%;
@@ -104,12 +104,20 @@ body {
   }
 
   img {
-    height: $episode-height;
-    width: $episode-height;
+    max-height: $episode-height;
+    max-width: $episode-height;
   }
 }
 
-.tt-dropdown-menu {
+.search-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  z-index: 100;
+  left: 0px;
+  right: auto;
+
+  width: 400px;
   margin-top: 3px;
   color: #94999c;
   background-color: white;
@@ -123,11 +131,8 @@ body {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  padding: 10px;
 
-  img {
-    max-height: 50px;
-    max-width: 50px;
-  }
   .tt-header {
     padding: 0 10px;
     border-bottom: 1px solid #b8c3c9;
@@ -138,11 +143,11 @@ body {
   }
 
   .tt-suggestion {
-    line-height: 19px;
-    padding: 10px;
-    &:not(:last-child) {
-      border-bottom: 1px solid #b8c3c9;
+    img {
+      max-height: 30px;
+      max-width: 30px;
     }
+    padding: 10px;
   }
 }
 

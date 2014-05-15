@@ -3,15 +3,27 @@ class Api::V1::EpisodesController < ApplicationController
   before_action :set_episode, only: [:show, :edit, :update]
 
   def index
-    @episodes = if params[:podcast_id]
-                  podcast_episodes params[:podcast_id]
-                elsif params[:recently_published]
-                  recently_published
-                elsif params[:recently_listened]
-                  recently_listened
-                else
-                  all_episodes
-                end
+    if params[:podcast_id]
+      @episodes = podcast_episodes params[:podcast_id]
+    elsif params[:recently_published]
+      @episodes = recently_published
+    elsif params[:recently_listened]
+      @episodes = recently_listened
+    elsif params[:q]
+      search
+    else
+      @episodes = all_episodes
+    end
+  end
+
+  def search
+    @episodes = if params[:q]
+      # Basic fuzzy search, will match the passed query anywhere in a string.
+      Episode.where("lower(title) LIKE lower(?)", "%#{params[:q]}%")
+    else
+      []
+    end
+    render :index
   end
 
   def show

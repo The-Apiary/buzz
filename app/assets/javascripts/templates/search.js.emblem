@@ -1,18 +1,35 @@
 p
-  if results.length
+  if podcasts.length
     | Not what you're looking for?
   else
-    | No Search Results found.
+    | No podcasts found.
   / Whitespace between above sentences and link
-  |  
+  ' 
   = link-to 'podcasts.new' | Add a podcast.
 
-each results
-  link-to 'podcasts.show' id
-    .podcast
+.search_results
+  h4 Podcasts
+  each podcasts
+    .media
       .pull-left
         img src=image_url
+      .media-body
+        h5.media-heading
+          = link-to 'podcasts.show' id
+            = title
+          p.small
+            | Podcast
 
-      h5.media-heading
-        | {{title}}
-
+  h4 Episodes
+  each episodes
+    .media
+      .pull-left
+        img src=image_url
+      .media-body
+        h5.media-heading
+          = link-to 'episodes.show' id
+            = title
+          p.small
+            ' Podcast:
+            = link-to 'podcasts.show' podcast_id
+              = podcast_title
