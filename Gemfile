@@ -20,6 +20,8 @@ gem 'jquery-cdn'       # Use jquery as the JavaScript library
 gem 'underscore-rails' # Javascript toolbelt.
 gem 'bootstrap-sass'   # css stylesheets
 
+gem 'websocket-rails'  # Evented websockets implementation
+
 #:: Asset processors
 gem 'sass-rails'               # Use SCSS for stylesheets
 gem 'coffee-rails'             # Use CoffeeScript for .js.coffee assets and views

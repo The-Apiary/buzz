@@ -4,6 +4,7 @@
 #= require ember-data
 #= require turbolinks
 #= require underscore
+#= require websocket_rails/main
 #= require_self
 #= require buzz
 

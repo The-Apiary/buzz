@@ -32,4 +32,7 @@ Buzz::Application.configure do
 
   config.ember.variant = :development
 
+  # See https://github.com/websocket-rails/websocket-rails/wiki/Installation-and-Setup
+  config.middleware.delete Rack::Lock
+
 end
