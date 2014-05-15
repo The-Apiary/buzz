@@ -2,105 +2,27 @@ Buzz.SearchBarView = Ember.View.extend
   templateName: 'search_bar'
 
   didInsertElement: () ->
-    # Instantiate the bloodhound suggestion engine
-    podcasts = new Bloodhound
-        datumTokenizer: (d) ->Bloodhound.tokenizers.whitespace(d.title)
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: '/api/v1/podcasts/search.json?q=%QUERY'
+    self = this
+    # The search dropdown is focused
+    this.$('.search').on 'focus', ->
+      self.set('controller.focus_changed', true)
 
-    episodes = new Bloodhound
-        datumTokenizer: (d) ->Bloodhound.tokenizers.whitespace(d.title)
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: '/api/v1/episodes/search.json?q=%QUERY'
+    this.$('.search').on 'mouseenter', ->
+      self.set('controller.focus_changed', true)
 
-    # Initialize the bloodhound suggestion engine
-    podcasts.initialize()
-    episodes.initialize()
+    this.$('.search-dropdown-menu').on 'mouseenter', ->
+      self.set('controller.focus_changed', true)
 
-    # Describe podcast template strings here
-    podcast_templates =
-      header:
-        '''
-        Podcasts
-        '''
-      suggestion:
-        '''
-        <div class='media'>
-          <div class='pull-left'>
-            <img src="{{image_url}}"></img>
-          </div>
-          <div class='media-body'>
-            <h5 class='media-heading'>
-              <a href='#/podcasts/{{id}}'>{{title}}</a>
-            </h5>
-            <p class='small'>
-              Podcast
-            </p>
-          </div>
-        </div>
-        '''
-      empty:
-        '''
-        <div class="tt-no-results">
-          <p>No Podcasts</p>
-        </div>
-        '''
-    # Describe episode template strings here
-    episode_templates =
-      header:
-        '''
-        Episodes
-        '''
-      suggestion:
-        '''
-        <div class='media'>
-          <div class='pull-left'>
-            <img src="{{image_url}}"></img>
-          </div>
-          <div class='media-body'>
-            <h5 class='media-heading'>
-              <a href='#/episodes/{{id}}'>{{title}}</a>
-            </h5>
-            <p class='small'>
-              Podcast: <a href='#/podcasts/{{podcast_id}}'>{{podcast_title}}</a>
-            </p>
-          </div>
-        </div>
-        '''
-      empty:
-        '''
-        <div class="tt-no-results">
-          <p>No Episodes</p>
-        </div>
-        '''
+    # The search dropdown is not focused
+    # These should be the opposites of the above
+    this.$('.search').on 'blur', ->
+      self.set('controller.focus_changed', true)
 
-    # Compile templates
-    _(podcast_templates).each (string, key, obj) ->
-      obj[key] = Handlebars.compile string
-    _(episode_templates).each (string, key, obj) ->
-      obj[key] = Handlebars.compile string
+    this.$('.search').on 'mouseleave', ->
+      self.set('controller.focus_changed', false)
 
-    # instantiate the typeahead UI
-    this.$('.typeahead').typeahead(
-      {
-        minLength: 3,
-        highlight: true
-      },
-      {
-        name: 'podcasts',
-        displayKey: 'title',
-        source: podcasts.ttAdapter()
-        templates: podcast_templates
-      },
-      {
-        name: 'episodes',
-        displayKey: 'title',
-        source: episodes.ttAdapter()
-        templates: episode_templates
-      },
-    )
-
-
+    this.$('.search-dropdown-menu').on 'mouseleave', ->
+      self.set('controller.focus_changed', false)
   willDestroyElement: () ->
     # Typeahead input element
-    this.$('.typeahead').typeahead('destroy')
+    this.$('.search-dropdown-menu').hide()

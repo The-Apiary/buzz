@@ -35,7 +35,11 @@
 
 
   span.episode-progress-bar style=percent_listened_width
-  = link-to "episodes.show" this
-    h5.media-heading
-      | {{title}}
-      span.pull-right {{pretty-time duration}}
+  h5.media-heading
+    = link-to "episodes.show" this
+      = title
+    .small
+      | Episode:
+      = link-to 'podcasts.show' podcast
+        = podcast.title
+    .pull-right {{pretty-time duration}}

@@ -218,7 +218,6 @@ GEM
       polyglot (>= 0.3.1)
     turbolinks (2.2.2)
       coffee-rails
-    typeahead-rails (0.10.1)
     tzinfo (1.1.0)
       thread_safe (~> 0.1)
     uglifier (2.5.0)
@@ -260,7 +259,6 @@ DEPENDENCIES
   sdoc
   therubyracer
   turbolinks
-  typeahead-rails
   uglifier
   underscore-rails
   unicorn

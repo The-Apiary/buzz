@@ -12,6 +12,8 @@ class Api::V1::PodcastsController < ApplicationController
     elsif params[:ids]
       logger.tagged('test') { logger.info  params[:ids] }
       @podcasts = Podcast.where(id: params[:ids])
+    elsif params[:q]
+      search
     else
       render json: { error: "Could not process #{params}" }, status: :unprocessable_entity
     end
@@ -28,6 +30,8 @@ class Api::V1::PodcastsController < ApplicationController
       else
         []
       end
+
+      render :index
   end
 
   # GET /podcasts/1
