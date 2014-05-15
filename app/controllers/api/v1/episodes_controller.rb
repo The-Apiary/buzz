@@ -14,6 +14,15 @@ class Api::V1::EpisodesController < ApplicationController
                 end
   end
 
+  def search
+    @episodes = if params[:q]
+      # Basic fuzzy search, will match the passed query anywhere in a string.
+      Episode.where("lower(title) LIKE lower(?)", "%#{params[:q]}%")
+    else
+      []
+    end
+  end
+
   def show
   end
 

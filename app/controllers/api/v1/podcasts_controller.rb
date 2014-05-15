@@ -17,6 +17,19 @@ class Api::V1::PodcastsController < ApplicationController
     end
   end
 
+  def search
+    @podcasts =
+      if params[:q]
+
+        # Basic fuzzy search, will match the passed query anywhere in a string.
+        #        |--        Title        --|    |--        Feed         --|
+        query = "lower(title) LIKE lower(:q) OR lower(feed_url) = lower(:q)"
+        Podcast.where(query, {q: "%#{params[:q]}%"})
+      else
+        []
+      end
+  end
+
   # GET /podcasts/1
   # GET /podcasts/1.json
   def show

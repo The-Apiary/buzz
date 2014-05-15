@@ -3,54 +3,103 @@ Buzz.SearchBarView = Ember.View.extend
 
   didInsertElement: () ->
     # Instantiate the bloodhound suggestion engine
-    numbers = new Bloodhound
+    podcasts = new Bloodhound
         datumTokenizer: (d) ->Bloodhound.tokenizers.whitespace(d.title)
         queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: '/api/v1/search.json?q=%QUERY'
+        remote: '/api/v1/podcasts/search.json?q=%QUERY'
+
+    episodes = new Bloodhound
+        datumTokenizer: (d) ->Bloodhound.tokenizers.whitespace(d.title)
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: '/api/v1/episodes/search.json?q=%QUERY'
 
     # Initialize the bloodhound suggestion engine
-    numbers.initialize()
+    podcasts.initialize()
+    episodes.initialize()
 
-    # describe template strings here
-    templates =
+    # Describe podcast template strings here
+    podcast_templates =
       header:
         '''
-        <div class="tt-header">
-          <a href="#/search/{{escape query}}">
-            <p>Search for {{query}}</p>
-          </a>
-        </div>
+        Podcasts
         '''
-      # FIXME: This is bad.
-      # Change the <a href="..."> to {{#link-to}}
-      # All of these blocks should be declaired as templates,
-      # and compiled with ember's handlebars.
       suggestion:
         '''
-        <p>
-          <a href="#/podcasts/{{id}}">
+        <div class='media'>
+          <div class='pull-left'>
             <img src="{{image_url}}"></img>
-            <strong>{{title}}</strong>
-          </a>
-        </p>
+          </div>
+          <div class='media-body'>
+            <h5 class='media-heading'>
+              <a href='#/podcasts/{{id}}'>{{title}}</a>
+            </h5>
+            <p class='small'>
+              Podcast
+            </p>
+          </div>
+        </div>
         '''
       empty:
         '''
         <div class="tt-no-results">
-          <p>No Results</p>
+          <p>No Podcasts</p>
+        </div>
+        '''
+    # Describe episode template strings here
+    episode_templates =
+      header:
+        '''
+        Episodes
+        '''
+      suggestion:
+        '''
+        <div class='media'>
+          <div class='pull-left'>
+            <img src="{{image_url}}"></img>
+          </div>
+          <div class='media-body'>
+            <h5 class='media-heading'>
+              <a href='#/episodes/{{id}}'>{{title}}</a>
+            </h5>
+            <p class='small'>
+              Podcast: <a href='#/podcasts/{{podcast_id}}'>{{podcast_title}}</a>
+            </p>
+          </div>
+        </div>
+        '''
+      empty:
+        '''
+        <div class="tt-no-results">
+          <p>No Episodes</p>
         </div>
         '''
 
     # Compile templates
-    _(templates).each (string, key, obj) ->
+    _(podcast_templates).each (string, key, obj) ->
+      obj[key] = Handlebars.compile string
+    _(episode_templates).each (string, key, obj) ->
       obj[key] = Handlebars.compile string
 
     # instantiate the typeahead UI
-    this.$('.typeahead').typeahead(null, {
+    this.$('.typeahead').typeahead(
+      {
+        minLength: 3,
+        highlight: true
+      },
+      {
+        name: 'podcasts',
         displayKey: 'title',
-        source: numbers.ttAdapter()
-        templates: templates
-    });
+        source: podcasts.ttAdapter()
+        templates: podcast_templates
+      },
+      {
+        name: 'episodes',
+        displayKey: 'title',
+        source: episodes.ttAdapter()
+        templates: episode_templates
+      },
+    )
+
 
   willDestroyElement: () ->
     # Typeahead input element

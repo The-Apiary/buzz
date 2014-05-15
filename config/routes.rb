@@ -10,13 +10,15 @@ Buzz::Application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-      get 'search' => 'search#search'
-
       resources :episodes do
         post 'data', on: :member
+        get 'search', on: :collection
       end
 
-      resources :podcasts
+      resources :podcasts do
+        get 'search', on: :collection
+      end
+
       resources :queued_episodes
       resources :subscriptions
       resources :categories, path: 'categorys', only: [:show, :index]
