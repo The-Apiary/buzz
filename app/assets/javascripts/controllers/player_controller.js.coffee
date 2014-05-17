@@ -30,6 +30,20 @@ Buzz.PlayerController = Ember.ObjectController.extend
 
 
   actions:
+    receive_play: ->
+      this.set 'is_playing', true
+      return false
+    receive_pause: ->
+      this.set 'is_playing', false
+      return false
+    receive_volumechange: (message) ->
+      this.set 'is_muted', message.muted
+      this.set 'volume', message.volume
+      return false
+    receive_progress: (message) ->
+      this.set('buffered', message.buffered)
+      return false
+
     play: ->
       this.get('player').play()
       return false

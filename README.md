@@ -63,3 +63,16 @@ to create a facebook developer account and create an app.
    Click Add platform and select website. For development testing set the 
   `Site URL` to `http://localhost:3000/`
 
+
+## Remote control through websockets
+1. Clients send events to the dispatcher
+2. Server repeats events to the `user.#{id_hash}` private channel.
+3. Clients listen to the `user.#{id_hash}` private channel for events.
+
+Events include:
+ - play/pause
+ - mute/unmute
+ - track change
+ - position change
+ - buffer change(?)
+ - master controller change

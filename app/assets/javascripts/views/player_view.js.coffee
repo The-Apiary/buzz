@@ -2,31 +2,37 @@ Buzz.PlayerView = Ember.View.extend
   templateName: 'player'
 
   # Add hooks to update control state
-  bindControlEvents: (player) ->
+  bindControlEvents: (player, dispatcher) ->
     self = this
-    player.addEventListener 'play', () ->
-      if self.get('controller')
-        self.set 'controller.is_playing', true
 
-    player.addEventListener 'pause', () ->
-      if self.get('controller')
-        self.set 'controller.is_playing', false
+    id_hash = $('#user').data('id-hash')
+    channel = dispatcher.subscribe(id_hash)
 
-    player.addEventListener 'volumechange', () ->
-      if self.get('controller')
-        self.set 'controller.is_muted', player.muted
-        self.set 'controller.volume', player.volume
+    # Send an event to the controller and the socket.
+    addDispatchedEvent = (event, message_cb) ->
+      channel.bind "receive.#{event}", (message) ->
+        self.get('controller').send("receive_#{event}", message)
 
-    # Update buffered attribute
-    player.addEventListener 'progress', () ->
-      # The end of the last buffered segment
-      length = player.buffered.length
-      if length > 0
-        buffered = player.buffered.end(length - 1)
-      else
-        buffered = 0
-      if self.get('controller')
-        self.set('controller.buffered', buffered)
+      player.addEventListener event, () ->
+        message = if _.isFunction(message_cb) then message_cb() else {}
+        dispatcher.trigger "receive.#{event}", message
+        self.get('controller').send("receive_#{event}", message)
+
+    addDispatchedEvent 'play'
+
+    addDispatchedEvent 'pause'
+
+    addDispatchedEvent 'volumechange', () ->
+      { muted: player.muted, volume: player.volume }
+
+    addDispatchedEvent 'progress', () ->
+        # The end of the last buffered segment
+        buffered_chunks = player.buffered.length
+        if buffered_chunks > 0
+          buffered = player.buffered.end(buffered_chunks - 1)
+        else
+          buffered = 0
+        return {buffered: buffered}
 
   # Update current positon, duration, and next track actions.
   bindEpisodeDataUpdate: (player) ->
@@ -54,17 +60,22 @@ Buzz.PlayerView = Ember.View.extend
       self.get('controller').send('markPlayed')
 
 
-
   didInsertElement: () ->
     self = this
+
+    websocket_uri = $('#websocket').data('uri')
+    dispatcher = new WebSocketRails(websocket_uri)
+
     player = self.$('audio')[0]
+
+    # Add player and dispatcher to the controller.
     self.set 'controller.player', player
 
     # Set the pages title to the episode title.
     $(document).attr 'title', self.get('controller.model.title')
 
-    self.bindControlEvents(player)
-    self.bindEpisodeDataUpdate(player)
+    self.bindControlEvents(player, dispatcher)
+    self.bindEpisodeDataUpdate(player, dispatcher)
 
     if player.paused
       self.set 'controller.is_playing', false
@@ -76,7 +87,6 @@ Buzz.PlayerView = Ember.View.extend
       pos = e.clientX - e.currentTarget.getBoundingClientRect().left
       width = e.currentTarget.clientWidth
       self.get('controller').send('seek', pos/width)
-
 
   willDestroyElement: () ->
     player = this.$('audio')[0]

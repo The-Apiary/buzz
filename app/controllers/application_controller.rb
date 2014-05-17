@@ -6,16 +6,21 @@ class ApplicationController < ActionController::Base
   private
 
   def current_user
-    @user ||= User.find_by_id_hash(cookies[:auth_token]) if cookies[:auth_token]
+    @user ||= User.find_by_id_hash(cookies[:id_hash]) if cookies[:id_hash]
   end
 
   def signin(user, remember_me=false)
     user.set_last_login # Sets the user's last login time to now.
 
+    # Both session and cookie are used.
+    # cookies for permanent login.
+    # session because websockets can't use cookies.
+    session[:id_hash] = user.id_hash
+
     if remember_me
-      cookies.permanent[:auth_token] = user.id_hash
+      cookies.permanent[:id_hash] = user.id_hash
     else
-      cookies[:auth_token] = user.id_hash
+      cookies[:id_hash] = user.id_hash
     end
 
     logger.tagged(:signin) {
@@ -26,6 +31,7 @@ class ApplicationController < ActionController::Base
   end
 
   def signout
-    cookies.delete(:auth_token)
+    session.delete(:id_hash)
+    cookies.delete(:id_hash)
   end
 end

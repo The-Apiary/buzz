@@ -1,3 +1,7 @@
+.hide
+  #websocket(data-uri="#{request.host}:#{request.port}/websocket")
+  #user(data-id-hash="#{@user.id_hash}")
+
 %script{ type: 'text/x-handlebars' }
   / Login modal
   %div.modal.fade#signin-modal(tabindex="-1" role="dialog" aria-hidden="true")
