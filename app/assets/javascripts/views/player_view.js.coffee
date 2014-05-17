@@ -10,13 +10,13 @@ Buzz.PlayerView = Ember.View.extend
 
     # Send an event to the controller and the socket.
     addDispatchedEvent = (event, message_cb) ->
-      channel.bind "receive.#{event}", (message) ->
-        self.get('controller').send("receive_#{event}", message)
+      channel.bind "audio.#{event}", (message) ->
+        self.get('controller').send("audio_#{event}", message)
 
       player.addEventListener event, () ->
         message = if _.isFunction(message_cb) then message_cb() else {}
-        dispatcher.trigger "receive.#{event}", message
-        self.get('controller').send("receive_#{event}", message)
+        dispatcher.trigger "audio.#{event}", message
+        self.get('controller').send("audio_#{event}", message)
 
     addDispatchedEvent 'play'
 
