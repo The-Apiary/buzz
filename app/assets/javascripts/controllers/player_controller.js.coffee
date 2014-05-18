@@ -33,16 +33,36 @@ Buzz.PlayerController = Ember.ObjectController.extend
     audio_play: ->
       this.set 'is_playing', true
       return false
+
     audio_pause: ->
       this.set 'is_playing', false
       return false
+
     audio_volumechange: (message) ->
       this.set 'is_muted', message.muted
       this.set 'volume', message.volume
       return false
+
     audio_progress: (message) ->
       this.set('buffered', message.buffered)
       return false
+
+    audio_timeupdate: (message) ->
+      this.set('currentTime', message.currentTime)
+      this.get('model').update_current_position message.currentTime
+
+    audio_durationchange: (message) ->
+      current_episode = this.get('model')
+      current_duration = current_episode.get('duration')
+      duration = message.duration
+
+      # Only save the new duration if the difference is greater than one.
+      if current_duration < duration - 1 || current_duration > duration + 1
+        current_episode.set('duration', duration)
+        current_episode.save()
+
+    audio_stalled: ->
+      console.log 'stalled'
 
     play: ->
       this.get('player').play()
@@ -80,16 +100,3 @@ Buzz.PlayerController = Ember.ObjectController.extend
 
       # Delete the queued episode, removing it from the queue
       this.get('queue').remove(ce)
-
-    setCurrentPosition: (currentTime) ->
-      this.set('currentTime', currentTime)
-      this.get('model').update_current_position currentTime
-
-    setDuration: (duration) ->
-      current_episode = this.get('model')
-      current_duration = current_episode.get('duration')
-
-      # Only save the new duration if the difference is greater than one.
-      if current_duration < duration - 1 || current_duration > duration + 1
-        current_episode.set('duration', duration)
-        current_episode.save()

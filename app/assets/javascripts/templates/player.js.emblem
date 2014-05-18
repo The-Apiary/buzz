@@ -17,14 +17,15 @@
       a.btn.navbar-btn title="Mute" click=mute
         span.glyphicon.glyphicon-volume-up
   .navbar-text.title-display
-    | {{title}} {{pretty-time currentTime}}/{{pretty-time duration}}
+    = link-to 'episodes.show' this
+      ' {{title}}
+    | {{pretty-time currentTime}}/{{pretty-time duration}}
     .scrubber.progress
       .progress-bar.progress-bar-danger style=percent_listened_width
       .progress-bar.progress-bar-grey style=percent_buffered_width
 
-/ NOTE TO SELF: stop commiting changes that disable autoplay, or mute this player.
-/ stop using the developer environment to listen and setup then use production or the server.
-/ Times Commited: 13
+/ NOTE TO SELF: stop commiting changes that disable autoplay or mute this player.
+/ Times Commited: 14
 audio preload="true"/ autoplay="true"
   source src=audio_url type=episode_type
   | Your browser can't play this podcast

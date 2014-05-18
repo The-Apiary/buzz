@@ -8,24 +8,59 @@ Buzz.PlayerView = Ember.View.extend
     id_hash = $('#user').data('id-hash')
     channel = dispatcher.subscribe(id_hash)
 
-    # Send an event to the controller and the socket.
-    addDispatchedEvent = (event, message_cb) ->
-      channel.bind "audio.#{event}", (message) ->
-        self.get('controller').send("audio_#{event}", message)
-
+    # Used in adding dispatched events
+    meta_addDispatchedEvent = (event, message_cb, dispatch_cb) ->
+      # dispatch a message when the audio element triggers an event.
       player.addEventListener event, () ->
         message = if _.isFunction(message_cb) then message_cb() else {}
-        dispatcher.trigger "audio.#{event}", message
+        dispatch_cb(message)
         self.get('controller').send("audio_#{event}", message)
 
-    addDispatchedEvent 'play'
+      # send messages to the controller when an event is received from the
+      # socket.
+      channel.bind "audio.#{event}", (message) ->
+        console.log "Caught #{event}: #{message}"
+        self.get('controller').send("audio_#{event}", message)
 
-    addDispatchedEvent 'pause'
+    ##
+    # Send an event to the controller and the socket.
+    addDispatchedEvent = (event, message_cb) ->
+      meta_addDispatchedEvent event, message_cb, (message) ->
+        dispatcher.trigger "audio.#{event}", message
 
+    ##
+    # Send an event to the controller and the socket.
+    # Limit the number of events sent with Ember.run.throttle.
+    #
+    # Ember.run matches methods by the context and the name of the method
+    # but not the arguments
+    # passing `dispatcher` and `trigger` as the context and method name
+    # would throttle all events when I want to throttle each type of event
+    # seperatly.
+    #
+    # My solution is to add methods to this dsp_events hash which should be
+    # used as the context and the event name should be the method name.
+    dsp_events = {}
+    addThrottledDispatchedEvent = (event, limit, message_cb) ->
+      dsp_events[event] ||= (message) -> dispatcher.trigger "audio.#{event}", message
+      meta_addDispatchedEvent event, message_cb, (message) ->
+        Ember.run.throttle dsp_events, event, message, limit
+
+    # Bind basic events, those without messages.
+    _(['play', 'pause', 'stalled']).each (basic_event) ->
+      addDispatchedEvent basic_event
+
+    # Mute/unmute or change the volume
     addDispatchedEvent 'volumechange', () ->
       { muted: player.muted, volume: player.volume }
 
-    addDispatchedEvent 'progress', () ->
+    # Set the current tracks duration
+    addDispatchedEvent 'durationchange', () ->
+      { duration: player.duration }
+
+    # Update the controllers buffered value
+    # Send the events no less than a second apart
+    addThrottledDispatchedEvent 'progress', 1000, () ->
         # The end of the last buffered segment
         buffered_chunks = player.buffered.length
         if buffered_chunks > 0
@@ -34,22 +69,16 @@ Buzz.PlayerView = Ember.View.extend
           buffered = 0
         return {buffered: buffered}
 
+    # Update the controllers currentTime value
+    # Send the events no less than a second apart
+    addThrottledDispatchedEvent 'timeupdate', 1000, () ->
+      { currentTime: player.currentTime }
+
+
+
   # Update current positon, duration, and next track actions.
   bindEpisodeDataUpdate: (player) ->
     self = this
-    # Set the current position in the current track
-    player.addEventListener 'timeupdate', () ->
-      if self.get('controller')
-        self.get('controller').send('setCurrentPosition', this.currentTime)
-
-    # Set the current tracks durration
-    player.addEventListener 'durationchange', () ->
-      if self.get('controller')
-        self.get('controller').send('setDuration', this.duration)
-
-    player.addEventListener 'stalled', () ->
-      console.log 'stalled'
-
     # Resume playback from previous position
     player.addEventListener 'canplay', _.once ->
       currentTime = self.get('controller.model.current_position')
@@ -65,6 +94,12 @@ Buzz.PlayerView = Ember.View.extend
 
     websocket_uri = $('#websocket').data('uri')
     dispatcher = new WebSocketRails(websocket_uri)
+
+    dispatcher.bind 'connected', (message) ->
+      console.log message
+
+    dispatcher.bind 'disconnected', (message) ->
+      console.log message
 
     player = self.$('audio')[0]
 
