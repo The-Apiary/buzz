@@ -2,65 +2,39 @@ Buzz.PlayerView = Ember.View.extend
   templateName: 'player'
 
   # Add hooks to update control state
-  bindControlEvents: (player, dispatcher) ->
+  bindControlEvents: (player, dispatcher, client_id) ->
     self = this
 
+    # Listen for events from the master on the users channel
     id_hash = $('#user').data('id-hash')
     channel = dispatcher.subscribe(id_hash)
+    rel = new Buzz.RemoteEventListener(self.get('controller'), channel, 'event')
 
-    # Used in adding dispatched events
-    meta_addDispatchedEvent = (event, message_cb, dispatch_cb) ->
-      # dispatch a message when the audio element triggers an event.
-      player.addEventListener event, () ->
-        message = if _.isFunction(message_cb) then message_cb() else {}
-        dispatch_cb(message)
-        self.get('controller').send("audio_#{event}", message)
+    events = ['play', 'pause', 'stalled', 'volumechange',
+              'durationchange', 'progress', 'timeupdate']
 
-      # send messages to the controller when an event is received from the
-      # socket.
-      channel.bind "audio.#{event}", (message) ->
-        console.log "Caught #{event}: #{message}"
-        self.get('controller').send("audio_#{event}", message)
+    _(events).each (basic_event) -> rel.bind basic_event
 
-    ##
-    # Send an event to the controller and the socket.
-    addDispatchedEvent = (event, message_cb) ->
-      meta_addDispatchedEvent event, message_cb, (message) ->
-        dispatcher.trigger "audio.#{event}", message
+    ## Master Only
 
-    ##
-    # Send an event to the controller and the socket.
-    # Limit the number of events sent with Ember.run.throttle.
-    #
-    # Ember.run matches methods by the context and the name of the method
-    # but not the arguments
-    # passing `dispatcher` and `trigger` as the context and method name
-    # would throttle all events when I want to throttle each type of event
-    # seperatly.
-    #
-    # My solution is to add methods to this dsp_events hash which should be
-    # used as the context and the event name should be the method name.
-    dsp_events = {}
-    addThrottledDispatchedEvent = (event, limit, message_cb) ->
-      dsp_events[event] ||= (message) -> dispatcher.trigger "audio.#{event}", message
-      meta_addDispatchedEvent event, message_cb, (message) ->
-        Ember.run.throttle dsp_events, event, message, limit
+    # Emit events for other clients to capture.
+    led = new Buzz.LocalEventDispatcher(player, dispatcher, 'event')
 
     # Bind basic events, those without messages.
     _(['play', 'pause', 'stalled']).each (basic_event) ->
-      addDispatchedEvent basic_event
+      led.addDispatchedEvent basic_event
 
     # Mute/unmute or change the volume
-    addDispatchedEvent 'volumechange', () ->
+    led.addDispatchedEvent 'volumechange', () ->
       { muted: player.muted, volume: player.volume }
 
     # Set the current tracks duration
-    addDispatchedEvent 'durationchange', () ->
+    led.addDispatchedEvent 'durationchange', () ->
       { duration: player.duration }
 
     # Update the controllers buffered value
     # Send the events no less than a second apart
-    addThrottledDispatchedEvent 'progress', 1000, () ->
+    led.addThrottledDispatchedEvent 'progress', 1000, () ->
         # The end of the last buffered segment
         buffered_chunks = player.buffered.length
         if buffered_chunks > 0
@@ -71,7 +45,7 @@ Buzz.PlayerView = Ember.View.extend
 
     # Update the controllers currentTime value
     # Send the events no less than a second apart
-    addThrottledDispatchedEvent 'timeupdate', 1000, () ->
+    led.addThrottledDispatchedEvent 'timeupdate', 1000, () ->
       { currentTime: player.currentTime }
 
 
@@ -109,8 +83,9 @@ Buzz.PlayerView = Ember.View.extend
     # Set the pages title to the episode title.
     $(document).attr 'title', self.get('controller.model.title')
 
-    self.bindControlEvents(player, dispatcher)
-    self.bindEpisodeDataUpdate(player, dispatcher)
+    dispatcher.on_open = (message) ->
+      self.bindControlEvents(player, dispatcher, message.connection_id)
+      self.bindEpisodeDataUpdate(player, dispatcher, message.connection_id)
 
     if player.paused
       self.set 'controller.is_playing', false
