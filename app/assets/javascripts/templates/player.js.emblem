@@ -27,7 +27,7 @@
     | playing here
   else
     button.btn.btn-primary click=create_local_player
-      | playing elsewhere
+      | Play here
 
 / NOTE TO SELF: stop commiting changes that disable autoplay or mute this player.
 / Times Commited: 14
