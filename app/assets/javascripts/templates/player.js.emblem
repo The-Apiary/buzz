@@ -20,9 +20,14 @@
     = link-to 'episodes.show' this
       ' {{title}}
     | {{pretty-time currentTime}}/{{pretty-time duration}}
-    .scrubber.progress
+    #scrubber.progress
       .progress-bar.progress-bar-danger style=percent_listened_width
       .progress-bar.progress-bar-grey style=percent_buffered_width
+  if local_playback
+    | playing here
+  else
+    button.btn.btn-primary click=create_local_player
+      | playing elsewhere
 
 / NOTE TO SELF: stop commiting changes that disable autoplay or mute this player.
 / Times Commited: 14

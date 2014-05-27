@@ -1,10 +1,20 @@
 Buzz.PlayerController = Ember.ObjectController.extend
   needs: 'queue'
   queueBinding: 'controllers.queue'
-  player: null
 
-  is_playing: true
-  buffered: 0
+  # Websocket info
+  connection_id: null
+  id_hash:       null
+  dispatcher:     null
+
+  # Player info
+  player:         null
+  local_playback: null
+
+
+  # State
+  is_playing:  false
+  buffered:    0
   currentTime: 0
 
   percent_listened: (->
@@ -28,8 +38,48 @@ Buzz.PlayerController = Ember.ObjectController.extend
     return "width: calc(#{buffered}% - #{listened}% - 1px);"
   ).property('buffered', 'percent_listened')
 
-
   actions:
+    # Add hooks to update control state
+    bind_events: (player) ->
+      self = this
+      events = ['play', 'pause', 'stalled', 'volumechange',
+         'durationchange', 'progress', 'timeupdate']
+
+      _(events).each (event) ->
+        player.bind event, (message) -> self.send('event', event, message)
+
+    create_remote_player: ->
+      id_hash            = this.get('id_hash')
+      command_dispatcher = this.get('dispatcher')
+      event_channel      = command_dispatcher.subscribe(id_hash)
+
+      player = new Buzz.RemotePlayer(event_channel, command_dispatcher)
+
+      this.send 'bind_events', player
+
+      this.set 'player', player
+      this.set 'local_playback', false
+
+      command_dispatcher.trigger 'release_master'
+
+    create_local_player: ->
+
+      real_player = document.createElement("audio")
+      real_player.src = this.get 'audio_url'
+
+      connection_id       = this.get('connection_id')
+      event_dispatcher    = this.get('dispatcher')
+      command_channel     = event_dispatcher.subscribe(connection_id)
+
+      player = new Buzz.LocalPlayer(event_dispatcher, command_channel, real_player)
+
+      this.send 'bind_events', player
+
+      this.set 'player', player
+      this.set 'local_playback', true
+
+      event_dispatcher.trigger 'claim_master'
+
     event: (event, message) ->
       switch event
         when 'stalled'
@@ -72,18 +122,15 @@ Buzz.PlayerController = Ember.ObjectController.extend
       return false
 
     mute: ->
-      this.get('player').muted = true
+      this.get('player').mute()
       return false
 
     unmute: ->
-      this.get('player').muted = false
+      this.get('player').unmute()
       return false
 
     seek: (perc) ->
-      currentTime = this.get('player').duration * perc
-
-      this.set 'currentTime', currentTime
-      this.get('player').currentTime = currentTime
+      this.get('player').seek(perc)
       return false
 
     markPlayed: () ->

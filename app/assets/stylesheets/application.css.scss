@@ -64,7 +64,7 @@ body {
     flex: 20; // I just chose a high value, I don't relly get flexboxs
     margin: 7px 0;
 
-    .scrubber {
+    #scrubber {
       .progress-bar {
         transition: width 0.6s ease;
       }
