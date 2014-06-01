@@ -21,6 +21,8 @@ Buzz.PlayerView = Ember.View.extend
 
     websocket_uri = $('#websocket').data('uri')
     dispatcher = new WebSocketRails(websocket_uri)
+    # Add the dispatcher to the controller.
+
 
     dispatcher.bind 'connected', (message) ->
       console.log message
@@ -28,12 +30,14 @@ Buzz.PlayerView = Ember.View.extend
     dispatcher.bind 'disconnected', (message) ->
       console.log message
 
-    # Add the dispatcher to the controller.
-    self.set 'controller.dispatcher', dispatcher
-
     dispatcher.on_open = (message) ->
-      self.set 'controller.id_hash', $('#user').data('id-hash')
-      self.set 'controller.connection_id', message.connection_id
+      id_hash = $('#user').data('id-hash')
+      connection_id = message.connection_id
+
+      self.set 'controller.dispatcher', dispatcher
+      self.set 'controller.events_channel_id', id_hash
+      self.set 'controller.commands_channel_id', connection_id
+
       self.get('controller').send 'create_remote_player'
 
     # Set the pages title to the episode title.
@@ -42,3 +46,4 @@ Buzz.PlayerView = Ember.View.extend
   willDestroyElement: () ->
     # Unset the pages title.
     $(document).attr 'title', 'Buzz'
+    this.get('controller').send 'unbind_events'

@@ -3,12 +3,22 @@ Buzz.PlayerController = Ember.ObjectController.extend
   queueBinding: 'controllers.queue'
 
   # Websocket info
-  connection_id: null
-  id_hash:       null
-  dispatcher:     null
+  dispatcher:       null
+  events_channel:   null
+  commands_channel: null
 
   # Player info
-  player:         null
+  pplayer: null
+  player: ((attr, player) ->
+    if player != undefined
+      this.send 'unbind_events'
+      this.set 'pplayer', player
+      this.send 'bind_events', player
+      return player
+    else
+      return null
+  ).property('player')
+
   local_playback: null
 
 
@@ -40,7 +50,7 @@ Buzz.PlayerController = Ember.ObjectController.extend
 
   actions:
     # Add hooks to update control state
-    bind_events: (player) ->
+    bind_events:  (player) ->
       self = this
       events = ['play', 'pause', 'stalled', 'volumechange',
          'durationchange', 'progress', 'timeupdate']
@@ -48,37 +58,38 @@ Buzz.PlayerController = Ember.ObjectController.extend
       _(events).each (event) ->
         player.bind event, (message) -> self.send('event', event, message)
 
+    unbind_events: ->
+      self = this
+
+      player = self.get 'player'
+      player.destroy() if player
+
     create_remote_player: ->
-      id_hash            = this.get('id_hash')
-      command_dispatcher = this.get('dispatcher')
-      event_channel      = command_dispatcher.subscribe(id_hash)
+      dispatcher        = this.get('dispatcher')
+      events_channel_id = this.get('events_channel_id')
 
-      player = new Buzz.RemotePlayer(event_channel, command_dispatcher)
-
-      this.send 'bind_events', player
+      player = new Buzz.RemotePlayer(dispatcher, events_channel_id)
 
       this.set 'player', player
       this.set 'local_playback', false
 
-      command_dispatcher.trigger 'release_master'
+      dispatcher.trigger 'release_master'
 
     create_local_player: ->
 
-      real_player = document.createElement("audio")
-      real_player.src = this.get 'audio_url'
+      audio_url = this.get 'audio_url'
 
-      connection_id       = this.get('connection_id')
-      event_dispatcher    = this.get('dispatcher')
-      command_channel     = event_dispatcher.subscribe(connection_id)
+      connection_id    = this.get('connection_id')
+      dispatcher = this.get('dispatcher')
+      commands_channel_id = this.get('commands_channel_id')
 
-      player = new Buzz.LocalPlayer(event_dispatcher, command_channel, real_player)
-
-      this.send 'bind_events', player
+      player = new Buzz.LocalPlayer(
+        dispatcher, commands_channel_id, audio_url)
 
       this.set 'player', player
       this.set 'local_playback', true
 
-      event_dispatcher.trigger 'claim_master'
+      dispatcher.trigger 'claim_master'
 
     event: (event, message) ->
       switch event

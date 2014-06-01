@@ -20,36 +20,35 @@ class EventsController < WebsocketRails::BaseController
 
   ##
   # Repeats command events to the master channel.
+  # If there is no master set master to the client that sent this message.
   def repeat_command
+    claim_master if master.nil?
+
     puts "[Event] Sending #{event.name.to_s}: #{message} to master"
     message_master event.name, message, namespace: :command
   end
 
   def client_connected
-    message = { message: "#{client_id} connected", master: master }
+    message = { client_id: client_id }
     broadcast_message :connected, message
   end
 
   def client_disconnected
-    controller_store[@id_hash][:master_id] = nil if is_master?
+    release_master if is_master?
 
-    message = { message: "#{client_id} disconnected", master: master }
+    message = { client_id: client_id }
     broadcast_message :disconnected, message
   end
 
-  ##
-  # Sets this client as the master.
   def claim_master
-    controller_store[@id_hash][:master_id] = client_id
-    message_others :new_master, { master: master }
+    set_master client_id
   end
 
   ##
   # Sets master to nil
   def release_master
     if is_master?
-      controller_store[@id_hash][:master_id] = nil
-      message_others :no_master, { master: master }
+      set_master nil
     end
   end
 
@@ -60,6 +59,13 @@ class EventsController < WebsocketRails::BaseController
   def setup
     @id_hash = request.cookies['id_hash']
     controller_store[@id_hash] ||= { master_id: nil }
+  end
+
+  ##
+  # Sets this client as the master.
+  def set_master(client)
+    controller_store[@id_hash][:master_id] = client
+    message_others :master, { master: master }
   end
 
   def master
