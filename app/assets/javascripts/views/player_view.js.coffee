@@ -20,7 +20,7 @@ Buzz.PlayerView = Ember.View.extend
     self = this
 
     websocket_uri = $('#websocket').data('uri')
-    dispatcher = new WebSocketRails(websocket_uri)
+    dispatcher = new WebSocketRails(websocket_uri, false)
     # Add the dispatcher to the controller.
 
 
