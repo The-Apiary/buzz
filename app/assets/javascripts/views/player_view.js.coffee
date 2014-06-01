@@ -3,8 +3,8 @@ Buzz.PlayerView = Ember.View.extend
 
   ##
   # NOTE: I don't know why this isn't bound like the other actions, it might
-  # have to do with getting the courser position from the event.
-  bind_controls: (player, dispatcher) ->
+  # have to do with getting the mouse position from the event.
+  bind_scrubber: (player, dispatcher) ->
     self = this
     scrubber = self.$('#scrubber')
 
@@ -19,6 +19,8 @@ Buzz.PlayerView = Ember.View.extend
   didInsertElement: () ->
     self = this
 
+    this.bind_scrubber()
+
     websocket_uri = $('#websocket').data('uri')
     dispatcher = new WebSocketRails(websocket_uri, false)
     # Add the dispatcher to the controller.
@@ -30,9 +32,14 @@ Buzz.PlayerView = Ember.View.extend
     dispatcher.bind 'disconnected', (message) ->
       console.log message
 
+
     dispatcher.on_open = (message) ->
       id_hash = $('#user').data('id-hash')
       connection_id = message.connection_id
+
+      channel = dispatcher.subscribe(id_hash)
+      channel.bind 'local_player_changed', (message) ->
+        console.log message
 
       self.set 'controller.dispatcher', dispatcher
       self.set 'controller.events_channel_id', id_hash

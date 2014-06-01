@@ -68,12 +68,12 @@ Buzz.PlayerController = Ember.ObjectController.extend
       dispatcher        = this.get('dispatcher')
       events_channel_id = this.get('events_channel_id')
 
+      dispatcher.trigger 'release_local_player'
+
       player = new Buzz.RemotePlayer(dispatcher, events_channel_id)
 
       this.set 'player', player
       this.set 'local_playback', false
-
-      dispatcher.trigger 'release_master'
 
     create_local_player: ->
 
@@ -83,13 +83,14 @@ Buzz.PlayerController = Ember.ObjectController.extend
       dispatcher = this.get('dispatcher')
       commands_channel_id = this.get('commands_channel_id')
 
+      dispatcher.trigger 'claim_local_player'
+
       player = new Buzz.LocalPlayer(
         dispatcher, commands_channel_id, audio_url)
 
       this.set 'player', player
       this.set 'local_playback', true
 
-      dispatcher.trigger 'claim_master'
 
     event: (event, message) ->
       switch event

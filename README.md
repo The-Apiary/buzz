@@ -75,4 +75,4 @@ Events include:
  - track change
  - position change
  - buffer change(?)
- - master controller change
+ - local_player change
