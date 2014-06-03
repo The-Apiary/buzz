@@ -25,7 +25,10 @@ Buzz.PlayerController = Ember.ObjectController.extend
   # State
   is_playing:  false
   buffered:    0
-  currentTime: 0
+  currentTime: null
+  duration: null
+  is_muted: false
+  volume: 100
 
   percent_listened: (->
     listened = (this.get('currentTime') / this.get('duration')) * 100
@@ -65,15 +68,22 @@ Buzz.PlayerController = Ember.ObjectController.extend
       player.destroy() if player
 
     create_remote_player: ->
+      self = this
       dispatcher        = this.get('dispatcher')
       events_channel_id = this.get('events_channel_id')
 
       dispatcher.trigger 'release_local_player'
 
-      player = new Buzz.RemotePlayer(dispatcher, events_channel_id)
+      player = new Buzz.RemotePlayer(dispatcher, events_channel_id,
+        # Succesfully connected
+        (player, sync_message) ->
+          self.send('event', 'sync', sync_message)
+          self.set 'player', player # `this` should be the player
+          self.set 'local_playback', false
+        () ->
+          alert
+      )
 
-      this.set 'player', player
-      this.set 'local_playback', false
 
     create_local_player: ->
 
@@ -94,6 +104,11 @@ Buzz.PlayerController = Ember.ObjectController.extend
 
     event: (event, message) ->
       switch event
+        when 'sync'
+          console.log message
+          _(message).each (val, attr) =>
+            console.log "#{attr} #{val}"
+            this.set attr, val
         when 'stalled'
           console.log 'stalled'
         when 'play'
@@ -101,7 +116,7 @@ Buzz.PlayerController = Ember.ObjectController.extend
         when 'pause'
           this.set 'is_playing', false
         when 'volumechange'
-          this.set 'is_muted', message.muted
+          this.set 'is_muted', message.is_muted
           this.set 'volume', message.volume
         when 'progress'
           this.set('buffered', message.buffered)
@@ -112,6 +127,8 @@ Buzz.PlayerController = Ember.ObjectController.extend
           current_episode = this.get('model')
           current_duration = current_episode.get('duration')
           duration = message.duration
+
+          this.set('duration', duration)
 
           # Only save the new duration if the difference is greater than one.
           if current_duration < duration - 1 || current_duration > duration + 1

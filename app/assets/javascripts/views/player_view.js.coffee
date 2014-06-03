@@ -37,7 +37,7 @@ Buzz.PlayerView = Ember.View.extend
       id_hash = $('#user').data('id-hash')
       connection_id = message.connection_id
 
-      channel = dispatcher.subscribe(id_hash)
+      channel = dispatcher.subscribe_private(id_hash)
       channel.bind 'local_player_changed', (message) ->
         console.log message
 

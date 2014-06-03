@@ -112,7 +112,7 @@ class Buzz.RemoteControlDispatcher
 # `player`           should be the player node.
 class Buzz.LocalPlayer
   constructor: (dispatcher, control_channel_id, audio_url) ->
-    @control_channel = dispatcher.subscribe(control_channel_id)
+    @control_channel = dispatcher.subscribe_private(control_channel_id)
 
     @player = new Audio([audio_url])
 
@@ -120,8 +120,10 @@ class Buzz.LocalPlayer
     # Send player events to the socket.
     @led = new Buzz.LocalEventDispatcher(@player, dispatcher, 'event')
 
-    _(['play', 'pause', 'stalled']).each (basic_event) =>
-      @led.addDispatchedEvent basic_event
+    @led.addDispatchedEvent 'play', () -> is_playing: true
+    @led.addDispatchedEvent 'pause', () -> is_playing: false
+
+    @led.addDispatchedEvent 'stalled'
 
     # Mute/unmute or change the volume
     @led.addDispatchedEvent 'volumechange', () =>
@@ -185,17 +187,21 @@ class Buzz.LocalPlayer
 # `event_channel_id` should be the id of the channel to listen for events on.
 # `command_dispatcher` should be the basic dispatcher.
 class Buzz.RemotePlayer
-  constructor: (dispatcher, event_channel_id) ->
-    @event_channel = dispatcher.subscribe(event_channel_id)
+  constructor: (dispatcher, event_channel_id, connected_cb, failure_cb) ->
+    @event_channel = dispatcher.subscribe_private(event_channel_id)
 
-    @rcd = new Buzz.RemoteControlDispatcher(dispatcher, 'command')
-    @rel = new Buzz.RemoteEventListener(@event_channel, 'event')
+    @event_channel.on_success = (message) =>
+      @rcd = new Buzz.RemoteControlDispatcher(dispatcher, 'command')
+      @rel = new Buzz.RemoteEventListener(@event_channel, 'event')
+      connected_cb(this, message)
+
+    @event_channel.on_failure = failure_cb
 
   destroy: () ->
     @event_channel.destroy
-    @rcd = null
-    @rcd = null
     @event_channel = null
+    @rcd = null
+    @rel = null
 
   type: -> "remote"
 

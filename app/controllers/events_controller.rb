@@ -6,15 +6,30 @@
 class EventsController < WebsocketRails::BaseController
   before_filter :setup
 
+  def subscribe_private
+    channel = WebsocketRails[message[:channel]].name.to_s
+
+    if channel == @id_hash
+      puts "#{client_id} subscribed to remote player channel"
+      puts state
+      accept_channel state
+    elsif channel == client_id
+      puts "#{client_id} subscribed to local player channel"
+      accept_channel state
+    else
+      deny_channel message: 'authorization failed'
+    end
+  end
+
   ##
   # Repeats event events from the local player to the remote players.
   def repeat_event
     if is_local_player?
-      puts "[Event] sending #{event.name.to_s}: #{message} to others"
+      update_state message
+
       message_others event.name, message, namespace: :event
       trigger_success message: "sent event #{event.name}"
     else
-      puts "[Event][#{event.name.to_s}] events must come from the local player"
       trigger_failure message: "#{event.name} event must come from the local player"
     end
   end
@@ -27,16 +42,17 @@ class EventsController < WebsocketRails::BaseController
     if is_remote_player?
       claim_local_player if local_player.nil?
 
-      puts "[Event] Sending #{event.name.to_s}: #{message} to local player"
       message_local_player event.name, message, namespace: :command
       trigger_success message: "sent command #{event.name}"
     else
-      puts "[Event][#{event.name.to_s}] commands must come from remote players"
       trigger_failure message: "'#{event.name}' commands must come from remote players"
     end
   end
 
   def client_connected
+    WebsocketRails[@id_hash].make_private
+    WebsocketRails[client_id].make_private
+
     message = { client_id: client_id }
     message_others :connected, message
   end
@@ -49,14 +65,12 @@ class EventsController < WebsocketRails::BaseController
   end
 
   def claim_local_player
-    puts "#{client_id} claimed local player"
     set_local_player client_id
   end
 
   ##
   # Sets local player to nil
   def release_local_player
-    puts "#{client_id} released local player"
     set_local_player nil if is_local_player?
   end
 
@@ -65,8 +79,9 @@ class EventsController < WebsocketRails::BaseController
   ##
   # Setup instance variables for this event.
   def setup
+
     @id_hash = request.cookies['id_hash']
-    controller_store[@id_hash] ||= { local_player_id: nil }
+    controller_store[@id_hash] ||= { local_player_id: nil, state: {} }
   end
 
   ##
@@ -79,6 +94,14 @@ class EventsController < WebsocketRails::BaseController
       old_local_player: old_local_player,
       new_local_player: local_player,
     }
+  end
+
+  def state
+    controller_store[@id_hash][:state]
+  end
+
+  def update_state(message)
+    controller_store[@id_hash][:state].merge!(message)
   end
 
   def local_player

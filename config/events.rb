@@ -6,9 +6,19 @@ WebsocketRails::EventMap.describe do
   subscribe :release_local_player, to: EventsController, with_method: :release_local_player
 
 
+  namespace :websocket_rails do
+    subscribe :subscribe_private, to: EventsController, with_method: :subscribe_private
+  end
+
   # Events sent by the local player to other clients
   namespace :event do
-    %i{play pause volumechange progress timeupdate stalled durationchange}.each do |event|
+    %i{play pause volumechange stalled durationchange}.each do |event|
+      subscribe event, to: EventsController, with_method: :repeat_event
+    end
+
+    # These events are seperated because they are triggered often,
+    # disabling them can help with debugging
+    %i{progress timeupdate}.each do |event|
       subscribe event, to: EventsController, with_method: :repeat_event
     end
   end
