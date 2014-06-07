@@ -22,6 +22,8 @@ class Episode < ActiveRecord::Base
   #-- Scopes
   default_scope { order(publication_date: :desc) }
 
+  scope :search, -> (query) { where("lower(title) LIKE lower(?)", "%#{query}%") }
+
   def self.parse_feed(node)
     episode_hash = Hash.new
 
@@ -75,6 +77,7 @@ class Episode < ActiveRecord::Base
 
     return episode_hash
   end
+
 
   def episode_data(user)
     episode_datas.find_by user: user

@@ -15,6 +15,11 @@ class Podcast < ActiveRecord::Base
   scope :alphabetic, -> { order :title }
   scope :popular, -> { order('subscriptions_count desc') }
 
+  scope :search, -> (query) do
+    q = "lower(title) LIKE lower(:q) OR lower(feed_url) = lower(:q)"
+    where(q, {q: "%#{query}%"})
+  end
+
   def add_category name
     new_cat = Category.where(name: name).first_or_create
     categories << new_cat unless categories.include? new_cat
@@ -132,4 +137,5 @@ class Podcast < ActiveRecord::Base
 
     return parsed_feed
   end
+
 end
