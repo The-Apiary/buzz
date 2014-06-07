@@ -9,20 +9,17 @@ class Api::V1::EpisodesController < ApplicationController
       @episodes = recently_published
     elsif params[:recently_listened]
       @episodes = recently_listened
-    elsif params[:q]
-      search
+    elsif params[:search]
+      @episodes = Episode.search(params[:q])
     else
       @episodes = all_episodes
     end
-  end
 
-  def search
-    @episodes = if params[:q]
-      Episode.search(params[:q]).limit(10)
-    else
-      []
-    end
-    render :index
+    @limit = params[:limit]
+    @offset = params[:offset]
+    @total = @episodes.count
+
+    @episodes = @episodes.limit(params[:limit]).offset(params[:offset])
   end
 
   def show

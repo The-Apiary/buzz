@@ -12,12 +12,9 @@ Buzz::Application.routes.draw do
     namespace :v1 do
       resources :episodes do
         post 'data', on: :member
-        get 'search', on: :collection
       end
 
-      resources :podcasts do
-        get 'search', on: :collection
-      end
+      resources :podcasts
 
       resources :queued_episodes
       resources :subscriptions

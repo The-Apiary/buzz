@@ -8,28 +8,25 @@ p
   = link-to 'podcasts.new' | Add a podcast.
 
 .search_results
-  h4 Podcasts
-  each podcasts
-    .media
-      .pull-left
-        img src=image_url
-      .media-body
+  .search_results
+    each podcasts
+      .podcast
+        .pull-left
+          img src=image_url
         h5.media-heading
           = link-to 'podcasts.show' id
             = title
           p.small
             | Podcast
+    else
+      | No podcasts
 
-  h4 Episodes
-  each episodes
-    .media
-      .pull-left
-        img src=image_url
-      .media-body
-        h5.media-heading
-          = link-to 'episodes.show' id
-            = title
-          p.small
-            ' Podcast:
-            = link-to 'podcasts.show' podcast_id
-              = podcast_title
+    = link-to 'podcasts.new'
+      button.btn.btn-primary.btn-sm.btn-block type='button'
+        | Add New Podcast
+
+    each episodes
+      render 'episode' this
+      = episodes.meta
+    else
+      | No Episodes

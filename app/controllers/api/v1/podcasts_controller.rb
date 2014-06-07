@@ -12,22 +12,17 @@ class Api::V1::PodcastsController < ApplicationController
     elsif params[:ids]
       logger.tagged('test') { logger.info  params[:ids] }
       @podcasts = Podcast.where(id: params[:ids])
-    elsif params[:q]
-      search
+    elsif params[:search]
+      @podcasts = Podcast.search(params[:q])
     else
       render json: { error: "Could not process #{params}" }, status: :unprocessable_entity
     end
-  end
 
-  def search
-    @podcasts =
-      if params[:q]
-        Podcast.search(params[:q]).limit(10)
-      else
-        []
-      end
+    @limit = params[:limit]
+    @offset = params[:offset]
+    @total = @podcasts.count
 
-      render :index
+    @podcasts = @podcasts.limit(params[:limit]).offset(params[:offset])
   end
 
   # GET /podcasts/1

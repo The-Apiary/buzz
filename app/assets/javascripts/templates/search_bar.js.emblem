@@ -1,7 +1,5 @@
 span
   label.sr-only Search
-  / The typeahead elements are added by the javascript code in the search view.
-  / There are some templates written in that view that should be moved to thier own template files if possible.
   = input class='form-control search' value=query action='search' placeholder='search' autocomplete='off' spellcheck='false' dir='auto'
   span.search-dropdown-menu style=display_dropdown
     .search_results
@@ -23,5 +21,6 @@ span
 
       each episodes
         render 'episode' this
+        = episodes.meta
       else
         | No Episodes
