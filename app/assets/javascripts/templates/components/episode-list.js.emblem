@@ -2,4 +2,4 @@
 
 ul.episode-list.list-unstyled: each filtered_episodes
   .clearfix
-  li: = render 'episode' this
+  li: = render 'episodes.listing' this

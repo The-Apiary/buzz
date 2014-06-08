@@ -1,4 +1,4 @@
-render 'episode' this.model
+render 'episodes.listing' this.model
 
 .btn-group.btn-group-justified
   .btn-group

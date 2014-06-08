@@ -1,0 +1,17 @@
+.search_results
+  .search_results
+    each podcasts
+      render 'podcasts.listing' this
+    else
+      | No podcasts
+
+    = link-to 'podcasts.new'
+      button.btn.btn-primary.btn-sm.btn-block type='button'
+        | Add New Podcast
+
+    ul.episode-list.list-unstyled: each episodes
+      li: render 'episodes.listing' this
+      .clearfix
+
+    else
+      | No Episodes

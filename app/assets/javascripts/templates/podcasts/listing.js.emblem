@@ -1,0 +1,9 @@
+.podcast
+  .pull-left
+    img src=image_url
+  h5.media-heading
+    = link-to 'podcasts.show' id
+      = title
+    p.small
+      | Podcast
+

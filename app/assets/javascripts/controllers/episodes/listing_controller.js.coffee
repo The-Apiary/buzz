@@ -1,4 +1,4 @@
-Buzz.EpisodeController = Ember.ObjectController.extend
+Buzz.EpisodesListingController = Ember.ObjectController.extend
   needs: ['queue', 'player']
   is_enqueued: (->
     this.get('controllers.queue').is_enqueued(this.get('id'))

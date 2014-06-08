@@ -1,0 +1,5 @@
+span
+  label.sr-only Search
+  = input class='form-control search' value=query action='search' placeholder='search' autocomplete='off' spellcheck='false' dir='auto'
+  span.search-dropdown-menu style=display_dropdown
+    partial 'search/results'
