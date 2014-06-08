@@ -10,7 +10,6 @@ class Api::V1::PodcastsController < ApplicationController
     elsif params[:popular]
       @podcasts = Podcast.popular
     elsif params[:ids]
-      logger.tagged('test') { logger.info  params[:ids] }
       @podcasts = Podcast.where(id: params[:ids])
     elsif params[:search]
       @podcasts = Podcast.search(params[:q])

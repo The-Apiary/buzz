@@ -8,7 +8,7 @@ class Api::V1::EpisodesController < ApplicationController
     elsif params[:recently_published]
       @episodes = recently_published
     elsif params[:recently_listened]
-      @episodes = recently_listened
+      @episodes = current_user.recently_listened_episodes
     elsif params[:search]
       @episodes = Episode.search(params[:q])
     else
@@ -58,10 +58,6 @@ class Api::V1::EpisodesController < ApplicationController
     current_user.recently_published_episodes
       .includes(:episode_datas)
       .order(publication_date: :desc)
-  end
-
-  def recently_listened
-    current_user.recently_listened_episodes
   end
 
   def all_episodes

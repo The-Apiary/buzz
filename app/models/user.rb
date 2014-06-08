@@ -49,11 +49,11 @@ class User < ActiveRecord::Base
   # List of episodes listened to in the last month,
   # orderd by last listened to.
   def recently_listened_episodes
-    episode_datas
-      .order('updated_at DESC')
-      .where(['updated_at > ?', 1.month.ago])
-      .includes(:episode)
-      .map(&:episode)
+    Episode
+      .joins(:episode_datas)
+      .order('episode_data.updated_at DESC')
+      .where(['episode_data.updated_at > ?', 1.month.ago])
+      .where(episode_data: { user_id: id })
   end
 
   def self.from_omniauth(auth, link_user=nil)
