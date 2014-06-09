@@ -52,6 +52,7 @@ gem 'unicorn' # Webserver
 
 #:: Development tools
 gem 'debugger', group: [:development, :test]
-gem 'quiet_assets', :group => :development
+gem 'quiet_assets', group: :development
+gem 'spring', group: :development
 
 
