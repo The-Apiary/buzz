@@ -14,8 +14,7 @@ Buzz.QueueController = Ember.ArrayController.extend
     this.get('model').mapProperty('episode.id').contains(episode_id)
 
   remove: (episode) ->
-    queued_episode = this.get('model').find (qe) ->
-      qe.get('episode') == episode
+    queued_episode = this.get('model').findBy 'episode.id', episode.get 'id'
 
     if queued_episode
       queued_episode.deleteRecord()
