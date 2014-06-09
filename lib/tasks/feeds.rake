@@ -18,8 +18,9 @@ namespace :feeds do
       begin
         # 0 second ttl to skips the cache
         podcast_data = Podcast.parse_feed podcast.feed_url, 0.seconds
-      rescue OpenURI::HTTPError => ex
-        puts "Could not reache feed #{ex.message}"
+      rescue OpenURI::HTTPError, Errno::ETIMEDOUT, Errno::ECONNRESET  => ex
+        puts "Could not update feed #{ex.message}"
+        Bugsnag.notify ex
         Rails.logger.tagged('feeds:update', start_time, podcast.title) { "Could not reache feed #{ex.message}" }
         next
       end
