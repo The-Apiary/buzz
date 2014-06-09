@@ -4,15 +4,19 @@ podcast_urls = File.open(feeds_dump, 'r').each_line.map(&:strip)
 
 puts "Creating podcasts"
 podcast_urls.each do |url|
-  podcast = Podcast.create_from_feed_url url
+  begin
+    podcast = Podcast.create_from_feed_url url
 
-  p podcast.errors.to_a unless podcast.save
+    p podcast.errors.to_a unless podcast.save
 
-  puts "-> title: #{podcast.title}"
-  puts "    feed_url: #{podcast.feed_url}"
-  puts "   image_url: #{podcast.image_url}"
-  puts "    episodes: #{podcast.episodes.count}"
-  puts "  categories: #{podcast.categories.count}"
+    puts "-> title: #{podcast.title}"
+    puts "    feed_url: #{podcast.feed_url}"
+    puts "   image_url: #{podcast.image_url}"
+    puts "    episodes: #{podcast.episodes.count}"
+    puts "  categories: #{podcast.categories.count}"
+  rescue Net::ReadTimeout => ex
+    puts ex.message
+  end
 end
 
 puts "Now #{Podcast.count} podcasts"
