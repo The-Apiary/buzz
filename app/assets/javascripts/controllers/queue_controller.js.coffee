@@ -1,6 +1,6 @@
 Buzz.QueueController = Ember.ArrayController.extend
   sortProperties: ['idx']
-  current_episodeBinding: 'queued_episodes.firstObject.episode'
+  current_episodeBinding: 'queued_episodes.firstObject'
 
   model:(->
     this.store.find('queued_episode')
