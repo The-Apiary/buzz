@@ -110,7 +110,7 @@ GEM
       json (~> 1.8)
       multi_xml (>= 0.5.2)
     i18n (0.6.9)
-    jbuilder (2.0.6)
+    jbuilder (2.0.8)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
     jquery-cdn (2.1.1)
