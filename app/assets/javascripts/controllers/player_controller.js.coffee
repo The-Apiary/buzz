@@ -69,13 +69,13 @@ Buzz.PlayerController = Ember.ObjectController.extend
 
     setCurrentPosition: (currentTime) ->
       this.set('currentTime', currentTime)
-      this.get('model').update_current_position currentTime
+      this.get('model').then (model) -> model.update_current_position currentTime
 
     setDuration: (duration) ->
-      current_episode = this.get('model')
-      current_duration = current_episode.get('duration')
+      this.get('model').then (current_episode) ->
+        current_duration = current_episode.get('duration')
 
-      # Only save the new duration if the difference is greater than one.
-      if current_duration < duration - 1 || current_duration > duration + 1
-        current_episode.set('duration', duration)
-        current_episode.save()
+        # Only save the new duration if the difference is greater than one.
+        if current_duration < duration - 1 || current_duration > duration + 1
+          current_episode.set('duration', duration)
+          current_episode.save()

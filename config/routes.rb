@@ -18,7 +18,7 @@ Buzz::Application.routes.draw do
 
       resources :queued_episodes
       resources :subscriptions
-      resources :categories, path: 'categorys', only: [:show, :index]
+      resources :categories, only: [:show, :index]
     end
   end
 

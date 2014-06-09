@@ -1,7 +1,7 @@
 Buzz.CategoriesIndexRoute = Ember.Route.extend
   model: () ->
-    Buzz.Category.find()
+    this.store.find('category')
 
 Buzz.CategoriesShowRoute = Ember.Route.extend
   model: (params) ->
-    Buzz.Category.find(params.name)
+    this.store.find('category', params.name)

@@ -3,4 +3,4 @@ Buzz.QueuedEpisode = DS.Model.extend
   before_episode: DS.attr 'number'
   after_episode:  DS.attr 'number'
   unshift:           DS.attr 'boolean'
-  episode:        DS.belongsTo 'Buzz.Episode', async: true
+  episode:        DS.belongsTo 'episode', async: true

@@ -1,3 +1,3 @@
 Buzz.EpisodesListenedRoute = Ember.Route.extend
   model: (podcast) ->
-    Buzz.Episode.find({recently_listened: true})
+    this.store.find('episode', recently_listened: true)

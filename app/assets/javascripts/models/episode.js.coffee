@@ -14,7 +14,7 @@ Buzz.Episode = DS.Model.extend
   # ed_ prefix. See the note for cached_attribute
   ed_current_position: DS.attr 'number'
   ed_is_played:        DS.attr 'boolean'
-  podcast:             DS.belongsTo 'Buzz.Podcast', async: true
+  podcast:             DS.belongsTo 'podcast', async: true
 
   # Set episode to unplayed state.
   reset: ->
@@ -67,7 +67,8 @@ Buzz.Episode = DS.Model.extend
     _.each data, (value, key) =>
       this.set key, value
 
-    base_url = Buzz.Adapter.buildURL('episode', this.id)
+    base_url = this.store.adapterFor('episode').buildURL('episode', this.id)
+
     url = [base_url, 'data'].join '/'
 
     args = {url: url, data: data, type: 'POST'}

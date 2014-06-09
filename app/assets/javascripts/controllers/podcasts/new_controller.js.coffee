@@ -13,7 +13,7 @@ Buzz.PodcastsNewController = Ember.ObjectController.extend
   actions:
 
     create: ->
-      podcast = Buzz.Podcast.createRecord feed_url: this.get('feed_url')
+      podcast = this.store.createRecord 'podcast', feed_url: this.get('feed_url')
       podcast.save().then(
         ( (podcast) => this.transitionToRoute('podcasts.show', podcast) ),
         ( (podcast) =>

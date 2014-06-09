@@ -24,7 +24,7 @@ Buzz.QueuedEpisodeView = Ember.View.extend
 
     #-- Start request to move dragged episode before this episode
     this.$('.add-before').bind 'drop', (e) ->
-      qe = Buzz.QueuedEpisode.find(e.dataTransfer.getData('queued_episode_id'))
+      qe = self.store.find('queued_episode', e.dataTransfer.getData('queued_episode_id'))
       before_id = self.get('controller.model.episode.id')
 
       qe.set('before_episode', before_id)

@@ -4,10 +4,10 @@ Buzz.PodcastsShowController = Ember.ObjectController.extend
 
   type: ( (key, type)->
     if (type != undefined)
-      subscription = this.get 'subscription'
-      if subscription
-        subscription.set('subscription_type', type)
-        subscription.save()
+      this.get('subscription').then (subscription) =>
+        if subscription
+          subscription.set('subscription_type', type)
+          subscription.save()
       return type
     else
       return this.get('subscription.subscription_type') || 'Normal'
@@ -17,7 +17,7 @@ Buzz.PodcastsShowController = Ember.ObjectController.extend
   # Ember data won't load the hasMany relationship to episodes, so here it is
   # explicitly loaded.
   episodes: (() ->
-      episodes = Buzz.Episode.find({podcast_id: this.get('model.id')})
+    episodes = this.store.find('episode', podcast_id: this.get('model.id'))
   ).property('model')
 
   filtered_episodes: (->
@@ -35,7 +35,7 @@ Buzz.PodcastsShowController = Ember.ObjectController.extend
   is_subscribed: (() ->
     subscription = this.get('subscription')
     return subscription != null
-  ).property('model', 'subscription')
+  ).property('model', 'model.subscription')
 
   actions:
     toggle_subscribe: ->
@@ -45,13 +45,13 @@ Buzz.PodcastsShowController = Ember.ObjectController.extend
         this.send 'subscribe'
 
     subscribe: ->
-      subscription = Buzz.Subscription.createRecord podcast: this.get('model')
-      subscription.save()
+      subscription = this.store.createRecord('subscription', podcast: this.get('model'))
+      subscription.save().then (sub) => this.set('subscription', sub)
 
     unsubscribe: ->
-      subscription = this.get('subscription')
-      subscription.deleteRecord()
-      subscription.save()
+      this.get('subscription').then (subscription) =>
+        subscription.deleteRecord()
+        subscription.save().then () => this.set('subscription', undefined)
 
     set_type: (type) ->
       this.set('type', type.toString())

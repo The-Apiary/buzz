@@ -1,2 +1,2 @@
 Buzz.SubscriptionsRoute = Ember.Route.extend
-  model: () -> Buzz.Podcast.find(subscribed: true)
+  model: () -> this.store.find('podcast', subscribed: true)

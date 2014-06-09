@@ -10,8 +10,7 @@
 
 # Shamelessly taken from
 # http://stackoverflow.com/questions/12168570/how-to-represent-arrays-within-ember-data-models/13884238#13884238
-DS.JSONTransforms.array =
-
+Buzz.ArrayTransform = DS.Transform.extend
   serialize: (jsonData)->
     if Em.typeOf(jsonData) is 'array' then jsonData else []
 

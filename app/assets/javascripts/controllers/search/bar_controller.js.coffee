@@ -10,10 +10,10 @@ Buzz.SearchBarController = Ember.ObjectController.extend
     self = this
     update = (query) ->
       if _.isString(query) && query.length >= 3
-        Buzz.Podcast.find(search: true, q: query, limit: 10).then(
+        self.store.find('podcast', search: true, q: query, limit: 10).then(
           (podcasts) -> self.set('podcasts', podcasts)
         )
-        Buzz.Episode.find(search: true, q: query, limit: 10).then(
+        self.store.find('episode', search: true, q: query, limit: 10).then(
           (episodes) -> self.set('episodes', episodes)
         )
       else

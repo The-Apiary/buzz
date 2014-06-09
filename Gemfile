@@ -16,6 +16,7 @@ gem 'rails_12factor', group: :production
 
 #:: Javascripts
 gem 'ember-rails'
+gem 'ember-source'
 gem 'jquery-cdn'       # Use jquery as the JavaScript library
 gem 'underscore-rails' # Javascript toolbelt.
 gem 'bootstrap-sass'   # css stylesheets

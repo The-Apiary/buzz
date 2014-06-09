@@ -2,7 +2,9 @@ Buzz.QueueController = Ember.ArrayController.extend
   sortProperties: ['idx']
   current_episodeBinding: 'queued_episodes.firstObject.episode'
 
-  model:(-> Buzz.QueuedEpisode.find()).property('Buzz.QueuedEpisode')
+  model:(->
+    this.store.find('queued_episode')
+  ).property('Buzz.QueuedEpisode')
 
   queued_episodes: (->
     this.get('model').sortBy('idx')
@@ -22,7 +24,7 @@ Buzz.QueueController = Ember.ArrayController.extend
   push: (episode) ->
     # Idx is set to javascript's max int so it will be added to the end
     # before getting it's real index from the server..
-    queued_episode = Buzz.QueuedEpisode.createRecord
+    queued_episode = this.store.createRecord 'queued_episode',
       episode: episode,
       idx: 9007199254740992
 
@@ -31,7 +33,7 @@ Buzz.QueueController = Ember.ArrayController.extend
   unshift: (episode) ->
     # Idx is set to javascript's min int so it will be added to the
     # beginning before getting it's real index from the server..
-    queued_episode = Buzz.QueuedEpisode.createRecord
+    queued_episode = this.store.createRecord 'queued_episode',
       episode: episode,
       idx: -9007199254740992
       unshift: true
