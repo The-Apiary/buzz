@@ -113,7 +113,7 @@ GEM
     jbuilder (2.0.6)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
-    jquery-cdn (2.1.0)
+    jquery-cdn (2.1.1)
       sprockets (>= 2)
     jquery-rails (3.1.0)
       railties (>= 3.0, < 5.0)
