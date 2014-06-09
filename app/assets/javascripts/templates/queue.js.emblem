@@ -2,4 +2,4 @@ h4 Upcoming
 .queue
   ul.list-unstyled: each queued_episodes
     .clearfix
-      li: render 'queued_episode' this
+      li: render 'episodes.listing' this

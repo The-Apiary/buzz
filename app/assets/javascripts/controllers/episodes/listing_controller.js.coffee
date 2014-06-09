@@ -1,8 +1,10 @@
 Buzz.EpisodesListingController = Ember.ObjectController.extend
   needs: ['queue', 'player']
+  queued_episodesBinding: 'controllers.queue.queued_episodes'
+
   is_enqueued: (->
-    this.get('controllers.queue').is_enqueued(this.get('id'))
-  ).property('controllers.queue.queued_episodes.length')
+    this.get('controllers.queue').is_enqueued(this)
+  ).property('queued_episodes')
 
   add_episode_to_queue: (method, episode) ->
     valid_methods = ['push', 'unshift', 'play']
