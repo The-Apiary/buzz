@@ -1,10 +1,10 @@
 Buzz.EpisodesListingController = Ember.ObjectController.extend
   needs: ['queue', 'player']
-  queued_episodesBinding: 'controllers.queue.queued_episodes'
+  queueBinding: 'controllers.queue'
 
   is_enqueued: (->
     this.get('controllers.queue').is_enqueued(this)
-  ).property('queued_episodes')
+  ).property('queue.episodes')
 
   add_episode_to_queue: (method, episode) ->
     valid_methods = ['push', 'unshift', 'play']
@@ -17,13 +17,13 @@ Buzz.EpisodesListingController = Ember.ObjectController.extend
         this.get('model').reset()
 
       # Add the episode to the queue.
-      this.get("controllers.queue")[method](episode)
+      this.get('queue')[method](episode)
     else
       throw "Invalid method #{method}, must be one of #{valid_methods}."
 
   actions:
     remove: () ->
-      this.get('controllers.queue').remove(this.get('model'))
+      this.get('queue').remove(this.get('model'))
       return null
 
     push: () ->
