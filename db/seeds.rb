@@ -2,10 +2,17 @@
 feeds_dump = Rails.configuration.feed_dump_filename
 podcast_urls = File.open(feeds_dump, 'r').each_line.map(&:strip)
 
+failed_urls = []
+
 puts "Creating podcasts"
 podcast_urls.each do |url|
   begin
     podcast = Podcast.create_from_feed_url url
+  rescue OpenURI::HTTPError, Errno::ETIMEDOUT, Errno::ECONNRESET  => ex
+    failed_urls << url
+    puts "Failed to create #{url}: #{ex.message}"
+    next
+  end
 
     p podcast.errors.to_a unless podcast.save
 
@@ -14,9 +21,6 @@ podcast_urls.each do |url|
     puts "   image_url: #{podcast.image_url}"
     puts "    episodes: #{podcast.episodes.count}"
     puts "  categories: #{podcast.categories.count}"
-  rescue Net::ReadTimeout => ex
-    puts ex.message
-  end
 end
 
 puts "Now #{Podcast.count} podcasts"
@@ -37,3 +41,10 @@ num_users.times do |n|
   Podcast.all.shuffle.take(rand(num_podcasts)).each { |pod| user.subscriptions.create podcast: pod }
 end
 puts "Created #{num_users} users with #{num_podcasts} podcasts"
+
+#-- Podcast load error messages.
+if failed_urls.any?
+  puts
+  puts "Failed to create #{failed_urls.count} podcasts"
+  puts failed_urls.map { |url| " - #{url}" }
+end
