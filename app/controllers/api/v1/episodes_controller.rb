@@ -9,6 +9,8 @@ class Api::V1::EpisodesController < ApplicationController
       @episodes = recently_published
     elsif params[:recently_listened]
       @episodes = current_user.recently_listened_episodes
+    elsif params[:suggestions]
+      @episodes = Episode.where(id: Suggester.episodes(current_user).map(&:id))
     elsif params[:search]
       @episodes = Episode.search(params[:q])
     else

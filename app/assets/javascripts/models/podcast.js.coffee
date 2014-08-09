@@ -10,3 +10,5 @@ Buzz.Podcast = DS.Model.extend
   episodes:      DS.hasMany 'episode', async: true
   subscription:  DS.belongsTo 'subscription', async:true
   subscriptions_count: DS.attr 'number'
+
+  typeBinding: 'subscription.subscription_type'

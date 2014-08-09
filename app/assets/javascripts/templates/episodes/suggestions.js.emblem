@@ -1,0 +1,4 @@
+%h4 Suggested Listening
+ul.episode-list.list-unstyled: each model
+  .clearfix
+  li: = render 'episodes.listing' this

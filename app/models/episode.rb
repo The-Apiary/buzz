@@ -20,9 +20,11 @@ class Episode < ActiveRecord::Base
   validates :episode_type, presence: true, allow_blank?: false, on: :create
 
   #-- Scopes
-  default_scope { order(publication_date: :desc) }
+  default_scope { freshest }
 
   scope :search, -> (query) { where("lower(title) LIKE lower(?)", "%#{query}%") }
+  scope :freshest, -> { order(publication_date: :desc) }
+  scope :newer_than, -> (date) { where(['publication_date > ?', date]) }
 
   def self.parse_feed(node)
     episode_hash = Hash.new
