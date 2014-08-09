@@ -95,6 +95,19 @@ body {
  }
 
 .episode, .podcast {
+  .heard-check, .unheard-check {
+    transition: color 0.25s, ease;
+  }
+
+  .heard-check, .unheard-check:hover {
+    color: black;
+  }
+
+  .unheard-check {
+    color: lightgrey;
+  }
+
+
   min-height: $episode-height;
   margin: 5px 0;
   position: relative;

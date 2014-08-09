@@ -2,6 +2,10 @@
   .pull-left
     img src=podcast.image_url
   .pull-right
+    if is_played
+      span.glyphicon.glyphicon-ok.heard-check{action 'set_played' false} title="I want to hear it again."
+    else
+      span.glyphicon.glyphicon-ok.unheard-check{action 'set_played' true} title="I've heard this."
     .btn-group.btn-group-xs
       .btn-group.btn-group-xs
         button.btn.dropdown-toggle data-toggle='dropdown' title='Episode Options'
