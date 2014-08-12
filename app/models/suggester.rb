@@ -1,54 +1,23 @@
 class Suggester
-
-  ##
-  # Returns a set of episodes the user might be interested in listening to.
-  def self.episodes(user, n=10)
-    grouped_subscriptions = user.subscriptions.group_by(&:subscription_type)
-    grouped_subscriptions.map do |type, subs|
-      podcasts = subs.map(&:podcast)
-      Suggester.type_episodes(type, podcasts, user, n)
-    end.flatten
-  end
-
-  private
-
-  def self.type_episodes(type, podcasts, user, n=10)
-      podcasts
-        .shuffle
-        .lazy
-        .map { |podcast| Suggester.podcast_episode(type, podcast, user) }
-        .reject(&:nil?)
-        .take(n)
-        .to_a
-  end
-
-  ##
-  # Returns an array of no more than +n+ suggested episodes from the
-  # array of +podcasts+
-  def self.podcast_episode(type, podcast, user)
-    episodes = case type
+  def self.episodes(user, type)
+    case type
     when "News"
-      podcast.episodes.freshest.newer_than(1.week.ago)
+      self.news(user)
     when "Serial"
-      podcast.episodes.freshest.reverse
+      self.serial(user)
     else
-      podcast.episodes.shuffle
+      self.normal(user)
     end
-
-    episodes
-      .drop_while { |e| e.is_played(user) }
-      .first
   end
 
   def self.news(user, date=1.week.ago)
     type = "News"
     Episode
       .unscoped
-      .select("DISTINCT ON (episodes.podcast_id) episodes.*")
+      .distinct_podcasts
       .subscribed(user, type: type)
       .unplayed(user)
       .newer_than(date)
-      .order("episodes.podcast_id") # DISTINCT ON Must be ordered
       .freshest
   end
 
@@ -56,10 +25,9 @@ class Suggester
     type = "Serial"
     Episode
       .unscoped
-      .select("DISTINCT ON (episodes.podcast_id) episodes.*")
+      .distinct_podcasts
       .subscribed(user, type: type)
       .unplayed(user)
-      .order("episodes.podcast_id") # DISTINCT ON Must be ordered
       .oldest
   end
 
@@ -67,10 +35,9 @@ class Suggester
     type = "Normal"
     Episode
       .unscoped
-      .select("DISTINCT ON (episodes.podcast_id) episodes.*")
+      .distinct_podcasts
       .subscribed(user, type: type)
       .unplayed(user)
-      .order("episodes.podcast_id") # DISTINCT ON Must be ordered
       .freshest
   end
 end

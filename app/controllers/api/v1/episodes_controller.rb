@@ -10,7 +10,7 @@ class Api::V1::EpisodesController < ApplicationController
     elsif params[:recently_listened]
       @episodes = current_user.recently_listened_episodes
     elsif params[:suggestions]
-      @episodes = Episode.where(id: Suggester.episodes(current_user).map(&:id))
+      @episodes = Suggester.episodes(current_user, params[:suggestions])
     elsif params[:search]
       @episodes = Episode.search(params[:q])
     else
@@ -19,7 +19,6 @@ class Api::V1::EpisodesController < ApplicationController
 
     @limit = params[:limit]
     @offset = params[:offset]
-    @total = @episodes.count
 
     @episodes = @episodes.limit(params[:limit]).offset(params[:offset])
   end

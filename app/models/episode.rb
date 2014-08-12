@@ -37,20 +37,29 @@ class Episode < ActiveRecord::Base
     where(podcast: subs.select(:podcast_id))
   end
 
-  # Returns all episodes not heard by the passed user.
-  scope :unplayed, -> (user) do
+  scope :with_user_data, -> (user) do
       joins("""LEFT OUTER JOIN episode_data
                ON episodes.id = episode_data.episode_id
             """)
+      .select("episode_data.is_played, episode_data.current_position, episode_data.user_id, episode_data.id AS episode_data_id")
       .where(["""
         (
-          episode_data.is_played IS NOT true
-          AND
           episode_data.user_id = :user
+          OR
+          episode_data.user_id IS NULL
         )
-        OR
-        episode_data.user_id IS NULL
       """, {user: user}])
+  end
+
+  # Returns all episodes not heard by the passed user.
+  scope :unplayed, -> (user) do
+      with_user_data(user)
+      .where("episode_data.is_played IS NOT true")
+  end
+
+  scope :distinct_podcasts, -> do
+      select("DISTINCT ON (episodes.podcast_id) episodes.*")
+      .order("episodes.podcast_id") # DISTINCT ON Must be ordered
   end
 
   def self.parse_feed(node)
@@ -112,15 +121,26 @@ class Episode < ActiveRecord::Base
     episode_datas.find_by user: user
   end
 
+
   def current_position(user)
-    episode_data(user).try(:current_position) || 0
+    attr_or_query("current_position", user) || 0
   end
 
   def is_played(user)
-    episode_data(user).try(:is_played) || false
+    attr_or_query("is_played", user) || false
   end
 
   def last_listened_at(user)
-    episode_data(user).try(:updated_at) || nil
+    attr_or_query("updated_at", user) || nil
+  end
+
+  private
+
+  def attr_or_query(attr, user)
+    if attribute_present?(attr)
+      attributes[attr]
+    else
+      episode_data(user).try(attr)
+    end
   end
 end
