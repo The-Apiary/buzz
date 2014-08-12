@@ -39,4 +39,38 @@ class Suggester
       .drop_while { |e| e.is_played(user) }
       .first
   end
+
+  def self.news(user, date=1.week.ago)
+    type = "News"
+    Episode
+      .unscoped
+      .select("DISTINCT ON (episodes.podcast_id) episodes.*")
+      .subscribed(user, type: type)
+      .unplayed(user)
+      .newer_than(date)
+      .order("episodes.podcast_id") # DISTINCT ON Must be ordered
+      .freshest
+  end
+
+  def self.serial(user)
+    type = "Serial"
+    Episode
+      .unscoped
+      .select("DISTINCT ON (episodes.podcast_id) episodes.*")
+      .subscribed(user, type: type)
+      .unplayed(user)
+      .order("episodes.podcast_id") # DISTINCT ON Must be ordered
+      .oldest
+  end
+
+  def self.normal(user)
+    type = "Normal"
+    Episode
+      .unscoped
+      .select("DISTINCT ON (episodes.podcast_id) episodes.*")
+      .subscribed(user, type: type)
+      .unplayed(user)
+      .order("episodes.podcast_id") # DISTINCT ON Must be ordered
+      .freshest
+  end
 end

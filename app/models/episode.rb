@@ -24,7 +24,34 @@ class Episode < ActiveRecord::Base
 
   scope :search, -> (query) { where("lower(title) LIKE lower(?)", "%#{query}%") }
   scope :freshest, -> { order(publication_date: :desc) }
+  scope :oldest, -> { order(publication_date: :asc) }
   scope :newer_than, -> (date) { where(['publication_date > ?', date]) }
+
+  # Returns all episodes from podcasts the user is subscribed to.
+  # If a type is passed only podcasts of that subscription type will be 
+  # included.
+  scope :subscribed, -> (user, type: nil) do
+    subs = Subscription.unscoped.where(user_id: user.id)
+    subs = subs.where(subscription_type: type) unless type.nil?
+
+    where(podcast: subs.select(:podcast_id))
+  end
+
+  # Returns all episodes not heard by the passed user.
+  scope :unplayed, -> (user) do
+      joins("""LEFT OUTER JOIN episode_data
+               ON episodes.id = episode_data.episode_id
+            """)
+      .where(["""
+        (
+          episode_data.is_played IS NOT true
+          AND
+          episode_data.user_id = :user
+        )
+        OR
+        episode_data.user_id IS NULL
+      """, {user: user}])
+  end
 
   def self.parse_feed(node)
     episode_hash = Hash.new
