@@ -4,7 +4,9 @@ class Api::V1::QueuedEpisodesController < ApplicationController
 
   # return queued episodes
   def index
-    @queued_episodes = current_user.queued_episodes.limit(params[:limit]).offset(params[:offset])
+    @queued_episodes = current_user.queued_episodes
+      .limit(params[:limit])
+      .offset(params[:offset])
   end
 
   def create

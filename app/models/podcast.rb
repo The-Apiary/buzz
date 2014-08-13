@@ -43,7 +43,7 @@ class Podcast < ActiveRecord::Base
     if has_attribute?("subscription_id")
       attributes["subscription_id"]
     else
-      user.subscriptions.find_by_podcast_id(podcast.id).try(:id)
+      user.subscriptions.find_by_podcast_id(id).try(:id)
     end
   end
 
