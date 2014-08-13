@@ -20,6 +20,14 @@ class Podcast < ActiveRecord::Base
     where(q, {q: "%#{query}%"})
   end
 
+  scope :with_subscription_id, -> (user) do
+    joins("""LEFT OUTER JOIN subscriptions
+             ON podcasts.id = subscriptions.podcast_id
+          """)
+    .select("podcasts.*, subscriptions.id AS subscription_id")
+    .where(subscriptions: { user: user })
+  end
+
   def add_category name
     new_cat = Category.where(name: name).first_or_create
     categories << new_cat unless categories.include? new_cat
@@ -29,6 +37,14 @@ class Podcast < ActiveRecord::Base
 
   def category_names
     categories.map(&:name)
+  end
+
+  def subscription_id(user)
+    if has_attribute?("subscription_id")
+      attributes["subscription_id"]
+    else
+      user.subscriptions.find_by_podcast_id(podcast.id).try(:id)
+    end
   end
 
   #-- Public class mehtods

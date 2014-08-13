@@ -137,7 +137,7 @@ class Episode < ActiveRecord::Base
   private
 
   def attr_or_query(attr, user)
-    if attribute_present?(attr)
+    if has_attribute?(attr)
       attributes[attr]
     else
       episode_data(user).try(attr)
