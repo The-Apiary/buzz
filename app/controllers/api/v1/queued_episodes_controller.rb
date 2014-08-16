@@ -1,4 +1,4 @@
-class Api::V1::QueuedEpisodesController < ApplicationController
+class Api::V1::QueuedEpisodesController < Api::V1::AuthenticatedController
   respond_to :json
   before_action :set_queue_manager
 

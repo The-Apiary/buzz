@@ -1,4 +1,4 @@
-class Api::V1::EpisodesController < ApplicationController
+class Api::V1::EpisodesController < Api::V1::AuthenticatedController
   respond_to :json
   before_action :set_episode, only: [:show, :edit, :update]
 

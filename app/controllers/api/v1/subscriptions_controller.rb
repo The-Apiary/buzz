@@ -1,4 +1,4 @@
-class Api::V1::SubscriptionsController < ApplicationController
+class Api::V1::SubscriptionsController < Api::V1::AuthenticatedController
   before_action :set_subscription, only: [:update, :show, :destroy]
 
   def index

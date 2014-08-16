@@ -1,4 +1,4 @@
-class Api::V1::PodcastsController < ApplicationController
+class Api::V1::PodcastsController < Api::V1::AuthenticatedController
   respond_to :json
   before_action :set_podcast, only: [:show, :edit, :update, :destroy, :subscribe, :unsubscribe]
 

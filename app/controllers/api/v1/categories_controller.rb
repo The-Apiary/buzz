@@ -1,4 +1,4 @@
-class Api::V1::CategoriesController < ApplicationController
+class Api::V1::CategoriesController < Api::V1::AuthenticatedController
   before_action :set_category, only: [:show]
 
   def index
