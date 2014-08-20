@@ -41,8 +41,8 @@ class User < ActiveRecord::Base
   # List of episodes published in the last month
   def recently_published_episodes
     episodes
+      .with_user_data(self)
       .newer_than(1.month.ago)
-      .limit(100)
   end
 
   ##

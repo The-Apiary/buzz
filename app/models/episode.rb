@@ -27,15 +27,14 @@ class Episode < ActiveRecord::Base
   scope :oldest, -> { order(publication_date: :asc) }
   scope :newer_than, -> (date) { where(['publication_date > ?', date]) }
 
-  scope :randomize, -> do
-    # NOTE terrible HACK
-    # the #to_sql method exists on ActiveRecord_Relations,
-    # unscoping where: nil returns a relation without effecting
-    # the query.
+
+  # This weird scope is used to order rows after grouping
+  # (usually after distinct_podcasts)
+  scope :order_groups, ->(order_args) do
     sql = current_scope.to_sql
     self.unscoped
       .from("(#{sql}) episodes")
-      .order("random()")
+      .order(order_args)
   end
 
   # Returns all episodes from podcasts the user is subscribed to.
@@ -52,7 +51,7 @@ class Episode < ActiveRecord::Base
       joins("""LEFT OUTER JOIN episode_data
                ON episodes.id = episode_data.episode_id
             """)
-      .select("episode_data.is_played, episode_data.current_position, episode_data.user_id, episode_data.id AS episode_data_id")
+      .select("episodes.*, episode_data.is_played, episode_data.current_position, episode_data.user_id, episode_data.id AS episode_data_id")
       .where(["""
         (
           episode_data.user_id = :user

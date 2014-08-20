@@ -39,6 +39,6 @@ class Suggester
       .subscribed(user, type: type)
       .unplayed(user)
       .freshest
-      .randomize
+      .order_groups("random()")
   end
 end
