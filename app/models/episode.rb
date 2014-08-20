@@ -27,8 +27,19 @@ class Episode < ActiveRecord::Base
   scope :oldest, -> { order(publication_date: :asc) }
   scope :newer_than, -> (date) { where(['publication_date > ?', date]) }
 
+  scope :randomize, -> do
+    # NOTE terrible HACK
+    # the #to_sql method exists on ActiveRecord_Relations,
+    # unscoping where: nil returns a relation without effecting
+    # the query.
+    sql = current_scope.to_sql
+    self.unscoped
+      .from("(#{sql}) episodes")
+      .order("random()")
+  end
+
   # Returns all episodes from podcasts the user is subscribed to.
-  # If a type is passed only podcasts of that subscription type will be 
+  # If a type is passed only podcasts of that subscription type will be
   # included.
   scope :subscribed, -> (user, type: nil) do
     subs = Subscription.unscoped.where(user_id: user.id)

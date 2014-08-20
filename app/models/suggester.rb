@@ -39,5 +39,6 @@ class Suggester
       .subscribed(user, type: type)
       .unplayed(user)
       .freshest
+      .randomize
   end
 end
