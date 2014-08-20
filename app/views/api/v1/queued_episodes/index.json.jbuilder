@@ -3,7 +3,9 @@ json.queued_episodes @queued_episodes do |queued_episode|
 end
 
 # Load each the episode
-episodes = Episode.where id: @queued_episodes.map(&:episode_id)
+episodes = Episode
+  .where(id: @queued_episodes.map(&:episode_id))
+  .with_user_data(current_user)
 
 json.episodes episodes do |episode|
   json.partial! 'api/v1/episodes/episode', episode: episode
