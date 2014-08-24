@@ -7,9 +7,6 @@
       a.btn.navbar-btn title="Play" click=play
         span.glyphicon.glyphicon-play
 
-    a.btn.navbar-btn title="Skip" click=skip
-      span.glyphicon.glyphicon-step-forward
-
     if is_muted
       a.btn.navbar-btn title="Unmute" click=unmute
         span.glyphicon.glyphicon-volume-off
@@ -21,6 +18,10 @@
     .scrubber.progress
       .progress-bar.progress-bar-danger style=percent_listened_width
       .progress-bar.progress-bar-grey style=percent_buffered_width
+  .btn-group.navbar-right
+    a.btn.navbar-btn title="Skip" click=skip
+      span.glyphicon.glyphicon-step-forward
+
 
 / NOTE TO SELF: stop commiting changes that disable autoplay, or mute this player.
 / stop using the developer environment to listen and setup then use production or the server.
