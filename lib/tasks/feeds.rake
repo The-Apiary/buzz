@@ -18,7 +18,10 @@ namespace :feeds do
       begin
         # 0 second ttl to skips the cache
         podcast_data = Podcast.parse_feed podcast.feed_url, 0.seconds
-      rescue OpenURI::HTTPError, Errno::ETIMEDOUT, Errno::ECONNRESET  => ex
+      rescue OpenURI::HTTPError,
+        Errno::ETIMEDOUT,
+        Errno::ECONNRESET,
+        SocketError  => ex
 
         puts "Could not update feed #{ex.message}"
         Bugsnag.notify ex, podcast: {
