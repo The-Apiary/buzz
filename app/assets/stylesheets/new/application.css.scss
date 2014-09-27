@@ -1,2 +1,45 @@
-@import 'bootstrap-sprockets';
-@import 'bootstrap';
+$yellow: #ffc20e;
+
+html, body {
+  height: 100%;
+}
+
+// NOTE: ember inserts a div between the body and
+// the application template.
+body > div{
+  height: 100%;
+}
+
+.fullscreen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+.pane {
+  flex-grow: 0;
+  text-align: center;
+
+  .pane-header {
+    height: 30px;
+  }
+
+  &.now-playing-pane {
+    .pane-header {
+      background-color: $yellow;
+    }
+  }
+
+  &.queue-pane {
+    .pane-header {
+      background-color: darkgray;
+    }
+  }
+
+  &.browse-pane {
+    .pane-header {
+      background-color: lightgray;
+    }
+  }
+}
