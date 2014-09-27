@@ -7,4 +7,5 @@ class EmberController < ApplicationController
       signin User.create
     end
   end
+  alias :beta :player
 end

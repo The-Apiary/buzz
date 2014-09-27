@@ -1,6 +1,7 @@
 Buzz::Application.routes.draw do
 
   root 'ember#player'
+  get 'beta' => 'ember#beta'
 
 
   get 'signin' => 'sessions#create', as: 'signin'

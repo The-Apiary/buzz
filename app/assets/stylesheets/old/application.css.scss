@@ -1,0 +1,166 @@
+$episode-height: 32px;
+
+body {
+  // I like shattered and dust. I really like stardust but it seems harder to design around.
+  background-image: image-url('dust.png');
+}
+
+// Horizontal layout for desktops
+@media (min-width: 768px) {
+  .player-navbar {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+
+    .navbar-header {
+      flex: 20; // I just chose a high value, I don't relly get flexboxs
+    }
+  }
+}
+
+// Vertical stack on phones
+@media (max-width: 786px) {
+  .player-navbar {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+
+    .navbar-header {
+      flex: 20; // I just chose a high value, I don't relly get flexboxs
+    }
+  }
+}
+
+.loading {
+  text-align: center;
+}
+
+.player-controls {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  text-align: center;
+  .btn {
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+
+  .title-display {
+    flex: 20; // I just chose a high value, I don't relly get flexboxs
+    margin: 7px 0;
+
+    .scrubber {
+      .progress-bar {
+        transition: width 0.6s ease;
+      }
+      height: 10px;
+      margin-bottom: 0px;
+    }
+  }
+}
+
+.progress-bar-grey {
+  background-color: lightgray;
+}
+
+.episode-progress-bar {
+  background-color: #e1e1e1;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: $episode-height;
+  height: $episode-height;
+  transition: all .2s ease;
+  z-index: -1;
+}
+
+.queue
+  .episode, .podcast {
+    margin: 0 0;
+ }
+
+.episode, .podcast {
+  .heard-check, .unheard-check {
+    transition: color 0.25s, ease;
+  }
+
+  .heard-check, .unheard-check:hover {
+    color: black;
+  }
+
+  .unheard-check {
+    color: lightgrey;
+  }
+
+
+  min-height: $episode-height;
+  margin: 5px 0;
+  position: relative;
+  width: 100%;
+  .media-heading {
+    margin-left: 40px;
+  }
+
+  img {
+    max-height: $episode-height;
+    max-width: $episode-height;
+  }
+}
+
+.search-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  z-index: 100;
+  left: 0px;
+  right: auto;
+
+  width: 400px;
+  margin-top: 3px;
+  color: #94999c;
+  background-color: white;
+  border: 1px solid #b8c3c9;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  z-index: 102;
+  opacity: 0.97;
+  border-radius: 9px;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 10px;
+
+  .tt-header {
+    padding: 0 10px;
+    border-bottom: 1px solid #b8c3c9;
+  }
+
+  .tt-no-results {
+    padding: 0 10px;
+  }
+
+  .tt-suggestion {
+    img {
+      max-height: 30px;
+      max-width: 30px;
+    }
+    padding: 10px;
+  }
+}
+
+.add-before {
+  &.over {
+    background-color: lightgray;
+    height: 40px;
+  }
+  height: 10px;
+  transition: height 0.25s, ease, background-color 0.25s;
+  .drop-target {
+    position: relative;
+    transition: height 0.25s;
+    width: 100%;
+    top: -15px;
+    height: 45px;
+  }
+}
