@@ -3,11 +3,11 @@
 #= require ember
 #= require ember-data
 #= require turbolinks
-#= require underscore
+#= require lodash
 #= require_self
 #= require buzz
 
-#= require bootstrap
+#= require bootstrap-sprockets
 
 # for more details see: http:#emberjs.com/guides/application/
 window.Buzz = Ember.Application.create()

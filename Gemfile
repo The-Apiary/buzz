@@ -17,9 +17,10 @@ gem 'rails_12factor', group: :production
 #:: Javascripts
 gem 'ember-rails'
 gem 'ember-source'
-gem 'jquery-cdn'       # Use jquery as the JavaScript library
-gem 'underscore-rails' # Javascript toolbelt.
-gem 'bootstrap-sass'   # css stylesheets
+gem 'jquery-cdn'          # Use jquery as the JavaScript library
+gem 'lodash-rails'        # Javascript toolbelt.
+gem 'bootstrap-sass'      # css stylesheets
+gem 'autoprefixer-rails'
 
 #:: Asset processors
 gem 'sass-rails'               # Use SCSS for stylesheets
