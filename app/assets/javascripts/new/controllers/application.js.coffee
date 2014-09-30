@@ -1,8 +1,4 @@
 Buzz.ApplicationController = Ember.ObjectController.extend
-  # I'm not really sure how to handle binding data to css styles
-  # so I'm binding to the whole style attribute.
-  #
-  # This function translates a javascript dictionary to a style string.
   now_playing: 1
   show_now_playing: (->
     "flex-grow: #{@get 'now_playing'};"

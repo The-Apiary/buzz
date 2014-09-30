@@ -2,18 +2,15 @@
   .pane.now-playing-pane style=show_now_playing
     .pane-header click="show_pane 'now_playing'"
       | Now Playing
-      | {{now_playing}}
-      | {{show_now_playing}}
     .pane-content
+      | content
   .pane.browse-pane style=show_browse
     .pane-header click="show_pane 'browse'"
       | Browse
-      | {{browse}}
-      | {{show_browse}}
     .pane-content
+      | content
   .pane.queue-pane style=show_queue
     .pane-header click="show_pane 'queue'"
       | Queue
-      | {{queue}}
-      | {{show_queue}}
     .pane-content
+      | content
