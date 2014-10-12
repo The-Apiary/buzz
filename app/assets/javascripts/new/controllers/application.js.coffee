@@ -1,23 +1,23 @@
 Buzz.ApplicationController = Ember.ObjectController.extend
-  now_playing: 1
-  show_now_playing: (->
-    "flex-grow: #{@get 'now_playing'};"
-  ).property('now_playing');
+  selected_pane: 'now_playing'
 
-  browse: 0
-  show_browse: (->
-    "flex-grow: #{@get 'browse'};"
-  ).property('browse');
+  now_playing_style: (->
+    @_pane_class 'now_playing'
+  ).property('selected_pane')
 
-  queue: 0
-  show_queue: (->
-    "flex-grow: #{@get 'queue'};"
-  ).property('queue');
+  browse_style: (->
+    @_pane_class 'browse'
+  ).property('selected_pane')
+
+  queue_style: (->
+    @_pane_class 'queue'
+  ).property('selected_pane')
+
+  # Returns the passed pane's style.
+  _pane_class: (pane) ->
+    "selected-pane" if @get('selected_pane') == pane
 
   actions:
     show_pane: (pane) ->
-      console.log pane
-      _.each ["now_playing", "browse", "queue"], (p) =>
-        @set p, if p == pane then 1 else 0
-
+      @set 'selected_pane', pane
       return false

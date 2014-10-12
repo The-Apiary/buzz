@@ -1,16 +1,15 @@
 .fullscreen.flex-container
-  .pane.now-playing-pane style=show_now_playing
+  .pane.now-playing-pane class="{{now_playing_style}}"
     .pane-header click="show_pane 'now_playing'"
       | Now Playing
     .pane-content
       | content
-  .pane.browse-pane style=show_browse
+  .pane.browse-pane class="{{browse_style}}"
     .pane-header click="show_pane 'browse'"
       | Browse
     .pane-content
       | content
-  .pane.queue-pane style=show_queue
+  .pane.queue-pane class="{{queue_style}}"
     .pane-header click="show_pane 'queue'"
       | Queue
     .pane-content
-      | content

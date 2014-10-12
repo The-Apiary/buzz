@@ -18,27 +18,47 @@ body > div{
   flex-wrap: nowrap;
 }
 .pane {
-  flex-grow: 0;
+  // Children in flex containers take up flex-grow/(sum children flex-grow)
+  // If the other children in a container each have a flex-grow of 0 then
+  // transitioning flex-grow from would have no effect, anything over 0 is
+  // NaN. Setting flex-grow to an arbitarily small number makes animations
+  // work.
+  flex-grow: 0.00000001;
   text-align: center;
+  transition: flex-grow 1s ease;
 
-  .pane-header {
+  &.selected-pane {
+    flex-grow: 1;
+  }
+  &:not(.selected-pane) {
+    & > .pane-content {
+      height: 0px;
+    }
+  }
+
+
+  & > .pane-header {
     height: 30px;
   }
 
+  & > .pane-content {
+    transition: height 1s ease;
+  }
+
   &.now-playing-pane {
-    .pane-header {
+    & > .pane-header {
       background-color: $yellow;
     }
   }
 
   &.queue-pane {
-    .pane-header {
+    & > .pane-header {
       background-color: darkgray;
     }
   }
 
   &.browse-pane {
-    .pane-header {
+    & > .pane-header {
       background-color: lightgray;
     }
   }
