@@ -1,15 +1,29 @@
 .fullscreen.flex-container
   .pane.now-playing-pane class="{{now_playing_style}}"
     .pane-header click="show_pane 'now_playing'"
-      | Now Playing
+      .container
+        .pull-left
+          .navbar-brand href="#" BUZZ
+
+        img src='/assets/buzz.png/'
+
+        .pull-right
+          .search
+            input type="text" placeholder="Search"
+            span.glyphicon.glyphicon-search
+          span.glyphicon.glyphicon-cog
+
     .pane-content
       | content
   .pane.browse-pane class="{{browse_style}}"
     .pane-header click="show_pane 'browse'"
-      | Browse
+      .container
+        | Browse
     .pane-content
       | content
   .pane.queue-pane class="{{queue_style}}"
     .pane-header click="show_pane 'queue'"
-      | Queue
+      .container
+        | Queue
     .pane-content
+      | content

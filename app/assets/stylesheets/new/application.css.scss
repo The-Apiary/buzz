@@ -10,6 +10,7 @@ body > div{
   height: 100%;
 }
 
+// Defines a flex-container the height and width of it's parent.
 .fullscreen {
   width: 100%;
   height: 100%;
@@ -17,6 +18,7 @@ body > div{
   flex-direction: column;
   flex-wrap: nowrap;
 }
+
 .pane {
   // Children in flex containers take up flex-grow/(sum children flex-grow)
   // If the other children in a container each have a flex-grow of 0 then
@@ -24,8 +26,9 @@ body > div{
   // NaN. Setting flex-grow to an arbitarily small number makes animations
   // work.
   flex-grow: 0.00000001;
-  text-align: center;
   transition: flex-grow 1s ease;
+
+  background-color: white;
 
   &.selected-pane {
     flex-grow: 1;
@@ -38,7 +41,7 @@ body > div{
 
 
   & > .pane-header {
-    height: 30px;
+    min-height: 30px;
   }
 
   & > .pane-content {
@@ -47,7 +50,55 @@ body > div{
 
   &.now-playing-pane {
     & > .pane-header {
+      text-align: center;
       background-color: $yellow;
+      img {
+        height: 40px;
+        margin: 5px 5px;
+      }
+
+      .search {
+        margin: 5px;
+        padding: 5px;
+        background-color: lighten($yellow, 20%);
+        display: inline-block;
+
+        color: gray;
+
+        input, input:focus {
+          background-color: inherit;
+          border: none;
+          text-align: right;
+        }
+        ::-webkit-input-placeholder { /* WebKit browsers */
+          color:    gray;
+        }
+        :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+          color:    gray;
+          opacity:  1;
+        }
+        ::-moz-placeholder { /* Mozilla Firefox 19+ */
+          color:    gray;
+          opacity:  1;
+        }
+        :-ms-input-placeholder { /* Internet Explorer 10+ */
+          color:    gray;
+        }
+
+        .glyphicon {
+          padding: 5px;
+        }
+
+      }
+
+      // Only top level icons
+      &, .pull-right, .pull-left {
+        & > .glyphicon {
+          font-size: 20px;
+          line-height: 50px;
+          height: 50px;
+        }
+      }
     }
   }
 
