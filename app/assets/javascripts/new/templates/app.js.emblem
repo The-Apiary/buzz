@@ -15,15 +15,15 @@
 
     .pane-content
       | content
-  .pane.browse-pane class="{{browse_style}}"
-    .pane-header click="show_pane 'browse'"
-      .container
-        | Browse
-    .pane-content
-      | content
   .pane.queue-pane class="{{queue_style}}"
     .pane-header click="show_pane 'queue'"
       .container
-        | Queue
+        strong QUEUE
+    .pane-content
+      | content
+  .pane.browse-pane class="{{browse_style}}"
+    .pane-header click="show_pane 'browse'"
+      .container
+        strong BROWSE
     .pane-content
       | content

@@ -1,5 +1,14 @@
 $yellow: #ffc20e;
 
+// Browser agnostic input placeholder text selecor.
+@mixin input-placeholder {
+  &:-ms-input-placeholder      { @content; }
+  &:-moz-placeholder           { @content; }
+  &::-moz-placeholder          { @content; }
+  &::-webkit-input-placeholder { @content; }
+}
+
+
 html, body {
   height: 100%;
 }
@@ -70,19 +79,9 @@ body > div{
           border: none;
           text-align: right;
         }
-        ::-webkit-input-placeholder { /* WebKit browsers */
-          color:    gray;
-        }
-        :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-          color:    gray;
-          opacity:  1;
-        }
-        ::-moz-placeholder { /* Mozilla Firefox 19+ */
-          color:    gray;
-          opacity:  1;
-        }
-        :-ms-input-placeholder { /* Internet Explorer 10+ */
-          color:    gray;
+
+        @include input-placeholder {
+          background-color: lignten($yellow, 20%);
         }
 
         .glyphicon {
@@ -104,13 +103,15 @@ body > div{
 
   &.queue-pane {
     & > .pane-header {
-      background-color: darkgray;
+      background-color: gray;
+      color: lightgray;
     }
   }
 
   &.browse-pane {
     & > .pane-header {
-      background-color: lightgray;
+      background-color: darkgray;
+      color: lightgray;
     }
   }
 }
