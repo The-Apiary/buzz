@@ -5,7 +5,7 @@
         .pull-left
           .navbar-brand href="#" BUZZ
 
-        img src='/assets/buzz.png/'
+        img src='/images/buzz.png'
 
         .pull-right
           .search
