@@ -9,5 +9,6 @@ class QueuedEpisode < ActiveRecord::Base
 
   #-- Validations
   validates :user_id, presence: true
-  validates :episode_id, uniqueness: { scope: :user_id }, presence: true
+  validates :episode, presence: true
+  validates :episode, uniqueness: { scope: :user_id }
 end

@@ -2,7 +2,7 @@ class Podcast < ActiveRecord::Base
   #-- Associations
   has_many :episodes, inverse_of: :podcast, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
-  has_and_belongs_to_many :categories, unique: true
+  has_and_belongs_to_many :categories, unique: true, autosave: true
 
   accepts_nested_attributes_for :episodes, reject_if: proc { |ea| !Episode.new(ea).valid? }
 
@@ -10,14 +10,16 @@ class Podcast < ActiveRecord::Base
   validates :feed_url, uniqueness: true, presence: true
   validates :title, presence: true
 
+  validate :uniqueness_of_categories_in_podcasts
+
   #-- Scopes
-  default_scope { order(:title) }
+  default_scope { alphabetic }
   scope :alphabetic, -> { order :title }
   scope :popular, -> { order('subscriptions_count desc') }
 
   scope :search, -> (query) do
-    q = "lower(title) LIKE lower(:q) OR lower(feed_url) = lower(:q)"
-    where(q, {q: "%#{query}%"})
+    q = "lower(title) LIKE lower(:title) OR feed_url = :feed_url"
+    where(q, {title: "%#{query}%", feed_url: query})
   end
 
   scope :with_subscription_id, -> (user) do
@@ -29,14 +31,13 @@ class Podcast < ActiveRecord::Base
   end
 
   def add_category name
-    new_cat = Category.where(name: name).first_or_create
-    categories << new_cat unless categories.include? new_cat
-
-    return categories
+    cat = Category.find_or_create_by(name: name)
+    categories << cat unless categories.include? cat
+    return cat
   end
 
   def category_names
-    categories.map(&:name)
+    categories.pluck(:name)
   end
 
   def subscription_id(user)
@@ -152,6 +153,16 @@ class Podcast < ActiveRecord::Base
     end
 
     return parsed_feed
+  end
+
+
+  private
+
+  def uniqueness_of_categories_in_podcasts
+    unless categories.to_a.uniq.count == categories.to_a.count
+      errors.add(:categories, "cannot be repeated in the same podcast")
+      return false
+    end
   end
 
 end

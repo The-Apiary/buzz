@@ -2,22 +2,27 @@ include ActionView::Helpers::SanitizeHelper
 class Episode < ActiveRecord::Base
   #-- Associations
   belongs_to :podcast, inverse_of: :episodes
-  has_one :queued_episode, dependent: :destroy
-  has_many :episode_datas
+  has_many :queued_episodes, dependent: :destroy
+  has_many :episode_datas, dependent: :destroy
 
   #-- Validations
 
   #NOTE: this is disabled so episodes can validated without podcasts.
   #validates_presence_of :podcast
-  validates :title, :audio_url, :publication_date, presence: true, allow_blank?: false
-  validates :audio_url, uniqueness: true
-  validates :guid, uniqueness: true, unless: 'guid.blank?'
-  validates :episode_type,
-    format: { with: /audio/, message: "'%{value}' is not audio"  },
-    on: :create,
-    unless: 'episode_type.blank?'
 
-  validates :episode_type, presence: true, allow_blank?: false, on: :create
+  validates_presence_of :title,
+                        :audio_url,
+                        :publication_date,
+                        :episode_type,
+                        allow_blank?: false
+
+  validates_uniqueness_of :audio_url
+  validates_uniqueness_of :guid, unless: 'guid.blank?'
+
+  # Validates that episode_type matches 'audio'
+  validates :episode_type,
+    format: { with: /audio/, message: "'%{value}' does not contain 'audio'" }
+
 
   #-- Scopes
   default_scope { freshest }
@@ -51,7 +56,14 @@ class Episode < ActiveRecord::Base
       joins("""LEFT OUTER JOIN episode_data
                ON episodes.id = episode_data.episode_id
             """)
-      .select("episodes.*, episode_data.is_played, episode_data.current_position, episode_data.user_id, episode_data.id AS episode_data_id")
+        .select("""
+          episodes.*,
+          episode_data.is_played AS ed_is_played,
+          episode_data.current_position AS ed_current_position,
+          episode_data.user_id AS ed_user_id,
+          episode_data.updated_at AS ed_updated_at,
+          episode_data.id AS ed_id
+        """)
       .where(["""
         (
           episode_data.user_id = :user
@@ -128,6 +140,10 @@ class Episode < ActiveRecord::Base
 
 
   def episode_data(user)
+    unless user.is_a? User
+      raise ArgumentError.new "Argument user must be a User not #{user.class}"
+    end
+
     episode_datas.find_by user: user
   end
 
@@ -147,6 +163,12 @@ class Episode < ActiveRecord::Base
   private
 
   def attr_or_query(attr, user)
+    unless user.is_a? User
+      raise ArgumentError.new "Argument user must be a User not #{user.class}"
+    end
+
+    attr = "ed_#{attr}"
+
     if has_attribute?(attr)
       attributes[attr]
     else

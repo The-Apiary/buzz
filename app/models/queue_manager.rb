@@ -19,6 +19,15 @@
 # + Only lock queued_episodes owned by the user?
 # + Add 'queue lock' field to user?
 class QueueManager
+  cattr_accessor :MIN_IDX, :MAX_IDX
+
+  ##
+  # Minimum value of a Postgresql Integer
+  @@MIN_IDX = -2147483648
+
+  ##
+  # Maximum value of a Postgresql Integer
+  @@MAX_IDX = 2147483647
 
   ##
   # A queue manager has a user.
@@ -110,18 +119,6 @@ class QueueManager
     end
   end
 
-  ##
-  # Minimum value of a Postgresql Integer
-  def self.min_idx
-    -2147483648
-  end
-
-  ##
-  # Maximum value of a Postgresql Integer
-  def self.max_idx
-    2147483647
-  end
-
   private
 
   ##
@@ -129,7 +126,7 @@ class QueueManager
   def rebase
     @was_rebased = true
     qes = queued_episodes
-    range = (QueueManager.min_idx..QueueManager.max_idx)
+    range = (@@MIN_IDX..@@MAX_IDX)
 
     # if the address space is 10 percent full don't rebase, just throw an
     # error.
@@ -146,7 +143,7 @@ class QueueManager
       # There are some rounding errors when size is one
       indexes = [0].each
     else
-      indexes = ((QueueManager.min_idx+step)..(QueueManager.max_idx-step)).step(step).each
+      indexes = ((@@MIN_IDX+step)..(@@MAX_IDX-step)).step(step).each
     end
 
     # NOTE: Can this be done in atomically?
@@ -207,13 +204,13 @@ class QueueManager
   ##
   # Get the index between the last episode and max value
   def tail_index
-    index(queued_episodes.last.try(:idx) || QueueManager.min_idx, QueueManager.max_idx)
+    index(queued_episodes.last.try(:idx) || @@MIN_IDX, @@MAX_IDX)
   end
 
   ##
   # Get the index between the first episode and min value
   def head_index
-    index(QueueManager.min_idx, queued_episodes.first.try(:idx) || QueueManager.max_idx)
+    index(@@MIN_IDX, queued_episodes.first.try(:idx) || @@MAX_IDX)
   end
 
   ##
@@ -222,7 +219,7 @@ class QueueManager
     queued_episodes
       .where('idx > ?', idx)
       .order('idx asc')
-      .first.try(:idx) || QueueManager.max_idx
+      .first.try(:idx) || @@MAX_IDX
   end
 
   ##
@@ -231,7 +228,7 @@ class QueueManager
     queued_episodes
       .where('idx < ?', idx)
       .order('idx desc')
-      .last.try(:idx) || QueueManager.min_idx
+      .last.try(:idx) || @@MIN_IDX
   end
 
   ##

@@ -3,19 +3,18 @@ source 'https://rubygems.org'
 ruby '2.1.1'
 
 #:: Stack
-gem 'rails', '4.1.0' # Rails
-gem 'nokogiri' # xml/html parsing
+gem 'rails', '4.1.0'    # Rails.
+gem 'nokogiri'          # xml/html parsing.
+gem 'omniauth-facebook' # Facebook login.
 gem 'turbolinks'
-
-# Facebook login
-gem 'omniauth-facebook'
+gem 'unicorn'           # Webserver.
 
 #:: Database
-gem 'pg'      # Postgres database for heroku
-gem 'rails_12factor', group: :production
+gem 'pg'                # Heroku requires postgresql.
+
 
 #:: Javascripts
-gem 'ember-rails'
+gem 'ember-rails'       # Javascript MVC
 gem 'ember-source'
 gem 'jquery-cdn'          # Use jquery as the JavaScript library
 gem 'lodash-rails'        # Javascript toolbelt.
@@ -23,38 +22,37 @@ gem 'bootstrap-sass'      # css stylesheets
 gem 'autoprefixer-rails'
 
 #:: Asset processors
-gem 'sass-rails'               # Use SCSS for stylesheets
-gem 'coffee-rails'             # Use CoffeeScript for .js.coffee assets and views
-gem 'haml-rails'               # Use Hamle for .html.haml views
-gem 'emblem-rails'             # Use Emblem for handlebars templates TODO: replace with hamlbars
-gem 'uglifier'                 # Use Uglifier as compressor for JavaScript assets
-
-gem 'jbuilder'           # Build JSON APIs with ease TODO: I think I don't need this, serializers does the same thing
-gem 'yajl-ruby'          # Faster json engine
+gem 'sass-rails'        # Use SCSS for stylesheets.
+gem 'coffee-rails'      # Use CoffeeScript for .js.coffee assets and views.
+gem 'haml-rails'        # Use Hamle for .html.haml views.
+gem 'emblem-rails'      # Use Emblem for handlebars templates.
+gem 'uglifier'          # Use Uglifier as compressor for JavaScript assets.
+gem 'jbuilder'          # Builds JSON objects.
+gem 'yajl-ruby'         # Faster json engine.
 
 #:: JavaScript Runtime Environment
 gem 'therubyracer'
 
-group :test, :development do
-  gem 'heroku'
-end
-gem 'bugsnag'
+#:: Heroku
+gem 'heroku', group: [:development, :test] # Interacts with heroku.
+gem 'rails_12factor', group: :production   #
+gem 'bugsnag'                              # Web based crash reporting.
 
+#:: Testing gems.
 group :test do
-  gem 'faker'
-  gem 'factory_girl_rails'
+  gem 'faker'               # Supplies fake data.
+  gem 'factory_girl_rails'  # Generates records for testing.
 end
 
-group :doc do
-  # bundle exec rake doc:rails generates the API under doc/api.
-  gem 'sdoc', require: false
-end
+gem 'sdoc', require: false, group: :doc # Generate code docs.
 
-gem 'unicorn' # Webserver
 
 #:: Development tools
-gem 'debugger', group: [:development, :test]
-gem 'quiet_assets', group: :development
-gem 'spring', group: :development
-
-
+group :development do
+  gem 'debugger', group: :test # Enables dubugger support.
+  gem 'quiet_assets'           # Removed 'GET asset' from development logs.
+  gem 'spring'                 # Enables fast start of rails commands.
+  gem 'guard'                  # Exec commands on file changes.
+  gem 'guard-minitest'             # Add test support to Guard.
+  gem 'rb-readline', '~> 0.5.0', require: false
+end

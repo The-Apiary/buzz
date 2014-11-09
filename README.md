@@ -21,13 +21,15 @@ Heroku. [Here are the postgres install instructions for Arch Linux](https://wiki
   Create Rolls: `n`
 6. `rake db:setup`
 
+7. `$ guard` runs tests when files change.
+
 ## Updating podcast feeds
 
 ### Manually
 
 Run `$ rake feeds:update` to update all feeds.
 
-## Testing with Facebook login.
+## Facebook login.
 
 This app draws your facebook developer credentials from your system's
 environment. To test and use facebook login while developing you will have
@@ -63,3 +65,40 @@ to create a facebook developer account and create an app.
    Click Add platform and select website. For development testing set the 
   `Site URL` to `http://localhost:3000/`
 
+### Currently working on
+
+## Remote control
+**Branch:** remote
+
+Rdio like remote control through websockets.
+
+[x] Munaully set player to `local` or `remote`.
+[x] Audio events and controls are sent through the socket.
+[ ] Ensure only one player is `local` and the others are `remote`.
+[ ] Current episode and queue information need to be syncronized through
+the socket.
+
+## Testing
+**Branch:** test
+
+Create automated tests
+
+**Models:**
+ [X] category
+ [X] episode
+ [X] feed_cache
+ [X] podcast
+ [X] queued_episode
+ [ ] queue_manager
+ [ ] subscription
+ [ ] user
+
+**Controllers:**
+ [ ] categories_controller
+ [ ] episodes_controller
+ [ ] podcasts_controller
+ [ ] queued_episodes_controller
+ [ ] subscriptions_controller
+
+**Javascript:**
+ [ ] All of it.

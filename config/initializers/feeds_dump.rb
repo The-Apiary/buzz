@@ -6,4 +6,3 @@ filename = "feeds_dump"
 
 feeds_dump_filename = File.join [ Rails.root, "lib", "assets", filename ]
 Buzz::Application.config.feed_dump_filename = feeds_dump_filename
-

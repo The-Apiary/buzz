@@ -1,179 +1,6 @@
 require 'test_helper'
 
 class QueueManagerTest < ActiveSupport::TestCase
-  #-- Initialization
-
-  test "#new: Should initialize with a user" do
-    # How to test @user was set?
-    user = create(:user)
-    assert_nothing_raised ArgumentError do
-      QueueManager.new(user)
-    end
-  end
-
-  test "#new: Should fail to initialize without a user" do
-    err = assert_raise ArgumentError do
-      QueueManager.new(false)
-    end
-
-    assert_equal "Argument false must be User but was FalseClass", err.message
-  end
-
-  #-- Min/Max
-
-  test "Should have a max index of 2147483647" do
-    assert_equal 2147483647, QueueManager.max_idx
-  end
-
-  test "Should have a min index of 2147483648" do
-    assert_equal (-2147483648), QueueManager.min_idx
-  end
-
-  #-- Clear
-
-   test "#clear: Should delete all queued episodes" do
-    user = create(:user)
-    qm = QueueManager.new(user)
-
-    n = 3
-    n.times { user.queued_episodes.create(episode: create(:episode)) }
-    assert_equal n, user.queued_episodes.count
-
-    qm.clear
-
-    assert_equal 0, user.queued_episodes.count
-   end
-
-  #-- Push
-
-  test "push: Should create queued episodes" do
-    user = create(:user)
-    episode = create(:episode)
-
-    qm = QueueManager.new(user)
-
-    assert_difference 'QueuedEpisode.count', 1 do
-      qm.push(episode)
-    end
-  end
-
-  test "push: Should not create duplicate queued episodes" do
-    user = create(:user)
-    episode = create(:episode)
-
-    qm = QueueManager.new(user)
-
-    qm.push(episode)
-    assert_no_difference 'QueuedEpisode.count' do
-      qm.push(episode)
-    end
-  end
-
-  test "push: Should add episodes to the end of the queue" do
-    user = create(:user)
-    episode = create(:episode)
-
-    qm = QueueManager.new(user)
-    qm.push(create(:episode))
-
-    qe = qm.push(episode)
-    assert_equal user.queued_episodes.last, qe
-    assert_equal 2, user.queued_episodes.count
-  end
-
-  test "push: Should move episode if already exists" do
-    user = create(:user)
-    episode = create(:episode)
-
-    qm = QueueManager.new(user)
-
-    qm.push(episode)
-    qm.push(create(:episode))
-    assert_no_difference 'QueuedEpisode.count' do
-      qe = qm.push(episode)
-      assert_equal user.queued_episodes.last, qe
-    end
-  end
-
-  test "push: Should return the modified queued episode" do
-    user = create(:user)
-    episode = create(:episode)
-    other = create(:episode)
-
-    qm = QueueManager.new(user)
-    qm.push(other)
-
-    qe = qm.push episode
-
-    assert_instance_of QueuedEpisode, qe
-    assert episode, qe.episode
-  end
-
-  #-- unshift
-
-  test "unshift: Should create queued episodes" do
-    user = create(:user)
-    episode = create(:episode)
-
-    qm = QueueManager.new(user)
-
-    assert_difference 'QueuedEpisode.count', 1 do
-      qm.unshift(episode)
-    end
-  end
-
-  test "unshift: Should not create duplicate queued episodes" do
-    user = create(:user)
-    episode = create(:episode)
-
-    qm = QueueManager.new(user)
-
-    qm.push(episode)
-    assert_no_difference 'QueuedEpisode.count' do
-      qm.unshift(episode)
-    end
-  end
-
-  test "unshift: Should add episodes to the beginning of the queue" do
-    user = create(:user)
-    episode = create(:episode)
-
-    qm = QueueManager.new(user)
-    qm.push(create(:episode))
-
-    qe = qm.unshift(episode)
-    assert_equal user.queued_episodes.first, qe
-    assert_equal 2, user.queued_episodes.count
-  end
-
-  test "push: Should move episode to front if already exists" do
-    user = create(:user)
-    episode = create(:episode)
-
-    qm = QueueManager.new(user)
-
-    qm.push(create(:episode))
-    qm.push(episode)
-    assert_no_difference 'QueuedEpisode.count' do
-      qe = qm.unshift(episode)
-      assert_equal user.queued_episodes.first, qe
-    end
-  end
-
-  test "unshift: Should return the modified queued episode" do
-    user = create(:user)
-    episode = create(:episode)
-    other = create(:episode)
-
-    qm = QueueManager.new(user)
-    qm.push(other)
-
-    qe = qm.unshift episode
-
-    assert_instance_of QueuedEpisode, qe
-    assert episode, qe.episode
-  end
-
   #-- Add between
 
   test "add_between: Should create queeud episode" do
@@ -374,7 +201,7 @@ class QueueManagerTest < ActiveSupport::TestCase
     qm = QueueManager.new(user)
 
     e = create(:episode)
-    user.queued_episodes.create(episode: e, idx: QueueManager.max_idx)
+    user.queued_episodes.create(episode: e, idx: QueueManager.MAX_IDX)
 
     assert_difference 'user.queued_episodes.count', 1 do
       qm.push(create(:episode))
@@ -387,7 +214,7 @@ class QueueManagerTest < ActiveSupport::TestCase
     qm = QueueManager.new(user)
 
     e = create(:episode)
-    user.queued_episodes.create(episode: e, idx: QueueManager.min_idx)
+    user.queued_episodes.create(episode: e, idx: QueueManager.MIN_IDX)
 
     assert_difference 'user.queued_episodes.count', 1 do
       qm.unshift(create(:episode))
@@ -410,6 +237,115 @@ class QueueManagerTest < ActiveSupport::TestCase
       user.reload
       assert_equal order.count, user.queued_episodes.count
       assert_equal order, user.queued_episodes
+    end
+  end
+
+end
+
+describe QueueManager do
+  before do
+    @user = create(:user)
+    @qm = QueueManager.new(@user)
+  end
+
+  after { @user.destroy! }
+
+  desc "When initialized without a user" do
+    it "should raise an argument error" do
+      assert_raises ArgumentError do
+        QueueManager.new(nil)
+      end
+    end
+  end
+
+  desc "Constants" do
+    it "should have MAX_IDX index of 2147483647" do
+      assert_equal 2147483647, QueueManager.MAX_IDX
+    end
+
+    it "should have MIN_IDX index of -2147483648" do
+      assert_equal (-2147483648), QueueManager.MIN_IDX
+    end
+  end
+
+  desc "#clear" do
+    before do
+      10.times { @user.queued_episodes.create(episode: create(:episode)) }
+    end
+
+    it "should delete all queued episdoes" do
+      @qm.clear
+      assert_equal 0, @user.queued_episodes.count
+    end
+  end
+
+  desc "#push" do
+    before do
+      @episode = create(:episode)
+      @qm.push(create(:episode))
+      @push_return =  @qm.push(@episode)
+    end
+
+    it "should return a queued episode" do
+      assert_instance_of QueuedEpisode, @push_return
+      assert_equal @push_return.episode, @episode
+    end
+
+    it "should create a queued epsidoe with the highest idx" do
+      highest_idx = QueuedEpisode.where(user: @user).pluck(:idx).max
+
+      assert_equal highest_idx, @push_return.idx
+    end
+
+    context "with a queued episode" do
+      before do
+        @qm.push(@episode)
+      end
+
+      it "should queue the episode" do
+        assert_no_difference '@user.queued_episodes.count' do
+          @qm.push(@episode)
+        end
+      end
+
+      it "should move the queued_episode to the end of the queue" do
+        assert_equal @push_return, @user.queued_episodes.last
+      end
+    end
+  end
+
+  desc "#unshift" do
+    before do
+      @episode = create(:episode)
+      @qm.unshift(create(:episode))
+      @unshift_return =  @qm.unshift(@episode)
+    end
+
+    it "should return a queued episode" do
+      assert_instance_of QueuedEpisode, @unshift_return
+      assert_equal @unshift_return.episode, @episode
+    end
+
+    it "should create a queued epsidoe with the lowest idx" do
+      lowest_idx = QueuedEpisode.where(user: @user).pluck(:idx).min
+
+      assert_equal lowest_idx, @unshift_return.idx
+    end
+
+    context "with a queued episode" do
+      before do
+        @qm.unshift(@episode)
+      end
+
+      it "should queue the episode" do
+        assert_no_difference '@user.queued_episodes.count' do
+          @qm.unshift(@episode)
+        end
+      end
+
+      it "should move the queued_episode to the front of the queue" do
+        assert_equal @unshift_return, @user.queued_episodes.first
+      end
     end
   end
 
