@@ -21,9 +21,10 @@ namespace :feeds do
       rescue OpenURI::HTTPError,
         Errno::ETIMEDOUT,
         Errno::ECONNRESET,
-        SocketError  => ex
+        SocketError,
+        Exception  => ex
 
-        puts "Could not update feed #{ex.message}"
+        puts "#{podcast.title}: Could not update feed #{ex.message}"
         Bugsnag.notify ex, podcast: {
           title: podcast.title,
           url:   podcast.feed_url
