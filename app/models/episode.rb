@@ -61,7 +61,7 @@ class Episode < ActiveRecord::Base
           episode_data.is_played AS ed_is_played,
           episode_data.current_position AS ed_current_position,
           episode_data.user_id AS ed_user_id,
-          episode_data.updated_at AS ed_updated_at,
+          episode_data.updated_at AS ed_last_played,
           episode_data.id AS ed_id
         """)
       .where(["""
@@ -157,7 +157,7 @@ class Episode < ActiveRecord::Base
   end
 
   def last_listened_at(user)
-    attr_or_query("updated_at", user) || nil
+    attr_or_query("last_played", user) || nil
   end
 
   private
@@ -167,10 +167,10 @@ class Episode < ActiveRecord::Base
       raise ArgumentError.new "Argument user must be a User not #{user.class}"
     end
 
-    attr = "ed_#{attr}"
+    ed_attr = "ed_#{attr}"
 
-    if has_attribute?(attr)
-      attributes[attr]
+    if has_attribute?(ed_attr)
+      attributes[ed_attr]
     else
       episode_data(user).try(attr)
     end
