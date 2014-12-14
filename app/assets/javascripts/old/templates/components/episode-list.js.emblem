@@ -1,5 +1,7 @@
 = view Ember.Select content=show_played_options value=played_filter class='form-control'
 
-ul.episode-list.list-unstyled: each filtered_episodes
-  .clearfix
-  li: = render 'episodes.listing' this
+ul.episode-list.list-unstyled data-show-episodes=played_filter
+  each episodes
+    .clearfix
+    li data-is-played=is_played
+      = render 'episodes.listing' this

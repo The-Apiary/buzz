@@ -164,3 +164,11 @@ body {
     height: 45px;
   }
 }
+
+.episode-list[data-show-episodes="Show Played"] {
+  li:not([data-is-played]) { display: none; }
+}
+
+.episode-list[data-show-episodes="Show Unplayed"] {
+  li[data-is-played] { display: none; }
+}

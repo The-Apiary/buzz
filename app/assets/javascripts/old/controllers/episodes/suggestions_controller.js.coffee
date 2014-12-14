@@ -1,4 +1,4 @@
 Buzz.EpisodesSuggestionsController = Ember.ObjectController.extend
   needs_subscriptions: (->
-    return true;
+    return this.get('subscriptions.length') == 0;
   ).property('subscriptions')
