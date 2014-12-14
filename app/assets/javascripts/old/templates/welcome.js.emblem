@@ -1,0 +1,28 @@
+p.lead
+  | Welcome to Buzz, the most in-progressy home of podcasts on the web!
+p
+  ' See the #{link-to 'podcasts' | podcast directory},
+  ' search for episodes or podcasts,
+  ' or checkout episodes of these popular podcasts.
+
+if news
+  %h4 News
+  p
+    ' Episodes from this week
+  ul.episode-list.list-unstyled: each news
+    .clearfix
+    li: = render 'episodes.listing' this
+
+if serial
+  %h4 Stories
+  p
+   ' Listen to a story in order
+  ul.episode-list.list-unstyled: each serial
+    .clearfix
+    li: = render 'episodes.listing' this
+
+if normal
+  %h4 Stories
+  ul.episode-list.list-unstyled: each normal
+    .clearfix
+    li: = render 'episodes.listing' this

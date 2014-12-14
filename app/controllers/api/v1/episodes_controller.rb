@@ -11,7 +11,7 @@ class Api::V1::EpisodesController < Api::V1::AuthenticatedController
       params[:limit] ||= 100 # default to a limit of 100 podcasts
       @episodes = current_user.recently_listened_episodes
     elsif params[:suggestions]
-      @episodes = Suggester.episodes(current_user, params[:suggestions])
+      @episodes = Suggester.episodes(current_user, params[:suggestions], params[:sample])
     elsif params[:search]
       @episodes = Episode.search(params[:q])
     else

@@ -107,6 +107,13 @@ body {
   }
 }
 
+.large-episode {
+  img {
+    max-height: 100px;
+    max-width: 100px;
+  }
+}
+
 .search-dropdown-menu {
   display: none;
   position: absolute;
