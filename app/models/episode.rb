@@ -55,6 +55,11 @@ class Episode < ActiveRecord::Base
   scope :with_user_data, -> (user) do
       joins("""LEFT OUTER JOIN episode_data
                ON episodes.id = episode_data.episode_id
+               and (
+                 episode_data.user_id = #{user.id}
+                 OR
+                 episode_data.user_id IS NULL
+               )
             """)
         .select("""
           episodes.*,
@@ -64,13 +69,6 @@ class Episode < ActiveRecord::Base
           episode_data.updated_at AS ed_last_played,
           episode_data.id AS ed_id
         """)
-      .where(["""
-        (
-          episode_data.user_id = :user
-          OR
-          episode_data.user_id IS NULL
-        )
-      """, {user: user}])
   end
 
   # Returns all episodes not heard by the passed user.
