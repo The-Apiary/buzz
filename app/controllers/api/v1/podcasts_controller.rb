@@ -6,7 +6,8 @@ class Api::V1::PodcastsController < Api::V1::AuthenticatedController
   # GET /podcasts.json
   def index
     if params[:subscribed]
-      @podcasts = current_user.podcasts.includes(:categories)
+      user = params[:user] ? User.find_by_public_id_hash(params[:user]) : current_user
+      @podcasts = user.podcasts.includes(:categories)
     elsif params[:popular]
       @podcasts = Podcast.popular
     elsif params[:ids]

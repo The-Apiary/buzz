@@ -22,6 +22,7 @@ class User < ActiveRecord::Base
   def init
     return unless self.new_record?
     self.id_hash ||= User.new_hash # Let the default id_hash be overriden
+    self.public_id_hash ||= User.new_hash # Let the default id_hash be overriden
   end
 
   def identifier

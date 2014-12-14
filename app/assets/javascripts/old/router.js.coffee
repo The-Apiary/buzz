@@ -16,8 +16,10 @@ Buzz.Router.map () ->
     this.route 'listened',    path: '/listened',    ->
     this.route 'show',        path: '/:id',         ->
 
-  this.route 'subscriptions', path: '/subscriptions'
-  this.route    'search',     path: '/search/:query'
-  this.route    'add_feed',   path: '/add_feed/:query'
+  this.resource 'subscriptions',   path: '/subscriptions',   ->
+    this.route 'user',  path: '/user/:id'
+
+  this.route 'search',     path: '/search/:query'
+  this.route 'add_feed',   path: '/add_feed/:query'
 
   this.route 'welcome', path: '/welcome'
