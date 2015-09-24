@@ -27,7 +27,7 @@ Buzz.Episode = DS.Model.extend
   # Used to implement attributes that can be changed serverside
   # without setting the state to changed.
   #
-  # Some values, namely is_played and current_positoin, are changed often
+  # Some values, namely is_played and current_position, are changed often
   # and without saving to the database. A call that would reload an episode
   # after the position has changed would error because the state is
   # uncommited. The error is avoided by preserving the origional attributes

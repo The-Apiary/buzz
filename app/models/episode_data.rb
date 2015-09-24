@@ -8,4 +8,8 @@ class EpisodeData < ActiveRecord::Base
   def special_id
     "#{self.user_id}_#{self.episode_id}"
   end
+
+  def last_played
+    updated_at
+  end
 end

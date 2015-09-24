@@ -1,14 +1,17 @@
-%h4 Recent News
-ul.episode-list.list-unstyled: each news
-  .clearfix
-  li: = render 'episodes.listing' this
+if news
+  %h4 Recent News
+  ul.episode-list.list-unstyled: each news
+    .clearfix
+    li: = render 'episodes.listing' this
 
-%h4 Continue Listening
-ul.episode-list.list-unstyled: each serial
-  .clearfix
-  li: = render 'episodes.listing' this
+if serial
+  %h4 Continue Listening
+  ul.episode-list.list-unstyled: each serial
+    .clearfix
+    li: = render 'episodes.listing' this
 
-%h4 Listen to This
-ul.episode-list.list-unstyled: each normal
-  .clearfix
-  li: = render 'episodes.listing' this
+if normal
+  %h4 Listen to This
+  ul.episode-list.list-unstyled: each normal
+    .clearfix
+    li: = render 'episodes.listing' this

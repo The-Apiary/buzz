@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140812175211) do
+ActiveRecord::Schema.define(version: 20141214012151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 20140812175211) do
   add_index "episode_data", ["user_id"], name: "index_episode_data_on_user_id", using: :btree
 
   create_table "episodes", force: true do |t|
-    t.string   "title"
+    t.text     "title"
     t.string   "audio_url"
     t.string   "link_url"
     t.string   "guid"
@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 20140812175211) do
   add_index "episodes", ["publication_date"], name: "index_episodes_on_publication_date", using: :btree
 
   create_table "podcasts", force: true do |t|
-    t.string   "title"
+    t.text     "title"
     t.string   "image_url"
     t.string   "feed_url"
     t.datetime "created_at"
@@ -105,6 +105,7 @@ ActiveRecord::Schema.define(version: 20140812175211) do
     t.datetime "oauth_expires_at"
     t.datetime "last_login",       default: '2014-06-11 00:01:21'
     t.string   "image"
+    t.string   "public_id_hash"
   end
 
   add_index "users", ["id_hash"], name: "index_users_on_id_hash", using: :btree

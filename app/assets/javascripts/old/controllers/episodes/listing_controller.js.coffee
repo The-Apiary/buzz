@@ -48,3 +48,5 @@ Buzz.EpisodesListingController = Ember.ObjectController.extend
     reset: () ->
       this.get('model').reset()
       return null
+
+Buzz.EpisodesLargeListingController = Buzz.EpisodesListingController

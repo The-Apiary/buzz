@@ -107,6 +107,13 @@ body {
   }
 }
 
+.large-episode {
+  img {
+    max-height: 100px;
+    max-width: 100px;
+  }
+}
+
 .search-dropdown-menu {
   display: none;
   position: absolute;
@@ -163,4 +170,12 @@ body {
     top: -15px;
     height: 45px;
   }
+}
+
+.episode-list[data-show-episodes="Show Played"] {
+  li:not([data-is-played]) { display: none; }
+}
+
+.episode-list[data-show-episodes="Show Unplayed"] {
+  li[data-is-played] { display: none; }
 }

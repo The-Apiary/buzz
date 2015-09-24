@@ -1,1 +1,1 @@
-#Buzz.EpisodesSuggestionsController = Ember.ArrayController.extend
+Buzz.EpisodesSuggestionsController = Ember.ObjectController.extend()
